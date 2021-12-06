@@ -1,25 +1,30 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'manage/local_storage.dart';
+import 'miragate/local_storage.dart';
 
 // ignore: avoid_classes_with_only_static_members
 class Root {
-  static late SharedPreferences _prefs;
-  static late LocalStorage localStorage;
-  static late Client client;
+  static final Root _ins = Root._();
+  static Root get ins => _ins;
+  Root._();
 
-  static Future<void> config() async {
+  late LocalStorage localStorage;
+  late FirebaseAuth ggAuth;
+
+  Future<void> config() async {
     try {
-      _prefs = await SharedPreferences.getInstance();
-      await Future.delayed(const Duration(milliseconds: 400));
-      localStorage = LocalStorage(_prefs);
-      client = Client();
+      await SharedPreferences.getInstance().then((value) {
+        localStorage = LocalStorage(value);
+      });
+      await Firebase.initializeApp()
+          .then((value) => ggAuth = FirebaseAuth.instanceFor(app: value));
     } catch (error) {
       debugPrint('[Error] : $error');
       // ignore: invalid_use_of_visible_for_testing_member
       SharedPreferences.setMockInitialValues({'token': ''});
-      _prefs = await SharedPreferences.getInstance();
+      await SharedPreferences.getInstance();
     }
   }
 }

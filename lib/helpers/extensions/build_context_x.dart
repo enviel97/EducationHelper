@@ -9,6 +9,7 @@ extension BuildContextX on BuildContext {
   bool get isLightTheme =>
       MediaQuery.of(this).platformBrightness == Brightness.light;
 
+  Color get backgroundColor => Theme.of(this).backgroundColor;
   // styles
   TextTheme get getTextStyle => Theme.of(this).textTheme;
 

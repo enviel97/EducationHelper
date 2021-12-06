@@ -13,7 +13,7 @@ Future<void> main() async {
   transparentStatusBar;
   runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
-    await Root.config();
+    await Root.ins.config();
     runApp(
       MultiBlocProvider(
           providers: [BlocProvider(create: (context) => AppBloc())],
