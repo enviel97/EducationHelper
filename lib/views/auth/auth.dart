@@ -35,49 +35,65 @@ class _Auth extends State<Auth> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final color = isLightTheme ? kBlackColor : kWhiteColor;
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: GestureDetector(
         onTap: context.disableKeyBoard,
-        child: Stack(
-          children: [
-            const DecorateHeader(),
-            SignInPage(
-              onSigin: () {},
-            ),
-            AnimatedBuilder(
-              animation: animationController,
-              builder: (BuildContext context, Widget? child) {
-                if (!isExpanded) {
-                  return ExpandedSignUp(
-                    height: size.height * .05,
-                    epandedSignup: () {
-                      context.disableKeyBoard();
-                      if (mounted) {
-                        animationController.forward();
-                        setState(() => isExpanded = !isExpanded);
-                      }
-                    },
-                  );
-                }
-                return child ??
-                    Container(
-                        height: size.height * .8,
-                        color: kPrimaryLightColor.withOpacity(0.5),
-                        child:
-                            const Center(child: CircularProgressIndicator()));
-              },
-              child: SignUpPage(
-                containerSize: size.height * .8,
-                goLogin: () {
-                  context.disableKeyBoard();
-                  animationController.reverse();
-                  setState(() => isExpanded = !isExpanded);
+        child: LayoutBuilder(builder: (_, __) {
+          return TweenAnimationBuilder(
+            duration: const Duration(milliseconds: 5500),
+            tween: Tween(begin: 0.0, end: 1.0),
+            builder: (BuildContext context, double value, Widget? child) {
+              return ShaderMask(
+                blendMode: BlendMode.modulate,
+                shaderCallback: (rect) {
+                  return RadialGradient(
+                    radius: value * 5,
+                    colors: [color, color, color, kNone, kNone, kNone],
+                    stops: [.0, .2, .4, .6, .8, 1],
+                    center: const FractionalOffset(.5, .5),
+                  ).createShader(rect);
                 },
-              ),
-            )
-          ],
-        ),
+                child: child,
+              );
+            },
+            child: Stack(children: [
+              const DecorateHeader(),
+              const SignInPage(),
+              _animationSignUp()
+            ]),
+          );
+        }),
       ),
+    );
+  }
+
+  Widget _animationSignUp() {
+    return AnimatedBuilder(
+      animation: animationController,
+      builder: (BuildContext context, Widget? child) {
+        if (!isExpanded) {
+          return ExpandedSignUp(
+            height: size.height * .05,
+            epandedSignup: () {
+              context.disableKeyBoard();
+              if (mounted) {
+                animationController.forward();
+                setState(() => isExpanded = !isExpanded);
+              }
+            },
+          );
+        }
+        return SignUpPage(
+          containerSize: size.height * .8,
+          goLogin: () {
+            context.disableKeyBoard();
+            animationController.reverse();
+            setState(() => isExpanded = !isExpanded);
+          },
+        );
+      },
     );
   }
 }

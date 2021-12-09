@@ -21,3 +21,4 @@ const Color kWhiteColor = Color(0xFFFFFFFF);
 const Color kErrorColor = Color(0xFFF20000);
 const Color kWarningColor = Color(0xFFffb300);
 const Color kSuccessColor = Color(0xFF07FF3D);
+const Color kNone = Colors.transparent;

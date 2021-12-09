@@ -9,6 +9,7 @@ class KTextButton extends StatelessWidget {
   final TextStyle? style;
   final Color color;
   final bool isOutline;
+  final double? width;
 
   const KTextButton({
     required this.onPressed,
@@ -16,12 +17,13 @@ class KTextButton extends StatelessWidget {
     this.isOutline = false,
     this.style,
     this.color = kPrimaryDarkColor,
+    this.width,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final size = Size(context.mediaSize.width / 2, SPACING.LG.size);
+    final size = Size(width ?? context.mediaSize.width / 2, SPACING.LG.size);
     final primaryColor =
         context.isLightTheme ? kSecondaryLightColor : kPrimaryLightColor;
     return TextButton(
@@ -38,7 +40,7 @@ class KTextButton extends StatelessWidget {
                   color: color,
                   width: 2.0,
                 ))),
-        onPressed: () {},
+        onPressed: onPressed,
         child: Text(text,
             style: TextStyle(
               color: isOutline ? color : kWhiteColor,

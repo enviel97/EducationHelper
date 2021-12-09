@@ -1,3 +1,4 @@
+import 'package:education_helper/helpers/widgets/router_animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -21,14 +22,16 @@ extension BuildContextX on BuildContext {
 
   goBack() => Navigator.of(this, rootNavigator: true).pop();
 
-  replace(Widget nextScreens, {Map<String, dynamic>? arguments}) =>
-      Navigator.of(this)
-          .pushReplacement(_route(nextScreens), result: arguments);
+  replace(Widget nextScreens, {Map<String, dynamic>? arguments}) {
+    return Navigator.of(this).pushReplacement(
+        RouterAnimation(child: nextScreens),
+        result: arguments);
+  }
 
   Future<void> disableKeyBoard() async {
-    final scope = FocusScope.of(this);
-    if (scope.hasFocus) {
-      scope.requestFocus(FocusNode());
+    final currentFocus = FocusScope.of(this);
+    if (!currentFocus.hasPrimaryFocus) {
+      currentFocus.unfocus();
     }
   }
 

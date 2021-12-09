@@ -12,6 +12,8 @@ class KTextField extends StatefulWidget {
   final bool isClearButton;
   final TextInputType keyboardType;
   final double width;
+  final void Function(String value)? onChange;
+  final void Function(String value)? onSubmit;
 
   const KTextField({
     required this.iconData,
@@ -22,6 +24,8 @@ class KTextField extends StatefulWidget {
     this.isClearButton = true,
     this.keyboardType = TextInputType.text,
     this.width = 200.0,
+    this.onChange,
+    this.onSubmit,
     Key? key,
   }) : super(key: key);
 
@@ -75,9 +79,10 @@ class _KTextFieldState extends State<KTextField> {
               validator: widget.validation,
               textInputAction: widget.textInputAction,
               keyboardType: widget.keyboardType,
-              obscureText: widget.isSecurity && showText,
+              obscureText: widget.isSecurity && !showText,
               autocorrect: false,
               onChanged: _onChagne,
+              onFieldSubmitted: widget.onSubmit,
               maxLines: 1,
               decoration: InputDecoration(
                   prefixIcon: Icon(widget.iconData,
@@ -92,10 +97,11 @@ class _KTextFieldState extends State<KTextField> {
                   focusColor: kBlackColor,
                   filled: true,
                   fillColor: context.backgroundColor,
+                  errorMaxLines: 1,
                   errorStyle: const TextStyle(
-                    color: kPlaceholderDarkColor,
-                    fontWeight: FontWeight.bold,
-                  ),
+                      color: kBlackColor,
+                      fontWeight: FontWeight.bold,
+                      overflow: TextOverflow.fade),
                   enabledBorder: _border,
                   focusedBorder: _radiusBorder,
                   errorBorder: _border,
@@ -124,7 +130,7 @@ class _KTextFieldState extends State<KTextField> {
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
           tooltip: 'Show password text',
-          icon: Icon(showText
+          icon: Icon(!showText
               ? Icons.visibility_rounded
               : Icons.visibility_off_rounded)),
     );
@@ -153,5 +159,7 @@ class _KTextFieldState extends State<KTextField> {
     if (controller.text.length == 1) {
       setState(() {});
     }
+    if (widget.onChange == null) return;
+    widget.onChange!(value);
   }
 }

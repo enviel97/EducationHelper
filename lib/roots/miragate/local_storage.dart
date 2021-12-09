@@ -13,4 +13,9 @@ class LocalStorage {
     final bool result = await _preferences.setString(key, value);
     return result;
   }
+
+  Future<bool> remove(String key) async {
+    final bool result = await _preferences.remove(key);
+    return result;
+  }
 }

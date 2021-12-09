@@ -1,31 +1,36 @@
 class User {
-  final String displayName;
-  final String username;
+  final String? id;
+  final String name;
   final String email;
-  final String avatar;
+  final String? userType;
+  final String phoneNumber;
+  final String? password;
 
   const User({
-    required this.displayName,
-    required this.username,
+    required this.name,
     required this.email,
-    required this.avatar,
+    required this.phoneNumber,
+    this.userType,
+    this.password,
+    this.id,
   });
 
   Map<String, dynamic> toJson() {
     return {
-      'display_name': displayName,
-      'username': username,
+      'name': name,
       'email': email,
-      'avatar': avatar,
+      'phoneNumber': phoneNumber,
+      'password': password,
     };
   }
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      displayName: json['display_name'],
-      username: json['username'],
+      id: json['id'],
+      name: json['name'],
       email: json['email'],
-      avatar: json['avatar'] ?? '',
+      userType: json['userType'],
+      phoneNumber: json['phoneNumber'],
     );
   }
 }

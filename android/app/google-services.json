@@ -1,34 +1,49 @@
 {
   "project_info": {
-    "project_number": "684541082044",
-    "project_id": "educationhelper-334309",
-    "storage_bucket": "educationhelper-334309.appspot.com"
+    "project_number": "670767169485",
+    "project_id": "educationhelper-334518",
+    "storage_bucket": "educationhelper-334518.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:684541082044:android:5cb6b52da1454c8ff853b9",
+        "mobilesdk_app_id": "1:670767169485:android:1c3b121bf7e7d266944e84",
         "android_client_info": {
           "package_name": "com.enviel.education"
         }
       },
       "oauth_client": [
         {
-          "client_id": "684541082044-t4ic2hkc6bi69krtgb0bvui79568c2q8.apps.googleusercontent.com",
+          "client_id": "670767169485-u8f2r2eq0ockkm9uj1h70pek5s401j0l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.enviel.education",
+            "certificate_hash": "392a5fe376ec607606a932d54d0fd56da600478c"
+          }
+        },
+        {
+          "client_id": "670767169485-3gdp085l9hvqiki6s34qj0n2berqo5se.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC1AVfMOXNXmRNFLINIOugU2BBWTqH8Mf0"
+          "current_key": "AIzaSyDfnZhVa2N3nlfzeSXPvI4x-XsU-kUmYbc"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "684541082044-t4ic2hkc6bi69krtgb0bvui79568c2q8.apps.googleusercontent.com",
+              "client_id": "670767169485-3gdp085l9hvqiki6s34qj0n2berqo5se.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "670767169485-9vejdsgvjfn6impn9cdm2b3hdkdl2jcg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.enviel.education"
+              }
             }
           ]
         }

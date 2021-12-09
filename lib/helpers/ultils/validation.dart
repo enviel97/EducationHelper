@@ -3,7 +3,7 @@ String? isNotEmpty(String? value) {
 }
 
 String? isEmail(String? value) {
-  if (isNotEmpty(value) != null) return 'Email is empty';
+  if (isNotEmpty(value) != null) return 'Email is not empty';
   const pattern = r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$';
   final regExp = RegExp(pattern);
 
@@ -31,7 +31,7 @@ String? isLength(String? value, {int? max, int? min}) {
 }
 
 String? isPassword(String? value) {
-  if (isNotEmpty(value) != null) return 'Password is empty';
+  if (isNotEmpty(value) != null) return 'Password is not empty';
 
   // 1
   final hasUpper = RegExp(r'[A-Z]');
@@ -69,6 +69,18 @@ String? isEqual(String? value, String? other) {
 
   if (value != other) {
     return 'Two field must be equal !';
+  }
+  return null;
+}
+
+String? isPhone(String? value) {
+  if (value == null) {
+    return 'Phone is not empty';
+  }
+  final phoneRex = RegExp(
+      r'^\+?(((03)?[2-9])|(05?(6|8))|(07?(0|[6-9]))|(08?([1-6]|[8-9]))|(09?([0-4]|[7-8])))[0-9]{7}$');
+  if (!phoneRex.hasMatch(value)) {
+    return 'Invalid phone number';
   }
   return null;
 }

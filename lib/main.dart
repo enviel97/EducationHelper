@@ -1,26 +1,20 @@
 import 'dart:async';
 
 import 'package:education_helper/helpers/ultils/widgets.dart';
+import 'package:education_helper/helpers/widgets/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'roots/app_root.dart';
 import 'roots/bloc/app_bloc.dart';
 import 'views/routes.dart';
-import 'views/auth/auth.dart';
 
 Future<void> main() async {
   transparentStatusBar;
+  WidgetsFlutterBinding.ensureInitialized();
+  debugPrint('[Inititial App]');
   runZonedGuarded(() async {
-    WidgetsFlutterBinding.ensureInitialized();
-    await Root.ins.config();
-    runApp(
-      MultiBlocProvider(
-          providers: [BlocProvider(create: (context) => AppBloc())],
-          child: const Routes(
-            firstScreen: Auth(),
-          )),
-    );
+    return runApp(MultiBlocProvider(
+        providers: [BlocProvider(create: (context) => AppBloc())],
+        child: const Routes(firstScreen: Splash())));
   }, (error, trace) {
     // Splash in time
   });
