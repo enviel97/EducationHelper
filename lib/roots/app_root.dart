@@ -45,7 +45,7 @@ class Root {
     final token = await localStorage.read(c.token);
     RestApi().setHeaders(token == '' ? null : token);
     if (token.isEmpty || JwtDecoder.isExpired(token)) return _authRoute();
-    print(token);
+    debugPrint(token);
     return _homeRoute();
   }
 

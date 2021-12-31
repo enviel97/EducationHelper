@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class AppAdapter {
   static final AppAdapter _ins = AppAdapter._();
   factory AppAdapter() {
@@ -18,7 +20,7 @@ class AppAdapter {
   }
 
   void injectAdapter(String name, dynamic adapter) {
-    print('inject $name');
+    debugPrint('inject $name');
     if (_appAdapter.containsKey(name)) {
       throw Exception('Adapter is allready');
     }
