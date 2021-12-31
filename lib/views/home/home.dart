@@ -1,6 +1,7 @@
 import 'package:education_helper/helpers/widgets/circle_animation.dart';
 import 'package:education_helper/models/user.model.dart';
 import 'package:education_helper/roots/bloc/app_bloc.dart';
+import 'package:education_helper/views/home/pages/classrooms/classrooms.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -27,9 +28,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       body: GestureDetector(
         child: AnimationCircleLayout(
-          child: const Center(
-            child: Text('home screens'),
-          ),
+          child: const Classrooms(),
         ),
       ),
     );

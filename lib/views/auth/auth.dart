@@ -1,6 +1,7 @@
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:education_helper/helpers/extensions/state.x.dart';
+import 'package:education_helper/helpers/widgets/circle_animation.dart';
 import 'package:education_helper/views/auth/pages/siginin.dart';
 import 'package:education_helper/views/auth/pages/signup.dart';
 import 'package:flutter/material.dart';
@@ -35,36 +36,16 @@ class _Auth extends State<Auth> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final color = isLightTheme ? kBlackColor : kWhiteColor;
     return Scaffold(
-      backgroundColor: Colors.transparent,
       body: GestureDetector(
         onTap: context.disableKeyBoard,
-        child: LayoutBuilder(builder: (_, __) {
-          return TweenAnimationBuilder(
-            duration: const Duration(milliseconds: 5500),
-            tween: Tween(begin: 0.0, end: 1.0),
-            builder: (BuildContext context, double value, Widget? child) {
-              return ShaderMask(
-                blendMode: BlendMode.modulate,
-                shaderCallback: (rect) {
-                  return RadialGradient(
-                    radius: value * 5,
-                    colors: [color, color, color, kNone, kNone, kNone],
-                    stops: [.0, .2, .4, .6, .8, 1],
-                    center: const FractionalOffset(.5, .5),
-                  ).createShader(rect);
-                },
-                child: child,
-              );
-            },
-            child: Stack(children: [
-              const DecorateHeader(),
-              const SignInPage(),
-              _animationSignUp()
-            ]),
-          );
-        }),
+        child: AnimationCircleLayout(
+          child: Stack(children: [
+            const DecorateHeader(),
+            const SignInPage(),
+            _animationSignUp()
+          ]),
+        ),
       ),
     );
   }

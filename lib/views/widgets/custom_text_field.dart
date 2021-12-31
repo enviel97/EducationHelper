@@ -60,14 +60,14 @@ class _KTextFieldState extends State<KTextField> {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10.0),
       width: double.infinity,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           color: Colors.transparent,
-          borderRadius: const BorderRadius.only(topLeft: Radius.circular(25.0)),
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(25.0)),
           boxShadow: [
             BoxShadow(
-              color: isLightTheme ? kPrimaryLightColor : kPrimaryLightColor,
+              color: kPrimaryLightColor,
               blurRadius: 0,
-              offset: const Offset(5, 5),
+              offset: Offset(5, 5),
             )
           ]),
       child: Row(

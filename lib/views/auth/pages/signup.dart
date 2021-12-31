@@ -15,8 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:education_helper/helpers/extensions/build_context_x.dart';
 
-import 'package:flutter_svg/flutter_svg.dart';
-
 class SignUpPage extends StatefulWidget {
   final double containerSize;
   final VoidCallback goLogin;

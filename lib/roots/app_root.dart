@@ -8,6 +8,7 @@ import 'package:education_helper/views/home/home.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'miragate/local_storage.dart';
 
@@ -42,8 +43,9 @@ class Root {
 
   Future<Widget> getScreens() async {
     final token = await localStorage.read(c.token);
-    if (token.isEmpty) return _authRoute();
-    RestApi().setHeaders(token);
+    RestApi().setHeaders(token == '' ? null : token);
+    if (token.isEmpty || JwtDecoder.isExpired(token)) return _authRoute();
+    print(token);
     return _homeRoute();
   }
 

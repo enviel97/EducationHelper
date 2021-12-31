@@ -3,10 +3,8 @@ import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:education_helper/helpers/extensions/state.x.dart';
 import 'package:education_helper/helpers/ultils/funtions.dart';
-import 'package:education_helper/helpers/ultils/validation.dart';
 import 'package:education_helper/roots/app_root.dart';
 import 'package:education_helper/roots/bloc/app_bloc.dart';
-import 'package:education_helper/roots/miragate/google_sigin.dart';
 import 'package:education_helper/views/auth/adapter/auth.adapter.dart';
 import 'package:education_helper/views/auth/bloc/auth_bloc.dart';
 import 'package:education_helper/views/auth/bloc/auth_state.dart';
@@ -51,6 +49,7 @@ class _SignInPageState extends State<SignInPage> {
 
         if (state is AuthSigninSuccessState) {
           appBloc.hiddenLoading(context);
+          homeAddapter.goToHome(context);
         }
       },
       child: _mainUI(),
@@ -126,8 +125,7 @@ class _SignInPageState extends State<SignInPage> {
 
   void _signInWithGoogle() async {
     context.disableKeyBoard();
-    homeAddapter.goToHome(context);
-    // await BlocProvider.of<AuthBloc>(context).signInWithGoogle();
+    await BlocProvider.of<AuthBloc>(context).signInWithGoogle();
   }
 
   void _submit(String value) {
