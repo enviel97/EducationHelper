@@ -29,8 +29,8 @@ class AppTheme {
     focusColor: kSecondaryColor,
   );
 
-  TextTheme defaultFonts(BuildContext context) {
-    return GoogleFonts.openSansTextTheme(Theme.of(context).textTheme).copyWith(
+  static TextTheme defaultFonts(BuildContext context) {
+    return GoogleFonts.robotoTextTheme(Theme.of(context).textTheme).copyWith(
         headline1: GoogleFonts.architectsDaughter(
             fontWeight: FontWeight.bold, fontSize: 54.0),
         headline6: GoogleFonts.architectsDaughter(
@@ -48,12 +48,12 @@ class AppTheme {
       scaffoldBackgroundColor: kWhiteColor,
       backgroundColor: kWhiteColor,
       hintColor: kPlaceholderDarkColor,
-      dividerColor: kPlaceholderColor,
+      dividerColor: kDividerColor,
       iconTheme: Theme.of(context).iconTheme.copyWith(color: kBlackColor),
-      textTheme: theme.defaultFonts(context).apply(
-            bodyColor: kBlackColor,
-            displayColor: kBlackColor,
-          ),
+      textTheme: defaultFonts(context).apply(
+        bodyColor: kBlackColor,
+        displayColor: kBlackColor,
+      ),
     );
   }
 
@@ -66,12 +66,12 @@ class AppTheme {
       scaffoldBackgroundColor: kBlackColor,
       backgroundColor: kBlackColor,
       hintColor: kPlaceholderColor,
-      dividerColor: kPlaceholderColor,
+      dividerColor: kDividerColor,
       iconTheme: Theme.of(context).iconTheme.copyWith(color: kBlackColor),
-      textTheme: theme.defaultFonts(context).apply(
-            bodyColor: kWhiteColor,
-            displayColor: kWhiteColor,
-          ),
+      textTheme: defaultFonts(context).apply(
+        bodyColor: kWhiteColor,
+        displayColor: kWhiteColor,
+      ),
     );
   }
 }

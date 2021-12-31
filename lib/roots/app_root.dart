@@ -44,9 +44,10 @@ class Root {
   Future<Widget> getScreens() async {
     final token = await localStorage.read(c.token);
     RestApi().setHeaders(token == '' ? null : token);
-    if (token.isEmpty || JwtDecoder.isExpired(token)) return _authRoute();
-    debugPrint(token);
-    return _homeRoute();
+    return _authRoute();
+    // if (token.isEmpty || JwtDecoder.isExpired(token))
+    // debugPrint(token);
+    // return _homeRoute();
   }
 
   Widget _authRoute() {

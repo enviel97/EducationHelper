@@ -13,6 +13,7 @@ const Color kSecondarySuperDarkColor = Color(0xFF351c38);
 const Color kPlaceholderColor = Color(0xFFfafafa);
 const Color kPlaceholderLightColor = Color(0xFFffffff);
 const Color kPlaceholderDarkColor = Color(0xFFc7c7c7);
+const Color kDividerColor = Color(0xffc7c7c7);
 
 // color origin
 const Color kBlackColor = Color(0xFF000000);

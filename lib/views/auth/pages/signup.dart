@@ -14,6 +14,7 @@ import 'package:education_helper/views/widgets/remove_scroll_grow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:education_helper/helpers/extensions/build_context_x.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 class SignUpPage extends StatefulWidget {
   final double containerSize;
@@ -65,6 +66,8 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Widget _mainUI() {
     final spacing = SPACING.M.vertical;
+    const paddingRight = 30.0;
+    const iconSize = 50.0;
     return Align(
       alignment: Alignment.bottomCenter,
       child: Container(
@@ -76,7 +79,9 @@ class _SignUpPageState extends State<SignUpPage> {
             Align(
               alignment: Alignment.bottomCenter,
               child: ClipPath(
-                clipper: NotchedCustomClippath(Offset(size.width - 95.0, 0.0)),
+                clipper: NotchedCustomClippath(
+                  Offset(size.width - paddingRight - iconSize / 2, 0.0),
+                ),
                 child: Container(
                   padding:
                       const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
@@ -180,15 +185,15 @@ class _SignUpPageState extends State<SignUpPage> {
             Align(
               alignment: Alignment.topRight,
               child: Container(
-                margin: const EdgeInsets.only(right: 70.0),
-                height: 50.0,
-                width: 50.0,
+                margin: const EdgeInsets.only(right: paddingRight),
+                height: iconSize,
+                width: iconSize,
                 decoration: BoxDecoration(
                   color: isLightTheme ? kSecondaryColor : kPrimaryColor,
                   shape: BoxShape.circle,
                 ),
                 child: IconButton(
-                  icon: const Icon(Icons.login_outlined),
+                  icon: const Icon(AntDesign.downcircleo),
                   color: kWhiteColor,
                   onPressed: widget.goLogin,
                 ),

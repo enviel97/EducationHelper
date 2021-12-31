@@ -18,7 +18,8 @@ class Auth extends StatefulWidget {
 class _Auth extends State<Auth> with SingleTickerProviderStateMixin {
   late bool isExpanded;
   late AnimationController animationController;
-  final duration = const Duration(microseconds: 250);
+  late String title = 'SIGN IN';
+  final duration = const Duration(microseconds: 500);
 
   @override
   void initState() {
@@ -40,13 +41,32 @@ class _Auth extends State<Auth> with SingleTickerProviderStateMixin {
         onTap: context.disableKeyBoard,
         child: AnimationCircleLayout(
           child: Stack(children: [
-            const DecorateHeader(),
             const SignInPage(),
-            _animationSignUp()
+            _animationSignUp(),
+            DecorateHeader(title: title),
           ]),
         ),
       ),
     );
+  }
+
+  void handleClickSignUp() {
+    context.disableKeyBoard();
+    if (mounted) {
+      if (isExpanded) {
+        animationController.forward();
+        setState(() {
+          isExpanded = !isExpanded;
+          title = 'SIGN IN';
+        });
+      } else {
+        animationController.reverse();
+        setState(() {
+          isExpanded = !isExpanded;
+          title = 'SIGN UP';
+        });
+      }
+    }
   }
 
   Widget _animationSignUp() {
@@ -56,22 +76,12 @@ class _Auth extends State<Auth> with SingleTickerProviderStateMixin {
         if (!isExpanded) {
           return ExpandedSignUp(
             height: size.height * .05,
-            epandedSignup: () {
-              context.disableKeyBoard();
-              if (mounted) {
-                animationController.forward();
-                setState(() => isExpanded = !isExpanded);
-              }
-            },
+            epandedSignup: handleClickSignUp,
           );
         }
         return SignUpPage(
           containerSize: size.height * .8,
-          goLogin: () {
-            context.disableKeyBoard();
-            animationController.reverse();
-            setState(() => isExpanded = !isExpanded);
-          },
+          goLogin: handleClickSignUp,
         );
       },
     );

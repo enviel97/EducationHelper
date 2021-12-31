@@ -11,6 +11,7 @@ import 'package:education_helper/views/auth/bloc/auth_state.dart';
 import 'package:education_helper/views/widgets/button/custom_icon_button.dart';
 import 'package:education_helper/views/widgets/button/custom_text_button.dart';
 import 'package:education_helper/views/widgets/custom_text_field.dart';
+import 'package:education_helper/views/widgets/horizantal_divider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
@@ -97,8 +98,8 @@ class _SignInPageState extends State<SignInPage> {
               KTextButton(text: 'Sign In', onPressed: _signInWithEmail),
               SPACING.SM.vertical,
               const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 35.0),
-                child: Divider(),
+                padding: EdgeInsets.symmetric(horizontal: 62.5),
+                child: HorizantalDivider(text: 'Or'),
               ),
               SPACING.SM.vertical,
               KIconButton(

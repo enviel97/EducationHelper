@@ -18,10 +18,11 @@ class _RoutesState extends State<Routes> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Gaming Gear Store',
-        theme: AppTheme.lightTheme(context),
-        darkTheme: AppTheme.darkTheme(context),
-        home: widget.firstScreen);
+      debugShowCheckedModeBanner: false,
+      title: 'Education Helper',
+      theme: AppTheme.lightTheme(context),
+      darkTheme: AppTheme.darkTheme(context),
+      home: widget.firstScreen,
+    );
   }
 }
