@@ -3,18 +3,20 @@ import 'package:education_helper/roots/app_root.dart';
 import 'package:education_helper/roots/miragate/injection.dart';
 import 'package:education_helper/roots/parts/adapter.dart';
 import 'package:education_helper/views/auth/bloc/auth_bloc.dart';
-import 'package:education_helper/views/home/adapters/home.adapter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../auth.dart';
 
-const String authAdpater = 'AuthAdapter';
-
 class AuthAdpater extends IAdapter {
-  @override
-  AuthAdpater() {
-    Root.ins.adapter.injectAdapter('AuthAdapter', this);
+  static final AuthAdpater _ins = AuthAdpater._internal();
+
+  AuthAdpater._internal() {
+    Root.ins.adapter.injectAdapter(authAdapter, this);
+  }
+
+  factory AuthAdpater() {
+    return _ins;
   }
 
   IAdapter get _homeAdapter => AppAdapter().getAdapter(homeAdapter);

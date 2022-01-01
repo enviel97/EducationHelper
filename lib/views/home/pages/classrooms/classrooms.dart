@@ -31,10 +31,13 @@ class _ClassroomsState extends State<Classrooms> {
         Row(
           children: [
             Flexible(
-                child: DecoratedBox(
-              decoration: BoxDecoration(),
-              child: UserAvatar(url: user.avatar ?? ''),
-            ))
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(40.0),
+                ),
+                child: UserAvatar(url: user.avatar ?? ''),
+              ),
+            )
           ],
         )
       ],

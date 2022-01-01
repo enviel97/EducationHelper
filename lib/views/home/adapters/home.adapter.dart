@@ -7,7 +7,12 @@ import 'package:flutter/cupertino.dart';
 import '../home.dart';
 
 class HomeAdapter extends IAdapter {
-  HomeAdapter() {
+  static final HomeAdapter _ins = HomeAdapter._internal();
+
+  factory HomeAdapter() {
+    return _ins;
+  }
+  HomeAdapter._internal() {
     Root.ins.adapter.injectAdapter(homeAdapter, this);
   }
 
