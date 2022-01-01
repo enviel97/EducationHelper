@@ -1,3 +1,4 @@
+import 'package:education_helper/roots/parts/adapter.dart';
 import 'package:flutter/material.dart';
 
 class AppAdapter {
@@ -12,9 +13,9 @@ class AppAdapter {
     _appAdapter = {};
   }
 
-  Adapter getAdapter<Adapter>(String name) {
+  IAdapter getAdapter(String name) {
     if (_appAdapter.containsKey(name)) {
-      return _appAdapter[name] as Adapter;
+      return _appAdapter[name] as IAdapter;
     }
     throw Exception("Don't have adapter");
   }

@@ -2,7 +2,7 @@ class User {
   final String? id;
   final String name;
   final String email;
-  final String? userType;
+  final String? avatar;
   final String phoneNumber;
   final String? password;
 
@@ -10,7 +10,7 @@ class User {
     required this.name,
     required this.email,
     required this.phoneNumber,
-    this.userType,
+    this.avatar,
     this.password,
     this.id,
   });
@@ -20,6 +20,7 @@ class User {
       'name': name,
       'email': email,
       'phoneNumber': phoneNumber,
+      'avatar': avatar,
       'password': password,
     };
   }
@@ -29,7 +30,7 @@ class User {
       id: json['id'],
       name: json['name'],
       email: json['email'],
-      userType: json['userType'],
+      avatar: json['avatar'],
       phoneNumber: json['phoneNumber'],
     );
   }

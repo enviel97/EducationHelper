@@ -26,7 +26,7 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
-  final homeAddapter = Root.ins.adapter.getAdapter<AuthAdpater>(authAdapter);
+  final adapter = Root.ins.adapter.getAdapter(authAdapter).as<AuthAdpater>();
   double get height => size.height * .8;
   String username = '';
   String password = '';
@@ -50,7 +50,7 @@ class _SignInPageState extends State<SignInPage> {
 
         if (state is AuthSigninSuccessState) {
           appBloc.hiddenLoading(context);
-          homeAddapter.goToHome(context);
+          adapter.goToHome(context);
         }
       },
       child: _mainUI(),
