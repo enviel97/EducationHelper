@@ -7,6 +7,7 @@ class AppTheme {
   AppTheme._();
   ColorScheme scheme({
     required Color backgroundColor,
+    required Color onBack,
     required Brightness brightness,
   }) =>
       ColorScheme(
@@ -20,7 +21,7 @@ class AppTheme {
         onPrimary: kWhiteColor,
         onSecondary: kBlackColor,
         onSurface: kPlaceholderColor,
-        onBackground: backgroundColor,
+        onBackground: onBack,
         onError: kErrorColor.withOpacity(.7),
         brightness: brightness,
       );
@@ -54,6 +55,7 @@ class AppTheme {
       colorScheme: theme.scheme(
         backgroundColor: kWhiteColor,
         brightness: Brightness.dark,
+        onBack: kBlackColor,
       ),
       dialogBackgroundColor: kWhiteColor,
       scaffoldBackgroundColor: kWhiteColor,
@@ -73,6 +75,7 @@ class AppTheme {
       colorScheme: theme.scheme(
         backgroundColor: kBlackColor,
         brightness: Brightness.light,
+        onBack: kWhiteColor,
       ),
       dialogBackgroundColor: kBlackColor,
       scaffoldBackgroundColor: kBlackColor,

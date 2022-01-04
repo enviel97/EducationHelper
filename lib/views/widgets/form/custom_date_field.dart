@@ -108,15 +108,26 @@ class _KDateFieldState extends State<KDateField> {
 
   Future<void> _selectedDatePicker() async {
     final picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDateTime ?? DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2025),
-      initialEntryMode: DatePickerEntryMode.calendar,
-      helpText: widget.hintText,
-      cancelText: 'Cancel',
-      confirmText: 'Set',
-    );
+        context: context,
+        initialDate: selectedDateTime ?? DateTime.now(),
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2025),
+        initialEntryMode: DatePickerEntryMode.calendar,
+        helpText: widget.hintText,
+        cancelText: 'Cancel',
+        confirmText: 'Set',
+        fieldHintText: widget.formatDate,
+        builder: (_, __) => Theme(
+              data: Theme.of(context).copyWith(
+                colorScheme: Theme.of(context).colorScheme.copyWith(
+                      primary: isLightTheme
+                          ? kPlaceholderDarkColor
+                          : kPlacehoderSuperDarkColor,
+                      onPrimary: isLightTheme ? kBlackColor : kWhiteColor,
+                    ),
+              ),
+              child: SizedBox(child: __),
+            ));
 
     if (picked != null && picked != selectedDateTime) {
       setState(() {
