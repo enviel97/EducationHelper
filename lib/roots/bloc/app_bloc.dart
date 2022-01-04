@@ -16,6 +16,7 @@ class AppBloc extends Cubit<AppState> {
   final localStore = Root.ins.localStorage;
   AppBloc() : super(AppStateInitial());
   bool _hasDialog = false;
+  User? currentUser;
 
   SnackBar _snackBar(String message, Color color, int timeWait) => SnackBar(
         backgroundColor: color,
@@ -82,12 +83,15 @@ class AppBloc extends Cubit<AppState> {
     );
   }
 
-  Future<User?> getUser() async {
+  Future<User> getUser() async {
+    if (currentUser != null) return currentUser!;
     try {
       final user = await api.get('users');
+      currentUser = User.fromJson(user);
       return User.fromJson(user);
     } catch (error) {
       debugPrint(error.toString());
+      return Future.error("Can't get user");
     }
   }
 }

@@ -4,7 +4,12 @@ class LocalStorage {
   final SharedPreferences _preferences;
   const LocalStorage(this._preferences);
 
-  Future<String> read(String key) async {
+  Future<String> readAsync(String key) async {
+    final value = _preferences.getString(key);
+    return value ?? '';
+  }
+
+  String read(String key) {
     final value = _preferences.getString(key);
     return value ?? '';
   }

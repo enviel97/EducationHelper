@@ -10,7 +10,7 @@ import 'package:education_helper/views/auth/bloc/auth_bloc.dart';
 import 'package:education_helper/views/auth/bloc/auth_state.dart';
 import 'package:education_helper/views/widgets/button/custom_icon_button.dart';
 import 'package:education_helper/views/widgets/button/custom_text_button.dart';
-import 'package:education_helper/views/widgets/custom_text_field.dart';
+import 'package:education_helper/views/widgets/form/custom_text_field.dart';
 import 'package:education_helper/views/widgets/horizantal_divider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

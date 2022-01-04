@@ -9,7 +9,7 @@ import 'package:education_helper/views/auth/bloc/auth_bloc.dart';
 import 'package:education_helper/views/auth/bloc/auth_state.dart';
 import 'package:education_helper/views/widgets/clippart/notch_custom_clip.dart';
 import 'package:education_helper/views/widgets/button/custom_text_button.dart';
-import 'package:education_helper/views/widgets/custom_text_field.dart';
+import 'package:education_helper/views/widgets/form/custom_text_field.dart';
 import 'package:education_helper/views/widgets/remove_scroll_grow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -209,11 +209,8 @@ class _SignUpPageState extends State<SignUpPage> {
     context.disableKeyBoard();
 
     if (_formKey.currentState?.validate() ?? false) {
-      await BlocProvider.of<AuthBloc>(context).signUp(User(
-          name: name,
-          email: email,
-          password: password,
-          phoneNumber: phoneNumber));
+      await BlocProvider.of<AuthBloc>(context).signUp(
+          User(name: name, email: email, phoneNumber: phoneNumber), password);
     }
   }
 

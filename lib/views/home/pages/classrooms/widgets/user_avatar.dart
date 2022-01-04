@@ -9,18 +9,27 @@ class UserAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (url.isNotEmpty) {
-      return FadeInImage.memoryNetwork(
-        height: 100,
-        width: 100,
-        fit: BoxFit.cover,
-        placeholder: kTransparentImage,
-        imageErrorBuilder: _buildError,
-        image: url,
-      );
-    }
-    return const Center(
-      child: CircularProgressIndicator(),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(40.0),
+      child: url.isNotEmpty
+          ? FadeInImage.memoryNetwork(
+              height: 100,
+              width: 100,
+              fit: BoxFit.cover,
+              placeholder: kTransparentImage,
+              imageErrorBuilder: _buildError,
+              image: url,
+            )
+          : Container(
+              height: 100,
+              width: 100,
+              decoration: const BoxDecoration(color: kPrimaryColor),
+              child: const Center(
+                child: CircularProgressIndicator(
+                  color: kWhiteColor,
+                ),
+              ),
+            ),
     );
   }
 

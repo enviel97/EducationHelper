@@ -14,6 +14,7 @@ class KTextField extends StatefulWidget {
   final double width;
   final void Function(String value)? onChange;
   final void Function(String value)? onSubmit;
+  final bool autoFocus;
 
   const KTextField({
     required this.iconData,
@@ -26,6 +27,7 @@ class KTextField extends StatefulWidget {
     this.width = 200.0,
     this.onChange,
     this.onSubmit,
+    this.autoFocus = false,
     Key? key,
   }) : super(key: key);
 
@@ -81,6 +83,7 @@ class _KTextFieldState extends State<KTextField> {
               keyboardType: widget.keyboardType,
               obscureText: widget.isSecurity && !showText,
               autocorrect: false,
+              autofocus: widget.autoFocus,
               onChanged: _onChagne,
               onFieldSubmitted: widget.onSubmit,
               maxLines: 1,

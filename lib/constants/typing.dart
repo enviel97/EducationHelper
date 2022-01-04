@@ -9,7 +9,25 @@ const headerStyle = TextStyle(fontWeight: FontWeight.bold, fontSize: 24.0);
 
 const titleStyle = TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold);
 
-enum SPACING { S, SM, M, LG, XL, XXL }
+enum SPACING {
+  /// S:  8.0
+  S,
+
+  /// SM: 12.0
+  SM,
+
+  /// M:  16.0
+  M,
+
+  /// LG: 24.0
+  LG,
+
+  /// XL: 32.0
+  XL,
+
+  /// XXL: 40.0
+  XXL,
+}
 
 extension SPACINGX on SPACING {
   double get size {

@@ -73,10 +73,12 @@ class AuthBloc extends Cubit<AuthState> {
     }
   }
 
-  Future<void> signUp(User user) async {
+  Future<void> signUp(User user, String password) async {
     emit(AuthLoadingState());
+    final json = user.toJson();
+    json['password'] = password;
     try {
-      final result = await _restApi.post('$_path/signup', user.toJson());
+      final result = await _restApi.post('$_path/signup', json);
       emit(AuthSignupSuccessState(User.fromJson(result)));
     } catch (error) {
       onErrors(error);

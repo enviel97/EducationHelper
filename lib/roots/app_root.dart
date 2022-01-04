@@ -22,26 +22,30 @@ class Root {
   Root._() {
     adapter = AppAdapter();
   }
+  final List<Future<String>> _asyncs = [];
 
-  Future _initLocalStorage() async {
+  Future<String> _initLocalStorage() async {
     final shared = await SharedPreferences.getInstance();
     localStorage = LocalStorage(shared);
+    return 'Done';
   }
 
-  Future _initFirebase() async {
+  Future<String> _initFirebase() async {
     await Firebase.initializeApp();
+    return 'Done';
   }
 
-  List<Future> config() {
-    final List<Future> asyncs = [];
-    asyncs.add(_initLocalStorage());
-    asyncs.add(_initFirebase());
-    asyncs.add(_configRouteApp());
-    return asyncs;
+  List<Future<String>> config() {
+    if (_asyncs.isEmpty) {
+      _asyncs.add(_initLocalStorage());
+      _asyncs.add(_initFirebase());
+      _asyncs.add(_configRouteApp());
+    }
+    return _asyncs;
   }
 
   Future<Widget> getScreens() async {
-    final token = await localStorage.read(c.token);
+    final token = await localStorage.readAsync(c.token);
     RestApi().setHeaders(token == '' ? null : token);
     if (token.isEmpty || JwtDecoder.isExpired(token)) {
       return adapter.getAdapter(authAdapter).layout();
@@ -50,9 +54,10 @@ class Root {
     return adapter.getAdapter(homeAdapter).layout();
   }
 
-  Future _configRouteApp() async {
+  Future<String> _configRouteApp() async {
     // inject here
     AuthAdpater();
     HomeAdapter();
+    return 'Done';
   }
 }

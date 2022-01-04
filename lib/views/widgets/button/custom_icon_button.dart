@@ -11,6 +11,7 @@ class KIconButton extends StatelessWidget {
   final TextStyle? textStyle;
   final Size? size;
   final EdgeInsets padding;
+  final Color? sideColor;
 
   const KIconButton({
     required this.icon,
@@ -21,6 +22,7 @@ class KIconButton extends StatelessWidget {
     this.size,
     this.backgroundColor,
     this.padding = const EdgeInsets.all(5.0),
+    this.sideColor,
   }) : super(key: key);
 
   OutlinedBorder getShape(Color sideColor) {
@@ -37,8 +39,8 @@ class KIconButton extends StatelessWidget {
     final backColor = backgroundColor ??
         (context.isLightTheme ? kSecondaryColor : kPrimaryColor);
 
-    final sideColor =
-        context.isLightTheme ? kSecondaryLightColor : kPrimaryLightColor;
+    final sideColor = this.sideColor ??
+        (context.isLightTheme ? kSecondaryLightColor : kPrimaryLightColor);
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         minimumSize: size,

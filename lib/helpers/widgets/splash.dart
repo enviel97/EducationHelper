@@ -45,11 +45,11 @@ class _SplashState extends State<Splash> {
       );
 
   void gotoScreen() async {
-    await Root.ins.getScreens().then((value) async {
-      await Future.delayed(const Duration(milliseconds: 700)).whenComplete(() {
-        Navigator.of(context).pushReplacement(AnimationCircleSource(value));
-      });
-    });
+    Root.ins.getScreens().then((value) async =>
+        await Future.delayed(const Duration(milliseconds: 700))
+            .whenComplete(() {
+          Navigator.of(context).pushReplacement(AnimationCircleSource(value));
+        }));
   }
 
   @override

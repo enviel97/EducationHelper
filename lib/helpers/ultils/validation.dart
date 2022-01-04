@@ -2,17 +2,6 @@ String? isNotEmpty(String? value) {
   return value == null || value.isEmpty ? 'This field is required' : null;
 }
 
-String? isEmail(String? value) {
-  if (isNotEmpty(value) != null) return 'Email is not empty';
-  const pattern = r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$';
-  final regExp = RegExp(pattern);
-
-  if (!regExp.hasMatch(value!)) {
-    return 'Email invalid !';
-  }
-  return null;
-}
-
 String? isLength(String? value, {int? max, int? min}) {
   if (isNotEmpty(value) != null) return 'Field is not empty';
   if (max == null && min == null) {
@@ -73,14 +62,23 @@ String? isEqual(String? value, String? other) {
   return null;
 }
 
-String? isPhone(String? value) {
-  if (value == null) {
-    return 'Phone is not empty';
-  }
+String? isPhone(String? value, {bool allowNull = false}) {
+  if (value == null && !allowNull) return 'Phone is not empty';
   final phoneRex = RegExp(
       r'^\+?(((03)?[2-9])|(05?(6|8))|(07?(0|[6-9]))|(08?([1-6]|[8-9]))|(09?([0-4]|[7-8])))[0-9]{7}$');
-  if (!phoneRex.hasMatch(value)) {
+  if ((value?.isNotEmpty ?? false) && !phoneRex.hasMatch(value ?? '')) {
     return 'Invalid phone number';
+  }
+  return null;
+}
+
+String? isEmail(String? value, {bool allowNull = false}) {
+  if (value == null && !allowNull) return 'Email is not empty';
+  const pattern = r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$';
+  final regExp = RegExp(pattern);
+
+  if ((value?.isNotEmpty ?? false) && !regExp.hasMatch(value ?? '')) {
+    return 'Email invalid';
   }
   return null;
 }

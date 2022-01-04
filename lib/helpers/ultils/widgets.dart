@@ -4,8 +4,6 @@ import 'package:flutter/services.dart';
 final transparentStatusBar =
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
   statusBarColor: Colors.transparent,
-  statusBarBrightness: Brightness.light,
-  statusBarIconBrightness: Brightness.light,
 ));
 
 // ignore: prefer_function_declarations_over_variables, non_constant_identifier_names

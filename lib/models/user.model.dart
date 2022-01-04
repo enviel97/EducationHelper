@@ -4,14 +4,12 @@ class User {
   final String email;
   final String? avatar;
   final String phoneNumber;
-  final String? password;
 
   const User({
     required this.name,
     required this.email,
     required this.phoneNumber,
     this.avatar,
-    this.password,
     this.id,
   });
 
@@ -21,7 +19,6 @@ class User {
       'email': email,
       'phoneNumber': phoneNumber,
       'avatar': avatar,
-      'password': password,
     };
   }
 

@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:education_helper/helpers/ultils/widgets.dart';
 import 'package:education_helper/helpers/widgets/splash.dart';
 import 'package:flutter/material.dart';

@@ -1,3 +1,4 @@
+import 'package:education_helper/constants/typing.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'colors.dart';
@@ -27,6 +28,15 @@ class AppTheme {
   final ThemeData defaultTheme = ThemeData(
     hintColor: kPlaceholderColor,
     focusColor: kSecondaryColor,
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        primary: kPrimaryColor,
+        textStyle: TextStyle(
+          fontSize: SPACING.M.size,
+          fontWeight: FontWeight.bold,
+        ), // button text color
+      ),
+    ),
   );
 
   static TextTheme defaultFonts(BuildContext context) {
@@ -45,6 +55,7 @@ class AppTheme {
         backgroundColor: kWhiteColor,
         brightness: Brightness.dark,
       ),
+      dialogBackgroundColor: kWhiteColor,
       scaffoldBackgroundColor: kWhiteColor,
       backgroundColor: kWhiteColor,
       hintColor: kPlaceholderDarkColor,
@@ -63,6 +74,7 @@ class AppTheme {
         backgroundColor: kBlackColor,
         brightness: Brightness.light,
       ),
+      dialogBackgroundColor: kBlackColor,
       scaffoldBackgroundColor: kBlackColor,
       backgroundColor: kBlackColor,
       hintColor: kPlaceholderColor,
