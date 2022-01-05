@@ -1,8 +1,9 @@
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
-import 'package:education_helper/views/home/pages/classrooms/placeholders/widgets/classrooms_placeholder_header.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
+
+import 'widgets/classrooms_placeholder_header.dart';
 
 class ClassroomsPlaceholder extends StatelessWidget {
   const ClassroomsPlaceholder({Key? key}) : super(key: key);

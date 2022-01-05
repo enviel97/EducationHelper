@@ -1,7 +1,7 @@
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/helpers/extensions/int_x.dart';
-import 'package:education_helper/views/home/pages/classrooms/widgets/user_avatar.dart';
+import 'package:education_helper/views/classrooms/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 
 class ClassroomHeader extends StatelessWidget {

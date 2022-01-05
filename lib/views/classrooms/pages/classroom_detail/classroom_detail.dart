@@ -1,6 +1,5 @@
 import 'package:education_helper/models/classroom.model.dart';
-import 'package:education_helper/models/user.model.dart';
-import 'package:education_helper/views/home/pages/classrooms/widgets/user_avatar.dart';
+import 'package:education_helper/views/classrooms/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 
 class ClassroomDetail extends StatefulWidget {
