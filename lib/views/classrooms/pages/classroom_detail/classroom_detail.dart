@@ -26,7 +26,7 @@ class _ClassroomDetailState extends State<ClassroomDetail> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Column(
-        children: [UserAvatar()],
+        children: [const UserAvatar()],
       ),
     );
   }

@@ -36,7 +36,7 @@ class ClassroomItemHeader extends StatelessWidget {
               maxWidth: 125.0,
               fontSize: SPACING.M.size,
               onPress: () {
-                print("detail");
+                print('detail');
               },
             ),
             SizedBox(

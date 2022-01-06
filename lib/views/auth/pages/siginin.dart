@@ -118,7 +118,7 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   void _signInWithEmail() async {
-    context.disableKeyBoard();
+    await context.disableKeyBoard();
     if (username.isEmpty || password.isEmpty) return;
     await BlocProvider.of<AuthBloc>(context)
         .signInWithEmail(username, password);

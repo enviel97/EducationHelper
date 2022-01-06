@@ -17,8 +17,7 @@ class RestApi {
 
   Uri _baseUrl(String path) {
     final uri = Uri(scheme: 'http', host: '10.0.2.2', port: 3000, path: path);
-
-    // final uri =Uri.https('educationhelper.herokuapp.com', path);
+    // final uri = Uri.https('educationhelper.herokuapp.com', path);
     print(uri);
     return uri;
   }

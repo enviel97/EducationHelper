@@ -97,18 +97,19 @@ class AuthBloc extends Cubit<AuthState> {
   }
 
   void onErrors(Object error) {
-    if (error is TypeError) {
+    try {
+      final errs = error as Map<String, dynamic>;
+      if (error['error'] != null) {
+        emit(AuthErrorState(errs['error']));
+        return;
+      }
+      if (error['errors'] != null) {
+        emit(AuthErrorsState(errs['errors']));
+        return;
+      }
+    } catch (error) {
       debugPrint('[Error system]: $error');
-      return;
-    }
-    final errs = error as Map<String, dynamic>;
-    if (error['error'] != null) {
-      emit(AuthErrorState(errs['error']));
-      return;
-    }
-    if (error['errors'] != null) {
-      emit(AuthErrorsState(errs['errors']));
-      return;
+      emit(const AuthErrorState('System error'));
     }
   }
 }
