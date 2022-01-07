@@ -1,6 +1,7 @@
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/helpers/extensions/int_x.dart';
+import 'package:education_helper/helpers/ultils/funtions.dart';
 import 'package:education_helper/views/classrooms/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 
@@ -21,11 +22,6 @@ class ClassroomHeader extends StatelessWidget {
     required this.totalClassroom,
     Key? key,
   }) : super(key: key);
-
-  String quantity(int quantity, String ext) {
-    final String extention = ' $ext${quantity > 1 ? 's' : ''}';
-    return '${quantity.str} $extention';
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +58,7 @@ class ClassroomHeader extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '${ungradeExams.str} / ${quantity(ungradeExams, 'exam')}',
+                    '$ungradeExams / ${quantity(ungradeExams, 'exam')}',
                     style: TextStyle(
                       color: kPrimaryColor,
                       fontSize: SPACING.M.size,

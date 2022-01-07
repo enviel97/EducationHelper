@@ -1,10 +1,9 @@
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/views/widgets/button/custom_link_button.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../classroom_exams_total.dart';
+import 'classroom_exams_total.dart';
 
 class ClassroomItemHeader extends StatelessWidget {
   final String name;

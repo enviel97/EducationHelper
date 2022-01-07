@@ -9,6 +9,10 @@ class DatePickerTimelineControler {
     _state = view;
   }
 
+  void dispose() {
+    _state!.items.clear();
+  }
+
   void jumpToSelection() {
     if (_state == null) return;
     _state!._controller.jumpTo(_calculateDateOffset(_state!._selectedDate));
@@ -38,11 +42,7 @@ class DatePickerTimelineControler {
       _state!.widget.startDate.month,
       _state!.widget.startDate.day,
     );
-
-    final position = _state!._controller.position;
     final offset = date.difference(startDate).inDays;
-    print(offset);
-    print(position);
     return offset * (_state!.widget.width + 10);
   }
 }

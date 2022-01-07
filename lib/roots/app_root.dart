@@ -2,6 +2,7 @@ import 'package:education_helper/constants/constant.dart' as c;
 import 'package:education_helper/roots/miragate/http.dart';
 import 'package:education_helper/roots/miragate/injection.dart';
 import 'package:education_helper/views/auth/adapter/auth.adapter.dart';
+import 'package:education_helper/views/classrooms/adapter/classroom.adapter.dart';
 import 'package:education_helper/views/home/adapters/home.adapter.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -58,6 +59,7 @@ class Root {
     // inject here
     AuthAdpater();
     HomeAdapter();
+    ClassroomAdapter();
     return 'Done';
   }
 }

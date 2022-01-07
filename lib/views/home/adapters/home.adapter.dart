@@ -2,7 +2,6 @@ import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:education_helper/roots/app_root.dart';
 import 'package:education_helper/roots/miragate/injection.dart';
 import 'package:education_helper/roots/parts/adapter.dart';
-import 'package:education_helper/views/classrooms/classrooms.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../home.dart';
@@ -18,6 +17,7 @@ class HomeAdapter extends IAdapter {
   }
 
   IAdapter get _authAdapter => AppAdapter().getAdapter(authAdapter);
+  IAdapter get _classroomAdapter => AppAdapter().getAdapter(classroomAdpater);
 
   @override
   Widget layout() {
@@ -29,6 +29,6 @@ class HomeAdapter extends IAdapter {
   }
 
   Future<void> goToClassroom(BuildContext context) async {
-    await context.goTo(const Classrooms());
+    await context.goTo(_classroomAdapter.layout());
   }
 }

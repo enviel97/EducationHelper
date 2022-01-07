@@ -3,7 +3,6 @@ import 'package:education_helper/constants/typing.dart';
 
 import 'package:education_helper/helpers/widgets/circle_animation.dart';
 import 'package:education_helper/roots/app_root.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -19,11 +18,6 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
 // Root.ins.getScreens()
   Widget loading(isComplete) => Center(
         child: Column(

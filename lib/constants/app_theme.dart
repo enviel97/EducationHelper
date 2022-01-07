@@ -5,6 +5,7 @@ import 'colors.dart';
 
 class AppTheme {
   AppTheme._();
+  static final AppTheme theme = AppTheme._();
   ColorScheme scheme({
     required Color backgroundColor,
     required Color onBack,
@@ -40,21 +41,27 @@ class AppTheme {
     ),
   );
 
-  static TextTheme defaultFonts(BuildContext context) {
-    return GoogleFonts.robotoTextTheme(Theme.of(context).textTheme).copyWith(
-        headline1: GoogleFonts.architectsDaughter(
-            fontWeight: FontWeight.bold, fontSize: 54.0),
-        headline6: GoogleFonts.architectsDaughter(
-            fontWeight: FontWeight.bold, fontSize: 36.0));
-  }
+  final AppBarTheme appBarTheme = AppBarTheme(
+    centerTitle: true,
+    titleTextStyle: TextStyle(
+      fontSize: SPACING.LG.size,
+      fontWeight: FontWeight.bold,
+      color: kWhiteColor,
+    ),
+    iconTheme: const IconThemeData(color: kWhiteColor),
+    shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(bottomRight: Radius.circular(25.0))),
+  );
 
-  static final AppTheme theme = AppTheme._();
+  static TextTheme defaultFonts(BuildContext context) {
+    return GoogleFonts.robotoTextTheme(Theme.of(context).textTheme);
+  }
 
   static ThemeData lightTheme(context) {
     return theme.defaultTheme.copyWith(
       colorScheme: theme.scheme(
         backgroundColor: kWhiteColor,
-        brightness: Brightness.dark,
+        brightness: Brightness.light,
         onBack: kBlackColor,
       ),
       dialogBackgroundColor: kWhiteColor,
@@ -67,6 +74,9 @@ class AppTheme {
         bodyColor: kBlackColor,
         displayColor: kBlackColor,
       ),
+      appBarTheme: theme.appBarTheme.copyWith(
+        backgroundColor: kPrimaryLightColor,
+      ),
     );
   }
 
@@ -74,7 +84,7 @@ class AppTheme {
     return theme.defaultTheme.copyWith(
       colorScheme: theme.scheme(
         backgroundColor: kBlackColor,
-        brightness: Brightness.light,
+        brightness: Brightness.dark,
         onBack: kWhiteColor,
       ),
       dialogBackgroundColor: kBlackColor,
@@ -86,6 +96,9 @@ class AppTheme {
       textTheme: defaultFonts(context).apply(
         bodyColor: kWhiteColor,
         displayColor: kWhiteColor,
+      ),
+      appBarTheme: theme.appBarTheme.copyWith(
+        backgroundColor: kPrimaryColor,
       ),
     );
   }

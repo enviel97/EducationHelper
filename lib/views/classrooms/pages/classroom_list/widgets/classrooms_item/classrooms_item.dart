@@ -3,9 +3,7 @@ import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:education_helper/models/classroom.model.dart';
 import 'package:education_helper/models/members.model.dart';
 import 'package:education_helper/views/classrooms/widgets/add_member_form.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 
 import 'widgets/classroom_item_body.dart';
 import 'widgets/classroom_item_header.dart';
@@ -36,16 +34,9 @@ class _ClassroomItemState extends State<ClassroomItem> {
           members: widget.classroom.members.length,
         ),
         SPACING.S.vertical,
-        ClassroomItemBody(
-          members: widget.classroom.members,
-          addMember: _addMember,
-        ),
+        ClassroomItemBody(members: widget.classroom.members),
       ],
     );
-  }
-
-  void _addWithCsv() {
-    print('create');
   }
 
   void _addMember() {
@@ -61,10 +52,11 @@ class _ClassroomItemState extends State<ClassroomItem> {
       builder: (builder) {
         return AddMemberForm(
           onConfirm: (Member member) {
-            print(member.lastName + ' ' + member.firstName);
-            context.goBack();
+            //context.goBack();
           },
-          addWithCSV: _addWithCsv,
+          addWithCSV: () {
+            print('create');
+          },
         );
       },
     );

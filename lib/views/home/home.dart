@@ -1,9 +1,14 @@
+import 'package:education_helper/constants/colors.dart';
+import 'package:education_helper/constants/typing.dart';
+import 'package:education_helper/helpers/extensions/state.x.dart';
 import 'package:education_helper/helpers/widgets/circle_animation.dart';
 import 'package:education_helper/models/classroom.model.dart';
 import 'package:education_helper/roots/app_root.dart';
 import 'package:education_helper/views/home/adapters/home.adapter.dart';
+import 'package:education_helper/views/widgets/header/appbar_bottom.dart';
 import 'package:flutter/material.dart';
 
+import 'pages/classroom_collection/classroom_collection.dart';
 import 'widgets/date_horizantal/date_picker_timeline.dart';
 
 class Home extends StatefulWidget {
@@ -31,25 +36,36 @@ class _HomeState extends State<Home> {
   }
 
   @override
+  void dispose() {
+    dtControll.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AnimationCircleLayout(
       child: Scaffold(
+        appBar: AppBar(
+            title: const Text('HOME'),
+            elevation: 0.0,
+            bottom: AppbarBottom(
+              height: 165.0,
+              child: DatePickerTimeLine(
+                controler: dtControll,
+                onDateChange: dtControll.animateToDate,
+                note: expirDate,
+                initialSelectedDate: DateTime.now(),
+                startDate: DateTime.now().subtract(const Duration(days: 7)),
+              ),
+            )),
         body: SafeArea(
-          child: Container(
-            alignment: Alignment.bottomCenter,
-            decoration: const BoxDecoration(),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                DatePickerTimeLine(
-                  controler: dtControll,
-                  onDateChange: dtControll.animateToDate,
-                  note: expirDate,
-                  initialSelectedDate: DateTime.now(),
-                  startDate: DateTime.now().subtract(const Duration(days: 7)),
-                )
-              ],
-            ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SPACING.LG.vertical,
+              const ClassroomColection(),
+            ],
           ),
         ),
       ),

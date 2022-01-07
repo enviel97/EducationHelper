@@ -4,9 +4,7 @@ import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:education_helper/models/user.model.dart';
 import 'package:education_helper/roots/app_root.dart';
 import 'package:education_helper/roots/miragate/http.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'app_state.dart';
@@ -83,15 +81,19 @@ class AppBloc extends Cubit<AppState> {
     );
   }
 
-  Future<User> getUser() async {
-    if (currentUser != null) return currentUser!;
+  void getUser() async {
+    if (currentUser != null) {
+      emit(UserStateSuccess(currentUser!));
+      return;
+    }
+    emit(UserStateLoading());
     try {
       final user = await api.get('users');
       currentUser = User.fromJson(user);
-      return User.fromJson(user);
+      emit(UserStateSuccess(User.fromJson(user)));
     } catch (error) {
       debugPrint(error.toString());
-      return Future.error("Can't get user");
+      emit(const UserStateFailure("Can't get user"));
     }
   }
 }

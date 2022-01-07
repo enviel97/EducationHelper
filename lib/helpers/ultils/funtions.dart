@@ -12,3 +12,8 @@ String getLastName(String name) {
           nameSplit[nameSplit.length - 1][0];
   return firstCharacterName.toUpperCase();
 }
+
+String quantity(int quantity, String ext) {
+  final String extention = ' $ext${quantity > 1 ? 's' : ''}';
+  return '$quantity $extention';
+}

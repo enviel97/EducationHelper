@@ -54,8 +54,11 @@ class _ClassroomListState extends State<ClassroomList> {
           Expanded(
             child: NormalScroll(
               child: ListView.builder(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                padding: const EdgeInsets.only(
+                  bottom: 20,
+                  left: 10,
+                  right: 10,
+                ),
                 shrinkWrap: true,
                 itemCount: classrooms.length,
                 itemBuilder: _buildItem,
@@ -69,8 +72,13 @@ class _ClassroomListState extends State<ClassroomList> {
 
   Widget _buildItem(BuildContext context, int index) {
     final classroom = classrooms[index];
-    return ClassroomItem(classroom: classroom);
+    return GestureDetector(
+      onTap: gotoDetail,
+      child: ClassroomItem(classroom: classroom),
+    );
   }
 
-  void gotoDetail() {}
+  void gotoDetail() {
+    print('gotoDetail');
+  }
 }

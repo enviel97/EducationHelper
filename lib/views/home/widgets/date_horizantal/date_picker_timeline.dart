@@ -2,7 +2,6 @@ import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/helpers/extensions/datetime_x.dart';
 import 'package:education_helper/helpers/extensions/state.x.dart';
 import 'package:education_helper/views/home/widgets/date_horizantal/date_picker_horizantal_item.dart';
-import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 part './date_picker_horizantal.controller.dart';
 
@@ -54,6 +53,7 @@ class _DatePickerTimeLineState extends State<DatePickerTimeLine> {
   @override
   void dispose() {
     _controller.removeListener(_scollListenter);
+    _controller.dispose();
     super.dispose();
   }
 
