@@ -2,6 +2,7 @@ import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:education_helper/roots/app_root.dart';
 import 'package:education_helper/roots/miragate/injection.dart';
 import 'package:education_helper/roots/parts/adapter.dart';
+import 'package:education_helper/views/classrooms/adapter/classroom.adapter.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../home.dart';
@@ -30,5 +31,11 @@ class HomeAdapter extends IAdapter {
 
   Future<void> goToClassroom(BuildContext context) async {
     await context.goTo(_classroomAdapter.layout());
+  }
+
+  Future<void> goToClassroomDetail(BuildContext context, String id) async {
+    await _classroomAdapter
+        .as<ClassroomAdapter>()
+        .goToClassroomDetail(context, id);
   }
 }

@@ -1,6 +1,8 @@
+import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:education_helper/helpers/widgets/scroller_grow_disable.dart';
 import 'package:education_helper/models/classroom.model.dart';
 import 'package:education_helper/models/user.model.dart';
+import 'package:education_helper/views/classrooms/pages/classroom_detail/classroom_detail.dart';
 import 'package:flutter/material.dart';
 
 import 'widgets/classrooms_header.dart';
@@ -73,12 +75,12 @@ class _ClassroomListState extends State<ClassroomList> {
   Widget _buildItem(BuildContext context, int index) {
     final classroom = classrooms[index];
     return GestureDetector(
-      onTap: gotoDetail,
+      onTap: () => gotoDetail(classroom.id),
       child: ClassroomItem(classroom: classroom),
     );
   }
 
-  void gotoDetail() {
-    print('gotoDetail');
+  void gotoDetail(String uid) {
+    context.goTo(ClassroomDetail(id: uid));
   }
 }

@@ -29,14 +29,18 @@ class ClassroomItemHeader extends StatelessWidget {
       children: [
         Row(
           children: [
-            KLinkButton(
-              name,
-              isBold: true,
-              maxWidth: 125.0,
-              fontSize: SPACING.M.size,
-              onPress: () {
-                print('detail');
-              },
+            SizedBox(
+              width: 125.0,
+              child: Text(
+                name,
+                maxLines: 1,
+                softWrap: false,
+                overflow: TextOverflow.fade,
+                style: TextStyle(
+                  fontSize: SPACING.M.size,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
             SizedBox(
               height: SPACING.SM.size,

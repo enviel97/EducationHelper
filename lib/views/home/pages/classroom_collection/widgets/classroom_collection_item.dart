@@ -5,11 +5,11 @@ import 'package:education_helper/helpers/ultils/funtions.dart';
 import 'package:education_helper/models/members.model.dart';
 import 'package:flutter/material.dart';
 
-class ClassroomCollectionItme extends StatelessWidget {
+class ClassroomCollectionItem extends StatelessWidget {
   final String name;
   final List<dynamic> exams;
   final List<Member> members;
-  const ClassroomCollectionItme({
+  const ClassroomCollectionItem({
     required this.name,
     required this.exams,
     required this.members,

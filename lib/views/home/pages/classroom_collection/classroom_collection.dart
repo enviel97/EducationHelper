@@ -75,11 +75,14 @@ class _ClassroomColectionState extends State<ClassroomColection> {
                 itemCount: classrooms.length,
                 itemBuilder: (_, index) {
                   final classroom = classrooms[index];
-                  return ClassroomCollectionItme(
-                    name: classroom.name,
-                    exams: List<int>.generate(
-                        Random().nextInt(10), (index) => index),
-                    members: classroom.members,
+                  return GestureDetector(
+                    onTap: () => goToDetail(classroom.id),
+                    child: ClassroomCollectionItem(
+                      name: classroom.name,
+                      exams: List<int>.generate(
+                          Random().nextInt(10), (index) => index),
+                      members: classroom.members,
+                    ),
                   );
                 },
               ),
@@ -92,5 +95,9 @@ class _ClassroomColectionState extends State<ClassroomColection> {
 
   void gotoClassList() {
     adapter.goToClassroom(context);
+  }
+
+  Future<void> goToDetail(String id) async {
+    await adapter.goToClassroomDetail(context, id);
   }
 }

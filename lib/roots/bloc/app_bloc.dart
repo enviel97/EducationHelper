@@ -14,7 +14,7 @@ class AppBloc extends Cubit<AppState> {
   final localStore = Root.ins.localStorage;
   AppBloc() : super(AppStateInitial());
   bool _hasDialog = false;
-  User? currentUser;
+  User? _currentUser;
 
   SnackBar _snackBar(String message, Color color, int timeWait) => SnackBar(
         backgroundColor: color,
@@ -82,14 +82,14 @@ class AppBloc extends Cubit<AppState> {
   }
 
   void getUser() async {
-    if (currentUser != null) {
-      emit(UserStateSuccess(currentUser!));
+    if (_currentUser != null) {
+      emit(UserStateSuccess(_currentUser!));
       return;
     }
     emit(UserStateLoading());
     try {
       final user = await api.get('users');
-      currentUser = User.fromJson(user);
+      _currentUser = User.fromJson(user);
       emit(UserStateSuccess(User.fromJson(user)));
     } catch (error) {
       debugPrint(error.toString());
