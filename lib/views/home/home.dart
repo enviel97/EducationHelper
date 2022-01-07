@@ -1,6 +1,4 @@
-import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
-import 'package:education_helper/helpers/extensions/state.x.dart';
 import 'package:education_helper/helpers/widgets/circle_animation.dart';
 import 'package:education_helper/models/classroom.model.dart';
 import 'package:education_helper/roots/app_root.dart';
