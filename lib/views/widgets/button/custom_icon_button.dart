@@ -55,10 +55,10 @@ class KIconButton extends StatelessWidget {
       child: text?.isEmpty ?? true
           ? Container(padding: padding, child: icon)
           : Row(
-              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 icon,
-                SPACING.LG.horizontal,
+                SPACING.SM.horizontal,
                 Text(text!,
                     style: const TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 16.0)

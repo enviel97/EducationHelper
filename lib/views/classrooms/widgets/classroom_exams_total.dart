@@ -45,10 +45,7 @@ class ClassroomExamsTotal extends StatelessWidget {
                 ),
                 child: Text(
                   '$totalExams',
-                  style: TextStyle(
-                    fontSize: SPACING.M.size,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: const TextStyle(color: kWhiteColor),
                 ),
               ),
             ),

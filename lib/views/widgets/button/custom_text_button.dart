@@ -9,16 +9,20 @@ class KTextButton extends StatelessWidget {
   final TextStyle? style;
   final Color color;
   final bool isOutline;
+  final bool isDisable;
   final double? width;
+  final Color? backgroudColor;
 
   const KTextButton({
     required this.onPressed,
     required this.text,
+    this.isDisable = false,
     this.isOutline = false,
     this.style,
     this.color = kPrimaryDarkColor,
     this.width,
     Key? key,
+    this.backgroudColor,
   }) : super(key: key);
 
   @override
@@ -26,12 +30,16 @@ class KTextButton extends StatelessWidget {
     final size = Size(width ?? context.mediaSize.width / 2, SPACING.LG.size);
     final primaryColor =
         context.isLightTheme ? kSecondaryLightColor : kPrimaryLightColor;
+
+    final backgoundColor =
+        isOutline ? (backgroudColor ?? context.backgroundColor) : color;
+    final textColor = isOutline ? color : kWhiteColor;
     return TextButton(
         style: TextButton.styleFrom(
             minimumSize: size,
             primary: primaryColor,
             onSurface: primaryColor,
-            backgroundColor: isOutline ? context.backgroundColor : color,
+            backgroundColor: backgoundColor,
             shadowColor: primaryColor,
             elevation: 4,
             shape: RoundedRectangleBorder(
@@ -40,10 +48,10 @@ class KTextButton extends StatelessWidget {
                   color: color,
                   width: 2.0,
                 ))),
-        onPressed: onPressed,
+        onPressed: isDisable ? null : onPressed,
         child: Text(text,
             style: TextStyle(
-              color: isOutline ? color : kWhiteColor,
+              color: textColor,
               fontWeight: FontWeight.bold,
               fontSize: SPACING.M.size,
             ).merge(style)));

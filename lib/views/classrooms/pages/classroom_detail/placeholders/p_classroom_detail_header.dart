@@ -1,17 +1,11 @@
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/helpers/extensions/build_context_x.dart';
-import 'package:education_helper/helpers/ultils/validation.dart';
-import 'package:education_helper/models/user.model.dart';
 import 'package:education_helper/views/classrooms/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 
-class ClassroomDetailHeader extends StatelessWidget {
-  final User user;
-  const ClassroomDetailHeader({
-    required this.user,
-    Key? key,
-  }) : super(key: key);
+class PClassroomDetailHeader extends StatelessWidget {
+  const PClassroomDetailHeader({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,29 +16,19 @@ class ClassroomDetailHeader extends StatelessWidget {
             alignment: Alignment.center,
             child: Column(
               children: [
-                UserAvatar(url: user.avatar ?? ''),
+                const UserAvatar(url: ''),
                 SPACING.SM.vertical,
-                Text(
-                  user.name,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: SPACING.LG.size,
-                  ),
+                Container(
+                  width: 100,
+                  height: SPACING.LG.size,
+                  color: kWhiteColor,
                 ),
                 SPACING.SM.vertical,
-                Text(
-                  user.email,
-                  style: TextStyle(
-                    fontSize: SPACING.M.size,
-                  ),
-                ),
-                if (isPhone(user.phoneNumber) == null)
-                  Text(
-                    user.phoneNumber,
-                    style: TextStyle(
-                      fontSize: SPACING.M.size,
-                    ),
-                  ),
+                Container(
+                  width: 200,
+                  height: SPACING.M.size,
+                  color: kWhiteColor,
+                )
               ],
             ),
           ),

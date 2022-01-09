@@ -5,6 +5,7 @@ import 'package:education_helper/helpers/ultils/validation.dart';
 import 'package:education_helper/helpers/widgets/scroller_grow_disable.dart';
 import 'package:education_helper/models/members.model.dart';
 import 'package:education_helper/views/widgets/button/custom_icon_button.dart';
+import 'package:education_helper/views/widgets/button/custom_text_button.dart';
 import 'package:education_helper/views/widgets/form/custom_date_field.dart';
 import 'package:education_helper/views/widgets/form/custom_text_field.dart';
 import 'package:flutter/material.dart';
@@ -13,10 +14,12 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 class AddMemberForm extends StatefulWidget {
   final Function(Member member) onConfirm;
   final Function() addWithCSV;
+  final Member? initMember;
   const AddMemberForm({
     required this.onConfirm,
     required this.addWithCSV,
     Key? key,
+    this.initMember,
   }) : super(key: key);
 
   @override
@@ -46,9 +49,8 @@ class _AddMemberFormState extends State<AddMemberForm> {
           decoration: const BoxDecoration(
             color: kWhiteColor,
             borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(40.0),
-              topRight: Radius.circular(40.0),
-            ),
+                topLeft: Radius.circular(40.0),
+                topRight: Radius.circular(40.0)),
           ),
           child: Form(
             key: _form,
@@ -59,110 +61,81 @@ class _AddMemberFormState extends State<AddMemberForm> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Add User',
-                      style: TextStyle(
-                        color: kBlackColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0,
-                      ),
-                    ),
-                    IconButton(
-                      icon: const Icon(FontAwesome5Solid.file_csv),
-                      iconSize: SPACING.XXL.size,
-                      tooltip: 'ADDS WITH CSV',
-                      splashRadius: 2.0,
-                      color: kPrimaryColor,
-                      onPressed: widget.addWithCSV,
-                    ),
-                  ],
-                ),
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('Add User',
+                          style: TextStyle(
+                              color: kBlackColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0)),
+                      IconButton(
+                          icon: const Icon(FontAwesome5Solid.file_csv),
+                          iconSize: SPACING.XXL.size,
+                          tooltip: 'ADDS WITH CSV',
+                          splashRadius: 2.0,
+                          color: kPrimaryColor,
+                          onPressed: widget.addWithCSV)
+                    ]),
                 Expanded(
                   child: NormalScroll(
                     child: SingleChildScrollView(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Row(
-                            children: [
-                              Flexible(
+                          Row(children: [
+                            Flexible(
                                 child: KTextField(
-                                  iconData: MaterialCommunityIcons
-                                      .format_text_variant,
-                                  hintText: 'First',
-                                  onChange: (value) => firstname = value,
-                                  validation: isNotEmpty,
-                                ),
-                              ),
-                              SPACING.M.horizontal,
-                              Flexible(
+                                    iconData: MaterialCommunityIcons
+                                        .format_text_variant,
+                                    hintText: 'First',
+                                    onChange: (value) => firstname = value,
+                                    validation: isNotEmpty)),
+                            SPACING.M.horizontal,
+                            Flexible(
                                 child: KTextField(
-                                  iconData: MaterialCommunityIcons
-                                      .format_text_variant,
-                                  hintText: 'Last',
-                                  onChange: (value) => lastname = value,
-                                  validation: isNotEmpty,
-                                ),
-                              )
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                flex: 2,
+                                    iconData: MaterialCommunityIcons
+                                        .format_text_variant,
+                                    hintText: 'Last',
+                                    onChange: (value) => lastname = value,
+                                    validation: isNotEmpty))
+                          ]),
+                          Row(children: [
+                            Expanded(
+                                flex: 3,
                                 child: KDateField(
-                                  hintText: 'Date birth',
-                                  onChange: (String date) =>
-                                      dateBirthDay = date,
-                                ),
-                              ),
-                              Flexible(
-                                child: Row(
-                                  children: [
-                                    Checkbox(
-                                      value: isFemale,
-                                      activeColor: kSecondaryColor,
-                                      side: const BorderSide(
-                                        color: kBlackColor,
-                                        width: 2.0,
-                                      ),
-                                      onChanged: (value) {
-                                        setState(() => isFemale = !isFemale);
-                                        gender = isFemale ? 'female' : 'male';
-                                      },
-                                    ),
-                                    Text(
-                                      'Female',
-                                      style: TextStyle(
-                                        color: kBlackColor,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: SPACING.M.size,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
+                                    hintText: 'Date birth',
+                                    onChange: (String date) =>
+                                        dateBirthDay = date)),
+                            Flexible(
+                                child: Row(children: [
+                              Checkbox(
+                                  value: isFemale,
+                                  activeColor: kSecondaryColor,
+                                  side: const BorderSide(
+                                      color: kBlackColor, width: 2.0),
+                                  onChanged: (value) {
+                                    setState(() => isFemale = !isFemale);
+                                    gender = isFemale ? 'female' : 'male';
+                                  }),
+                              const Icon(MaterialCommunityIcons.gender_female,
+                                  color: kPrimaryColor, size: 32.0)
+                            ]))
+                          ]),
                           KTextField(
-                            iconData: Feather.phone_call,
-                            hintText: 'Phone',
-                            onChange: (value) => phoneNumber = value,
-                            keyboardType: TextInputType.number,
-                            validation: (value) =>
-                                isPhone(value, allowNull: true),
-                          ),
+                              iconData: Feather.phone_call,
+                              hintText: 'Phone',
+                              onChange: (value) => phoneNumber = value,
+                              keyboardType: TextInputType.number,
+                              validation: (value) =>
+                                  isPhone(value, allowNull: true)),
                           KTextField(
-                            iconData: Feather.mail,
-                            hintText: 'Email',
-                            onChange: (value) => email = value,
-                            keyboardType: TextInputType.emailAddress,
-                            textInputAction: TextInputAction.done,
-                            validation: (value) =>
-                                isEmail(value, allowNull: true),
-                          ),
+                              iconData: Feather.mail,
+                              hintText: 'Email',
+                              onChange: (value) => email = value,
+                              keyboardType: TextInputType.emailAddress,
+                              textInputAction: TextInputAction.done,
+                              validation: (value) =>
+                                  isEmail(value, allowNull: true)),
                         ],
                       ),
                     ),
@@ -173,26 +146,20 @@ class _AddMemberFormState extends State<AddMemberForm> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     KIconButton(
-                      icon: const Icon(
-                        AntDesign.adduser,
+                        icon: const Icon(AntDesign.adduser, color: kBlackColor),
+                        backgroundColor: kPlaceholderDarkColor,
+                        sideColor: kPlaceholderDarkColor,
+                        text: 'Confirm',
+                        textStyle: const TextStyle(color: kBlackColor),
+                        padding: const EdgeInsets.only(left: 20.0, right: 60.0),
+                        onPressed: confirmAddMember),
+                    KTextButton(
+                        width: 150.0,
+                        text: 'Cancle',
+                        isOutline: true,
                         color: kBlackColor,
-                      ),
-                      backgroundColor: kPlaceholderDarkColor,
-                      sideColor: kPlaceholderDarkColor,
-                      text: 'Confirm',
-                      textStyle: const TextStyle(color: kBlackColor),
-                      padding: const EdgeInsets.only(left: 20.0, right: 60.0),
-                      onPressed: confirmAddMember,
-                    ),
-                    KIconButton(
-                      icon: const SizedBox.shrink(),
-                      backgroundColor: kWhiteColor,
-                      sideColor: kPlaceholderDarkColor,
-                      text: 'Cancle',
-                      textStyle: const TextStyle(color: kBlackColor),
-                      padding: const EdgeInsets.only(left: 20.0, right: 40.0),
-                      onPressed: context.goBack,
-                    )
+                        backgroudColor: kWhiteColor,
+                        onPressed: context.goBack)
                   ],
                 )
               ],
@@ -207,14 +174,13 @@ class _AddMemberFormState extends State<AddMemberForm> {
     context.disableKeyBoard();
     if (_form.currentState?.validate() ?? false) {
       widget.onConfirm(Member(
-        uid: '',
-        firstName: firstname,
-        lastName: lastname,
-        gender: gender,
-        phoneNumber: phoneNumber,
-        mail: email,
-        birth: dateBirthDay,
-      ));
+          uid: '',
+          firstName: firstname,
+          lastName: lastname,
+          gender: gender,
+          phoneNumber: phoneNumber,
+          mail: email,
+          birth: dateBirthDay));
     }
   }
 }

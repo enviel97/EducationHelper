@@ -4,8 +4,8 @@ import 'package:education_helper/views/classrooms/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
-class ClassroomPlaceHeader extends StatelessWidget {
-  const ClassroomPlaceHeader({Key? key}) : super(key: key);
+class PClassroomHeader extends StatelessWidget {
+  const PClassroomHeader({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

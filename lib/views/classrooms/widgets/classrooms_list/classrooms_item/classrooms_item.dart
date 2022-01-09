@@ -1,7 +1,5 @@
 import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/models/classroom.model.dart';
-import 'package:education_helper/models/members.model.dart';
-import 'package:education_helper/views/classrooms/widgets/add_member_form.dart';
 import 'package:flutter/material.dart';
 
 import 'widgets/classroom_item_body.dart';
@@ -35,29 +33,6 @@ class _ClassroomItemState extends State<ClassroomItem> {
         SPACING.S.vertical,
         ClassroomItemBody(members: widget.classroom.members),
       ],
-    );
-  }
-
-  void _addMember() {
-    const borderRadius = BorderRadius.only(
-      topLeft: Radius.circular(40.0),
-      topRight: Radius.circular(40.0),
-    );
-    showModalBottomSheet(
-      elevation: 1,
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(borderRadius: borderRadius),
-      builder: (builder) {
-        return AddMemberForm(
-          onConfirm: (Member member) {
-            //context.goBack();
-          },
-          addWithCSV: () {
-            print('create');
-          },
-        );
-      },
     );
   }
 }

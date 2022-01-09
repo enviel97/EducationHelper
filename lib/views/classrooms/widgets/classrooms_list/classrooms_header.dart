@@ -1,11 +1,11 @@
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
-import 'package:education_helper/helpers/extensions/int_x.dart';
 import 'package:education_helper/helpers/ultils/funtions.dart';
 import 'package:education_helper/views/classrooms/widgets/user_avatar.dart';
+
 import 'package:flutter/material.dart';
 
-class ClassroomHeader extends StatelessWidget {
+class ClassroomHeader extends StatefulWidget {
   final String avatar;
   final String name;
   final String email;
@@ -14,20 +14,25 @@ class ClassroomHeader extends StatelessWidget {
   final int totalExams;
 
   const ClassroomHeader({
-    required this.avatar,
-    required this.name,
-    required this.email,
     required this.ungradeExams,
     required this.totalExams,
     required this.totalClassroom,
+    required this.avatar,
+    required this.name,
+    required this.email,
     Key? key,
   }) : super(key: key);
 
   @override
+  State<ClassroomHeader> createState() => _ClassroomHeaderState();
+}
+
+class _ClassroomHeaderState extends State<ClassroomHeader> {
+  @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        UserAvatar(url: avatar),
+        UserAvatar(url: widget.avatar),
         SPACING.M.horizontal,
         Expanded(
           child: Column(
@@ -36,7 +41,7 @@ class ClassroomHeader extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                name,
+                widget.name,
                 style: TextStyle(
                   fontSize: SPACING.LG.size,
                   fontWeight: FontWeight.bold,
@@ -44,7 +49,7 @@ class ClassroomHeader extends StatelessWidget {
               ),
               SPACING.S.vertical,
               Text(
-                email,
+                widget.email,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
@@ -58,7 +63,7 @@ class ClassroomHeader extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '$ungradeExams / ${quantity(ungradeExams, 'exam')}',
+                    '${widget.ungradeExams} / ${quantity(widget.ungradeExams, 'exam')}',
                     style: TextStyle(
                       color: kPrimaryColor,
                       fontSize: SPACING.M.size,
@@ -69,7 +74,7 @@ class ClassroomHeader extends StatelessWidget {
                       height: SPACING.M.size,
                       child: const VerticalDivider(color: kPrimaryColor)),
                   Text(
-                    quantity(totalClassroom, 'classroom'),
+                    quantity(widget.totalClassroom, 'classroom'),
                     style: TextStyle(
                       fontSize: SPACING.M.size,
                       fontWeight: FontWeight.bold,
