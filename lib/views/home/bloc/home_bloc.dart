@@ -7,24 +7,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeBloc extends Cubit<HomeState> {
   late RestApi _restApi;
-  List<Classroom> _classrooms = [];
 
   HomeBloc() : super(HomeInitialState()) {
     _restApi = RestApi();
   }
 
-  Future<void> getClassCollection({
-    String sortWith = 'updatedAt',
-    bool isDesc = true,
-  }) async {
-    if (_classrooms.isNotEmpty) {
-      return emit(HomeClassroomCollectionSuccessState(_classrooms));
-    }
+  Future<void> refreshClassroomCollection() async {
+    return await getClassCollection();
+  }
+
+  Future<void> getClassCollection() async {
     emit(HomeLoadingState());
     return await _struct(() async {
       final sort = Helper(
-        sorted: sortWith,
-        direction: isDesc ? 'desc' : 'asc',
+        sorted: 'updatedAt',
+        direction: 'desc',
         limit: 10,
       );
 
@@ -41,9 +38,8 @@ class HomeBloc extends Cubit<HomeState> {
       } else {
         classrooms = List<Classroom>.generate(
             result.length, (index) => Classroom.fromJson(result[index]));
-        _classrooms = classrooms;
       }
-      emit(HomeClassroomCollectionSuccessState(classrooms));
+      emit(HClassCollectionSuccessState(classrooms));
     });
   }
 

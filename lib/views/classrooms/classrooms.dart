@@ -4,7 +4,8 @@ import 'package:education_helper/models/classroom.model.dart';
 import 'package:education_helper/roots/bloc/app_bloc.dart';
 import 'package:education_helper/roots/bloc/app_state.dart';
 import 'package:education_helper/views/classrooms/bloc/classroom/classroom_state.dart';
-import 'package:education_helper/views/classrooms/dialogs/add_classroom_dialog.dart';
+import 'package:education_helper/views/classrooms/dialogs/classroom_dialog.dart';
+import 'package:education_helper/views/home/bloc/home_bloc.dart';
 import 'package:education_helper/views/widgets/form/custom_search_field.dart';
 import 'package:education_helper/views/widgets/header/appbar_bottom.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'bloc/classroom/classroom_bloc.dart';
 import 'pages/classrooms_list/classroom_list.dart';
-import 'pages/classrooms_list/widgets/classroom_list_empty.dart';
 import 'pages/classrooms_list/widgets/classrooms_header.dart';
 import 'placeholders/p_classrooms_header.dart';
 
@@ -25,74 +25,84 @@ class Classrooms extends StatefulWidget {
 
 class _ClassroomsState extends State<Classrooms> {
   List<Classroom> classrooms = [];
+  bool isNeedRefresh = false;
   int totalClass = 0;
 
   @override
   void initState() {
     super.initState();
     BlocProvider.of<AppBloc>(context).getUser();
-    BlocProvider.of<ClassroomBloc>(context).getAllClassrooms();
+    BlocProvider.of<ClassroomBloc>(context).getListClassroom();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new),
-            onPressed: Navigator.of(context).pop,
-          ),
-          title: const Text('CLASSROOM'),
-          bottom: const AppbarBottom(),
-          elevation: 0,
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new),
+          onPressed: _onGoBack,
         ),
-        floatingActionButton: Builder(
-            builder: (context) => FloatingActionButton(
-                onPressed: () => addClassroom(context),
-                child: const Icon(Icons.add))),
-        body: SafeArea(
-            child: Column(mainAxisSize: MainAxisSize.min, children: [
-          Padding(
-            padding: const EdgeInsets.only(
-              left: 20.0,
-              right: 20.0,
-              bottom: 10.0,
+        title: const Text('CLASSROOM'),
+        bottom: const AppbarBottom(),
+        elevation: 0,
+      ),
+      floatingActionButton: Builder(
+        builder: (context) => FloatingActionButton(
+          elevation: 10.0,
+          onPressed: () => addClassroom(context),
+          tooltip: 'Add Classroom',
+          child: const Icon(Icons.add),
+        ),
+      ),
+      body: SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(
+                left: 20.0,
+                right: 20.0,
+                bottom: 10.0,
+              ),
+              child: _buildUser(),
             ),
-            child: _buildUser(),
-          ),
-          SPACING.M.vertical,
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: KSearchText(
+            SPACING.M.vertical,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: KSearchText(
                 hintText: 'Search classroom with name',
-                onSearch: (String value) {}),
-          ),
-          SPACING.M.vertical,
-          Expanded(child: _buildListClassroom())
-        ])));
+                onSearch: (String value) {
+                  BlocProvider.of<ClassroomBloc>(context)
+                      .searchClassroom(value);
+                },
+              ),
+            ),
+            SPACING.M.vertical,
+            Expanded(child: _buildListClassroom())
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _buildListClassroom() {
-    return BlocConsumer<ClassroomBloc, ClassroomState>(
+    return BlocListener<ClassroomBloc, ClassroomState>(
       listener: (context, state) {
         if (state is ClassroomFailureState) {
           BlocProvider.of<AppBloc>(context).showError(context, state.messenger);
         }
         if (state is ClassroomGetAllSuccessState) {
-          classrooms = state.classrooms;
           setState(() => totalClass = state.classrooms.length);
         }
-      },
-      builder: (context, state) {
-        if (state is ClassroomLoadingState) {
-          return const Center(child: CircularProgressIndicator());
+        if (state is ClassroomDeleteSuccessState) {
+          setState(() => totalClass -= 1);
         }
-        if (state is ClassroomFailureState ||
-            state is ClassroomGetAllSuccessState && state.classrooms.isEmpty) {
-          return const EmptyClassroomList();
+        if (state is ClassroomCreateSuccessState) {
+          setState(() => totalClass += 1);
         }
-        return ClassroomList(classrooms: classrooms);
       },
+      child: const ClassroomList(),
     );
   }
 
@@ -121,5 +131,15 @@ class _ClassroomsState extends State<Classrooms> {
         return const PClassroomHeader();
       },
     );
+  }
+
+  void _onGoBack() {
+    if (isNeedRefresh) {
+      BlocProvider.of<HomeBloc>(context)
+          .refreshClassroomCollection()
+          .then((_) => Navigator.of(context).pop());
+    } else {
+      Navigator.of(context).pop();
+    }
   }
 }

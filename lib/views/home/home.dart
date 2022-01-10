@@ -1,6 +1,5 @@
 import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/helpers/widgets/circle_animation.dart';
-import 'package:education_helper/models/classroom.model.dart';
 import 'package:education_helper/roots/app_root.dart';
 import 'package:education_helper/views/home/adapters/home.adapter.dart';
 import 'package:education_helper/views/widgets/header/appbar_bottom.dart';

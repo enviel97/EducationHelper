@@ -1,20 +1,22 @@
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/views/classrooms/widgets/classroom_exams_total.dart';
-import 'package:education_helper/views/widgets/button/custom_link_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 class ClassroomItemHeader extends StatelessWidget {
   final String name;
   final Function() onAddCSV;
-  final Function() onAddMember;
+  final Function() editClassroom;
+  final Function() removeClassroom;
   final int exams;
   final int members;
 
   const ClassroomItemHeader({
     required this.name,
     required this.onAddCSV,
-    required this.onAddMember,
+    required this.editClassroom,
+    required this.removeClassroom,
     required this.exams,
     required this.members,
     Key? key,
@@ -22,6 +24,7 @@ class ClassroomItemHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = SPACING.M.size * 1.2;
     return Row(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -36,7 +39,7 @@ class ClassroomItemHeader extends StatelessWidget {
                 softWrap: false,
                 overflow: TextOverflow.fade,
                 style: TextStyle(
-                  fontSize: SPACING.M.size,
+                  fontSize: size,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -45,13 +48,33 @@ class ClassroomItemHeader extends StatelessWidget {
               height: SPACING.SM.size,
               child: const VerticalDivider(thickness: 2.0),
             ),
-            KLinkButton(
-              'ADD WITH CSV +',
-              color: kDividerColor,
-              fontSize: SPACING.SM.size,
-              onPress: () {
-                print('OpenCSV file');
-              },
+            SPACING.M.horizontal,
+            IconButton(
+              splashColor: Colors.transparent,
+              constraints: BoxConstraints(
+                maxHeight: size,
+                minWidth: size,
+              ),
+              icon: const Icon(Feather.edit),
+              tooltip: 'Edit classroom',
+              color: kPlaceholderDarkColor,
+              padding: const EdgeInsets.all(0.0),
+              iconSize: size,
+              onPressed: editClassroom,
+            ),
+            SPACING.M.horizontal,
+            IconButton(
+              splashColor: Colors.transparent,
+              constraints: BoxConstraints(
+                maxHeight: size,
+                minWidth: size,
+              ),
+              icon: const Icon(Icons.delete_forever_rounded),
+              tooltip: 'Remove classroom',
+              color: kPlaceholderDarkColor,
+              padding: const EdgeInsets.all(0.0),
+              iconSize: size * 1.2,
+              onPressed: removeClassroom,
             )
           ],
         ),

@@ -76,11 +76,13 @@ class _ClassroomColectionState extends State<ClassroomColection> {
                 }
               },
               builder: (context, state) {
-                if (state is HomeClassroomCollectionSuccessState) {
-                  if (state.classrooms.isEmpty) {
-                    return const ClassroomCollectionEmpty();
-                  }
+                if (state is HClassCollectionSuccessState) {
                   final classrooms = state.classrooms;
+                  if (classrooms.isEmpty) {
+                    return ClassroomCollectionEmpty(
+                      goToClassrooms: gotoClassList,
+                    );
+                  }
                   return NormalScroll(
                       child: ListView.builder(
                           shrinkWrap: true,
@@ -97,7 +99,9 @@ class _ClassroomColectionState extends State<ClassroomColection> {
                           }));
                 }
                 if (state is HomeFailureState) {
-                  return const ClassroomCollectionEmpty();
+                  return ClassroomCollectionEmpty(
+                    goToClassrooms: gotoClassList,
+                  );
                 }
 
                 return const Center(child: CircularProgressIndicator());

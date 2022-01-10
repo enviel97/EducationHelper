@@ -23,12 +23,20 @@ class ClassroomCreateSuccessState extends ClassroomState {
   List<Object?> get props => [classroom];
 }
 
-class ClassroomCollectionState extends ClassroomState {
-  final List<Classroom> classrooms;
-  const ClassroomCollectionState(this.classrooms);
+class ClassroomDeleteSuccessState extends ClassroomState {
+  final Classroom classroom;
+  const ClassroomDeleteSuccessState(this.classroom);
 
   @override
-  List<Object?> get props => [classrooms];
+  List<Object?> get props => [classroom];
+}
+
+class ClassroomEditSuccessState extends ClassroomState {
+  final Classroom classroom;
+  const ClassroomEditSuccessState(this.classroom);
+
+  @override
+  List<Object?> get props => [classroom];
 }
 
 class ClassroomGetAllSuccessState extends ClassroomState {
@@ -42,14 +50,6 @@ class ClassroomGetAllSuccessState extends ClassroomState {
 class ClassroomGetSuccessState extends ClassroomState {
   final Classroom classroom;
   const ClassroomGetSuccessState(this.classroom);
-
-  @override
-  List<Object?> get props => [classroom];
-}
-
-class ClassroomDeleteSuccessState extends ClassroomState {
-  final Classroom classroom;
-  const ClassroomDeleteSuccessState(this.classroom);
 
   @override
   List<Object?> get props => [classroom];

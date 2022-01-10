@@ -10,8 +10,8 @@ class ClassroomBloc extends Cubit<ClassroomState> {
   late RestApi _restApi;
 
   /// store
-  List<Classroom>? _classrooms;
-  List<Classroom>? _classroomCollection;
+  List<Classroom> restoreFull = [];
+  List<Classroom> classrooms = [];
 
   ClassroomBloc() : super(ClassroomInitialState()) {
     _restApi = RestApi();
@@ -26,59 +26,67 @@ class ClassroomBloc extends Cubit<ClassroomState> {
       });
       if (result == null) return;
       final classroom = Classroom.fromJson(result);
-      if (_classrooms != null) {
-        _classrooms!.add(classroom);
-      } else {
-        _classrooms = [classroom];
-      }
+      classrooms.add(classroom);
       emit(ClassroomCreateSuccessState(classroom));
     });
   }
 
-  Future<void> getClassroomCollection({
-    String sortWith = 'updatedAt',
-    bool isDesc = true,
-  }) async {
-    if (_classroomCollection != null) {
-      return emit(ClassroomCollectionState(_classroomCollection!));
-    }
-    emit(ClassroomLoadingState());
+  Future<void> editClassroom(String id, String name) async {
     return await _struct(() async {
-      final sort =
-          SortedHelper(sorted: sortWith, direction: isDesc ? 'desc' : 'asc');
-
-      final result = await _restApi
-          .get(_path, parametter: sort.toJson())
-          .catchError((err) {
+      final result = await _restApi.put(
+        '$_path/update/$id',
+        {'name': name},
+      ).catchError((err) {
         emit(ClassroomFailureState(err['error']));
         return null;
       });
       if (result == null) return;
-      final List<Classroom> classrooms;
-      if ((result?.length ?? 0) == 0) {
-        classrooms = [];
-      } else {
-        classrooms = List<Classroom>.generate(
-            result.length, (index) => Classroom.fromJson(result[index]));
-        _classroomCollection = classrooms;
-      }
-
-      emit(ClassroomCollectionState(classrooms));
+      final classroom = Classroom.fromJson(result);
+      emit(ClassroomEditSuccessState(classroom));
+      classrooms[classrooms.indexWhere((c) => c.id == classroom.id)] =
+          classroom;
     });
   }
 
-  Future<void> getAllClassrooms({
-    String sortWith = 'updatedAt',
-    bool isDesc = true,
-  }) async {
-    if (_classrooms != null) {
-      return emit(ClassroomGetAllSuccessState(_classrooms!));
+  Future<void> deleteClassroom(String id) async {
+    return await _struct(() async {
+      final result = await _restApi.delete('$_path/$id').catchError((err) {
+        emit(ClassroomFailureState(err['error']));
+        return null;
+      });
+      if (result == null) return;
+      final classroom = Classroom.fromJson(result);
+      classrooms = classrooms;
+      classrooms = classrooms.where((c) => c.id != id).toList();
+      emit(ClassroomDeleteSuccessState(classroom));
+    });
+  }
+
+  // get
+  Future<void> searchClassroom(String value) async {
+    if (value.isEmpty) {
+      return await getListClassroom();
     }
     emit(ClassroomLoadingState());
     return await _struct(() async {
-      final sort =
-          SortedHelper(sorted: sortWith, direction: isDesc ? 'desc' : 'asc');
+      final sort = Helper(sorted: 'name', direction: 'desc', query: value);
 
+      final result = await _restApi
+          .get('$_path/search', parametter: sort.toJson())
+          .catchError((err) {
+        emit(ClassroomFailureState(err['error']));
+        return null;
+      });
+      if (result == null) return;
+      classrooms = mapJsonToList(result);
+      emit(ClassroomGetAllSuccessState(classrooms));
+    });
+  }
+
+  Future<void> getListClassroom() async {
+    emit(ClassroomLoadingState());
+    return await _struct(() async {
+      final sort = Helper(sorted: 'name', direction: 'desc');
       final result = await _restApi
           .get(_path, parametter: sort.toJson())
           .catchError((err) {
@@ -86,15 +94,7 @@ class ClassroomBloc extends Cubit<ClassroomState> {
         return null;
       });
       if (result == null) return;
-      final List<Classroom> classrooms;
-      if ((result?.length ?? 0) == 0) {
-        classrooms = [];
-      } else {
-        classrooms = List<Classroom>.generate(
-            result.length, (index) => Classroom.fromJson(result[index]));
-        _classrooms = classrooms;
-      }
-
+      classrooms = mapJsonToList(result);
       emit(ClassroomGetAllSuccessState(classrooms));
     });
   }
@@ -112,28 +112,26 @@ class ClassroomBloc extends Cubit<ClassroomState> {
     });
   }
 
-  Future<void> editClassroom(String id, String name) async {
-    return await _struct(() async {
-      final result = await _restApi.get('$_path/update/$id').catchError((err) {
-        emit(ClassroomFailureState(err['error']));
-        return null;
-      });
-      if (result == null) return;
-      final classroom = Classroom.fromJson(result);
-      emit(ClassroomGetSuccessState(classroom));
-    });
-  }
+  // helper
 
-  Future<void> deleteClassroom(String id) async {
-    return await _struct(() async {
-      final result = await _restApi.delete('$_path/$id').catchError((err) {
-        emit(ClassroomFailureState(err['error']));
-        return null;
-      });
-      if (result == null) return;
-      final classroom = Classroom.fromJson(result);
-      emit(ClassroomDeleteSuccessState(classroom));
-    });
+  List<Classroom> mapJsonToList(dynamic result) {
+    try {
+      final List<Classroom> classrooms;
+      if ((result?.length ?? 0) == 0) {
+        classrooms = [];
+      } else {
+        classrooms = List<Classroom>.generate(
+          result.length,
+          (index) => Classroom.fromJson(
+            result[index],
+          ),
+        );
+      }
+      return classrooms;
+    } catch (error) {
+      debugPrint('[Classroom]: map list error');
+      return [];
+    }
   }
 
   Future<void> _struct(Future<void> Function() handler) async {

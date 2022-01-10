@@ -3,7 +3,7 @@ import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/helpers/extensions/state.x.dart';
 import 'package:education_helper/models/classroom.model.dart';
 import 'package:education_helper/models/members.model.dart';
-import 'package:education_helper/views/classrooms/dialogs/add_member_dialog.dart';
+import 'package:education_helper/views/classrooms/dialogs/member_dialog.dart';
 
 import 'package:education_helper/views/widgets/button/custom_icon_button.dart';
 import 'package:education_helper/views/widgets/button/custom_text_button.dart';

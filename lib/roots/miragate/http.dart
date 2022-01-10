@@ -29,7 +29,7 @@ class RestApi {
 
   bool isSuccess(Response response) {
     final sta = response.statusCode;
-    return sta > 200 && sta < 301;
+    return sta > 199 && sta < 301;
   }
 
   void setHeaders(String? token) {

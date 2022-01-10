@@ -35,7 +35,10 @@ class HomeAdapter extends IAdapter {
   }
 
   Future<void> goToClassroom(BuildContext context) async {
-    await context.goTo(_classroomAdapter.layout());
+    await context.goTo(BlocProvider.value(
+      value: BlocProvider.of<HomeBloc>(context),
+      child: _classroomAdapter.layout(),
+    ));
   }
 
   Future<void> goToClassroomDetail(BuildContext context, String id) async {

@@ -1,11 +1,14 @@
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
-import 'package:education_helper/views/classrooms/dialogs/add_classroom_dialog.dart';
 import 'package:education_helper/views/widgets/button/custom_text_button.dart';
 import 'package:flutter/material.dart';
 
 class ClassroomCollectionEmpty extends StatelessWidget {
-  const ClassroomCollectionEmpty({Key? key}) : super(key: key);
+  final Function() goToClassrooms;
+  const ClassroomCollectionEmpty({
+    required this.goToClassrooms,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +25,7 @@ class ClassroomCollectionEmpty extends StatelessWidget {
           ),
         ),
         SPACING.LG.vertical,
-        KTextButton(
-            onPressed: () => addClassroom(context), text: 'Create once'),
+        KTextButton(text: 'Go To Classroom List', onPressed: goToClassrooms),
       ],
     );
   }

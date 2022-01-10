@@ -11,10 +11,10 @@ class KTextField extends StatefulWidget {
   final TextInputAction textInputAction;
   final bool isClearButton;
   final TextInputType keyboardType;
-  final double width;
   final void Function(String value)? onChange;
   final void Function(String value)? onSubmit;
   final bool autoFocus;
+  final String? initValue;
 
   const KTextField({
     required this.iconData,
@@ -24,10 +24,10 @@ class KTextField extends StatefulWidget {
     this.textInputAction = TextInputAction.next,
     this.isClearButton = true,
     this.keyboardType = TextInputType.text,
-    this.width = 200.0,
     this.onChange,
     this.onSubmit,
     this.autoFocus = false,
+    this.initValue,
     Key? key,
   }) : super(key: key);
 
@@ -36,8 +36,9 @@ class KTextField extends StatefulWidget {
 }
 
 class _KTextFieldState extends State<KTextField> {
-  final controller = TextEditingController();
   bool showText = false;
+
+  late TextEditingController controller;
 
   final Color backgorundColor = kSecondarySuperDarkColor;
   final BorderRadius borderRadius = BorderRadius.circular(10.0);
@@ -50,6 +51,11 @@ class _KTextFieldState extends State<KTextField> {
     borderRadius: BorderRadius.only(topLeft: Radius.circular(25.0)),
     borderSide: BorderSide(color: kPrimaryColor, width: 2.0),
   );
+  @override
+  void initState() {
+    super.initState();
+    controller = TextEditingController(text: widget.initValue);
+  }
 
   @override
   void dispose() {

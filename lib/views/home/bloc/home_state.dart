@@ -15,10 +15,10 @@ class HomeLoadingState extends HomeState {
   List<Object?> get props => [];
 }
 
-class HomeClassroomCollectionSuccessState extends HomeState {
+class HClassCollectionSuccessState extends HomeState {
   final List<Classroom> classrooms;
 
-  const HomeClassroomCollectionSuccessState(this.classrooms);
+  const HClassCollectionSuccessState(this.classrooms);
 
   @override
   List<Object?> get props => [classrooms];

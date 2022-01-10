@@ -11,11 +11,11 @@ import 'package:education_helper/views/widgets/form/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
-class AddMemberForm extends StatefulWidget {
+class MemberForm extends StatefulWidget {
   final Function(Member member) onConfirm;
   final Function() addWithCSV;
   final Member? initMember;
-  const AddMemberForm({
+  const MemberForm({
     required this.onConfirm,
     required this.addWithCSV,
     Key? key,
@@ -23,10 +23,10 @@ class AddMemberForm extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _AddMemberFormState createState() => _AddMemberFormState();
+  _MemberFormState createState() => _MemberFormState();
 }
 
-class _AddMemberFormState extends State<AddMemberForm> {
+class _MemberFormState extends State<MemberForm> {
   final _form = GlobalKey<FormState>();
   bool isFemale = false;
   String firstname = '';

@@ -1,19 +1,20 @@
 const token = 'token';
 
-class SortedHelper {
+class Helper {
   final String? sorted;
 
   /// big to small: desc
   /// small to big: asc
   final String? direction;
+  final int? limit;
+  final String? query;
 
-  SortedHelper({this.sorted, this.direction});
+  Helper({this.query, this.sorted, this.direction, this.limit});
 
   Map<String, dynamic> toJson() => {
-        'sorted': sorted ?? '',
-        'flow': direction ?? '',
+        'query': query,
+        'sorted': sorted,
+        'flow': direction,
+        'limit': limit == null ? null : '$limit',
       };
-
-  @override
-  String toString() => 'sorted=$sorted&flow=$direction';
 }
