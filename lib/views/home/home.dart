@@ -2,11 +2,9 @@ import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/helpers/widgets/circle_animation.dart';
 import 'package:education_helper/models/classroom.model.dart';
 import 'package:education_helper/roots/app_root.dart';
-import 'package:education_helper/views/classrooms/bloc/classroom/classroom_bloc.dart';
 import 'package:education_helper/views/home/adapters/home.adapter.dart';
 import 'package:education_helper/views/widgets/header/appbar_bottom.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'pages/classroom_collection/classroom_collection.dart';
 import 'widgets/date_horizantal/date_picker_timeline.dart';
@@ -21,14 +19,12 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  late List<Classroom> classrooms;
   late List<DateTime> expirDate;
   final DatePickerTimelineControler dtControll = DatePickerTimelineControler();
 
   @override
   void initState() {
     super.initState();
-    classrooms = [];
     expirDate = [
       DateTime.now().add(const Duration(days: 7)),
       DateTime.now().add(const Duration(days: 22))
@@ -62,13 +58,7 @@ class _HomeState extends State<Home> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SPACING.LG.vertical,
-              BlocProvider<ClassroomBloc>(
-                create: (context) => ClassroomBloc(),
-                child: const ClassroomColection(),
-              )
-            ],
+            children: [SPACING.LG.vertical, const ClassroomColection()],
           ),
         ),
       ),

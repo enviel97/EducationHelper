@@ -3,7 +3,9 @@ import 'package:education_helper/roots/app_root.dart';
 import 'package:education_helper/roots/miragate/injection.dart';
 import 'package:education_helper/roots/parts/adapter.dart';
 import 'package:education_helper/views/classrooms/adapter/classroom.adapter.dart';
+import 'package:education_helper/views/home/bloc/home_bloc.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../home.dart';
 
@@ -22,7 +24,10 @@ class HomeAdapter extends IAdapter {
 
   @override
   Widget layout() {
-    return const Home();
+    return MultiBlocProvider(
+      providers: [BlocProvider(create: (context) => HomeBloc())],
+      child: const Home(),
+    );
   }
 
   Future<void> goToLogin(BuildContext context) async {
