@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
 enum Method { post, get, put }
@@ -15,10 +15,15 @@ class RestApi {
 
   factory RestApi() => _ins;
 
-  Uri _baseUrl(String path) {
-    final uri = Uri(scheme: 'http', host: '10.0.2.2', port: 3000, path: path);
+  Uri _baseUrl(String path, {Map<String, dynamic>? parametter}) {
+    final uri = Uri(
+        scheme: 'http',
+        host: '10.0.2.2',
+        port: 3000,
+        path: path,
+        queryParameters: parametter);
     // final uri = Uri.https('educationhelper.herokuapp.com', path);
-    print(uri);
+    debugPrint(uri.toString());
     return uri;
   }
 
@@ -62,8 +67,19 @@ class RestApi {
     }
   }
 
-  Future get(String path) async {
+  Future delete(String path) async {
     final url = _baseUrl(path);
+    try {
+      final response = await _client.delete(url, headers: _header);
+      return _result(response);
+    } catch (error) {
+      debugPrint('[$path]: $error');
+      return Future.error(error);
+    }
+  }
+
+  Future get(String path, {Map<String, dynamic>? parametter}) async {
+    final url = _baseUrl(path, parametter: parametter);
     try {
       final response = await _client.get(url, headers: _header);
       return _result(response);

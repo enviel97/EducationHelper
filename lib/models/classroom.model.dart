@@ -23,10 +23,10 @@ class Classroom {
   factory Classroom.fromJson(Map<String, dynamic> json) {
     return Classroom(
       name: json['name'],
-      creatorId: json['creatorId '],
+      creatorId: json['creatorId'],
       id: json['id'] ?? json['_id'],
       exams: json['exams'] ?? [],
-      members: json['members'] == null
+      members: json['members'] == null || (json['members']?.length ?? 0) == 0
           ? []
           : (json['members'] as List<Map<String, dynamic>>)
               .map((m) => Member.fromJson(m))

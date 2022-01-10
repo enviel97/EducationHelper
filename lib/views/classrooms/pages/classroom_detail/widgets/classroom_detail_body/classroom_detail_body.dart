@@ -3,8 +3,8 @@ import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/helpers/extensions/state.x.dart';
 import 'package:education_helper/models/classroom.model.dart';
 import 'package:education_helper/models/members.model.dart';
+import 'package:education_helper/views/classrooms/dialogs/add_member_dialog.dart';
 
-import 'package:education_helper/views/classrooms/widgets/add_member_form.dart';
 import 'package:education_helper/views/widgets/button/custom_icon_button.dart';
 import 'package:education_helper/views/widgets/button/custom_text_button.dart';
 import 'package:education_helper/views/widgets/form/custom_search_field.dart';
@@ -89,7 +89,7 @@ class _ClassroomDetailBodyState extends State<ClassroomDetailBody> {
                     text: 'Add Member',
                     padding: const EdgeInsets.symmetric(horizontal: 15.0),
                     textStyle: const TextStyle(color: kBlackColor),
-                    onPressed: _addMember,
+                    onPressed: () => addMember(context),
                   ),
                   KTextButton(
                     text: 'Add With CSV',
@@ -116,25 +116,6 @@ class _ClassroomDetailBodyState extends State<ClassroomDetailBody> {
       itemBuilder: (context, index) {
         final member = members[index];
         return ClassroomDetailListMemberItem(member: member);
-      },
-    );
-  }
-
-  void _addMember() {
-    const borderRadius = BorderRadius.only(
-      topLeft: Radius.circular(40.0),
-      topRight: Radius.circular(40.0),
-    );
-    showModalBottomSheet(
-      elevation: 1,
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(borderRadius: borderRadius),
-      builder: (builder) {
-        return AddMemberForm(
-          onConfirm: (Member member) => members.add(member),
-          addWithCSV: () {},
-        );
       },
     );
   }

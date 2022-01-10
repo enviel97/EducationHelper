@@ -1,5 +1,4 @@
 import 'package:education_helper/constants/colors.dart';
-import 'package:education_helper/constants/typing.dart';
 import 'package:flutter/material.dart';
 
 class ClassroomExamsTotal extends StatelessWidget {

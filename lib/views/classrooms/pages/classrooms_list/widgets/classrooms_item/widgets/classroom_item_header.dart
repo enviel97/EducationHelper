@@ -1,9 +1,8 @@
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
+import 'package:education_helper/views/classrooms/widgets/classroom_exams_total.dart';
 import 'package:education_helper/views/widgets/button/custom_link_button.dart';
 import 'package:flutter/material.dart';
-
-import '../../../classroom_exams_total.dart';
 
 class ClassroomItemHeader extends StatelessWidget {
   final String name;
@@ -29,8 +28,8 @@ class ClassroomItemHeader extends StatelessWidget {
       children: [
         Row(
           children: [
-            SizedBox(
-              width: 125.0,
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 125.0),
               child: Text(
                 name,
                 maxLines: 1,

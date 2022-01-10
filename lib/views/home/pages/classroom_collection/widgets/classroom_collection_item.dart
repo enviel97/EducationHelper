@@ -2,13 +2,12 @@ import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:education_helper/helpers/ultils/funtions.dart';
-import 'package:education_helper/models/members.model.dart';
 import 'package:flutter/material.dart';
 
 class ClassroomCollectionItem extends StatelessWidget {
   final String name;
-  final List<dynamic> exams;
-  final List<Member> members;
+  final int exams;
+  final int members;
   const ClassroomCollectionItem({
     required this.name,
     required this.exams,
@@ -57,7 +56,7 @@ class ClassroomCollectionItem extends StatelessWidget {
                 ),
               ),
               Text(
-                quantity(exams.length, 'exam'),
+                quantity(exams, 'exam'),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: SPACING.M.size,
@@ -65,7 +64,7 @@ class ClassroomCollectionItem extends StatelessWidget {
                 ),
               ),
               Text(
-                quantity(members.length, 'member'),
+                quantity(members, 'member'),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: SPACING.M.size,
@@ -75,7 +74,7 @@ class ClassroomCollectionItem extends StatelessWidget {
             ],
           ),
         ),
-        exams.isEmpty
+        exams == 0
             ? const SizedBox.shrink()
             : Positioned(
                 right: 5.0,
@@ -84,7 +83,7 @@ class ClassroomCollectionItem extends StatelessWidget {
                   radius: 15.0,
                   backgroundColor: kErrorColor,
                   child: Text(
-                    '${exams.length}',
+                    '$exams',
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
