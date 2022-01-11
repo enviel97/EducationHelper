@@ -4,28 +4,27 @@ import 'package:education_helper/helpers/extensions/state.x.dart';
 import 'package:education_helper/models/classroom.model.dart';
 import 'package:education_helper/models/members.model.dart';
 import 'package:education_helper/views/member/dialogs/member_dialog.dart';
-
 import 'package:education_helper/views/widgets/button/custom_icon_button.dart';
 import 'package:education_helper/views/widgets/button/custom_text_button.dart';
 import 'package:education_helper/views/widgets/form/custom_search_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
-import 'widgets/classroom_detail_header.dart';
-import 'widgets/classroom_detail_list_members_item.dart';
+import 'widgets/members_detail.dart';
+import 'widgets/members_header.dart';
 
-class ClassroomDetailBody extends StatefulWidget {
+class MembersBody extends StatefulWidget {
   final String id;
-  const ClassroomDetailBody({
+  const MembersBody({
     required this.id,
     Key? key,
   }) : super(key: key);
 
   @override
-  _ClassroomDetailBodyState createState() => _ClassroomDetailBodyState();
+  _MembersBodyState createState() => _MembersBodyState();
 }
 
-class _ClassroomDetailBodyState extends State<ClassroomDetailBody> {
+class _MembersBodyState extends State<MembersBody> {
   late Classroom classroom;
   String searchText = '';
   List<Member> members = [];
@@ -41,7 +40,7 @@ class _ClassroomDetailBodyState extends State<ClassroomDetailBody> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ClassroomDetailHeader(
+        MemberBodyHeader(
           name: classroom.name,
           numExams: classroom.exams.length,
           numMembers: classroom.members.length,
@@ -89,7 +88,7 @@ class _ClassroomDetailBodyState extends State<ClassroomDetailBody> {
                     text: 'Add Member',
                     padding: const EdgeInsets.symmetric(horizontal: 15.0),
                     textStyle: const TextStyle(color: kBlackColor),
-                    onPressed: () => addMember(context),
+                    onPressed: () => addMemberBottemSheet(context),
                   ),
                   KTextButton(
                     text: 'Add With CSV',
@@ -115,7 +114,7 @@ class _ClassroomDetailBodyState extends State<ClassroomDetailBody> {
       itemCount: members.length,
       itemBuilder: (context, index) {
         final member = members[index];
-        return ClassroomDetailListMemberItem(member: member);
+        return MemberDetail(member: member);
       },
     );
   }

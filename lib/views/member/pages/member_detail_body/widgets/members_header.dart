@@ -1,13 +1,13 @@
 import 'package:education_helper/helpers/extensions/build_context_x.dart';
-import 'package:education_helper/views/classrooms/widgets/classroom_exams_total.dart';
+import 'package:education_helper/views/widgets/deorate/box_decorate_separate_number.dart';
 import 'package:flutter/material.dart';
 
-class ClassroomDetailHeader extends StatelessWidget {
+class MemberBodyHeader extends StatelessWidget {
   final String name;
   final int numExams;
   final int numMembers;
 
-  const ClassroomDetailHeader({
+  const MemberBodyHeader({
     required this.name,
     required this.numExams,
     required this.numMembers,
@@ -34,7 +34,7 @@ class ClassroomDetailHeader extends StatelessWidget {
               ),
             ),
           ),
-          ClassroomExamsTotal(
+          BoxDecorateSeparateNumber(
             totalExams: numExams,
             totalMembers: numMembers,
           )

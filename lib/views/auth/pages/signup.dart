@@ -3,6 +3,7 @@ import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/helpers/extensions/state.x.dart';
 import 'package:education_helper/helpers/ultils/funtions.dart';
 import 'package:education_helper/helpers/ultils/validation.dart';
+import 'package:education_helper/helpers/widgets/scroller_grow_disable.dart';
 import 'package:education_helper/models/user.model.dart';
 import 'package:education_helper/roots/bloc/app_bloc.dart';
 import 'package:education_helper/views/auth/bloc/auth_bloc.dart';
@@ -10,7 +11,6 @@ import 'package:education_helper/views/auth/bloc/auth_state.dart';
 import 'package:education_helper/views/widgets/clippart/notch_custom_clip.dart';
 import 'package:education_helper/views/widgets/button/custom_text_button.dart';
 import 'package:education_helper/views/widgets/form/custom_text_field.dart';
-import 'package:education_helper/views/widgets/remove_scroll_grow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:education_helper/helpers/extensions/build_context_x.dart';
@@ -105,8 +105,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                         spacing,
                         Expanded(
-                          child: RemoveScrollGrow(
-                            scrollableView: SingleChildScrollView(
+                          child: NormalScroll(
+                            child: SingleChildScrollView(
                               reverse: true,
                               child: Form(
                                 key: _formKey,

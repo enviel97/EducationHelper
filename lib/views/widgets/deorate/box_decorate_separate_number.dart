@@ -1,10 +1,10 @@
 import 'package:education_helper/constants/colors.dart';
 import 'package:flutter/material.dart';
 
-class ClassroomExamsTotal extends StatelessWidget {
+class BoxDecorateSeparateNumber extends StatelessWidget {
   final int totalMembers;
   final int totalExams;
-  const ClassroomExamsTotal({
+  const BoxDecorateSeparateNumber({
     required this.totalMembers,
     required this.totalExams,
     Key? key,

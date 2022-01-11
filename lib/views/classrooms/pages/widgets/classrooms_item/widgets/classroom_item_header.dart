@@ -1,6 +1,6 @@
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
-import 'package:education_helper/views/classrooms/widgets/classroom_exams_total.dart';
+import 'package:education_helper/views/widgets/deorate/box_decorate_separate_number.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
@@ -78,7 +78,7 @@ class ClassroomItemHeader extends StatelessWidget {
             )
           ],
         ),
-        ClassroomExamsTotal(
+        BoxDecorateSeparateNumber(
           totalExams: exams,
           totalMembers: members,
         )

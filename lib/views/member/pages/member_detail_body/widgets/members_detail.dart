@@ -6,10 +6,9 @@ import 'package:education_helper/models/members.model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
-class ClassroomDetailListMemberItem extends StatelessWidget {
+class MemberDetail extends StatelessWidget {
   final Member member;
-  const ClassroomDetailListMemberItem({required this.member, Key? key})
-      : super(key: key);
+  const MemberDetail({required this.member, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
