@@ -21,7 +21,7 @@ class ClassroomAdapter extends IAdapter {
   }
 
   @override
-  Widget layout() {
+  Widget layout({Map<String, dynamic>? params}) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ClassroomBloc>(create: (context) => ClassroomBloc()),

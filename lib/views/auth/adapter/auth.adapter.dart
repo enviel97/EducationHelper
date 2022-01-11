@@ -22,7 +22,7 @@ class AuthAdpater extends IAdapter {
   IAdapter get _homeAdapter => AppAdapter().getAdapter(homeAdapter);
 
   @override
-  Widget layout() {
+  Widget layout({Map<String, dynamic>? params}) {
     final localStorage = Root.ins.localStorage;
     final authBloc = AuthBloc(localStorage);
     return MultiBlocProvider(
