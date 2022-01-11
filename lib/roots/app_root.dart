@@ -1,6 +1,6 @@
 import 'package:education_helper/constants/constant.dart' as c;
 import 'package:education_helper/roots/miragate/http.dart';
-import 'package:education_helper/roots/miragate/injection.dart';
+import 'package:education_helper/roots/parts/adapter.dart';
 import 'package:education_helper/views/auth/adapter/auth.adapter.dart';
 import 'package:education_helper/views/classrooms/adapter/classroom.adapter.dart';
 import 'package:education_helper/views/home/adapters/home.adapter.dart';
@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'miragate/local_storage.dart';
 
 part './parts/name_adapter.dart';
+part './parts/injection.dart';
 
 // ignore: avoid_classes_with_only_static_members
 class Root {
@@ -18,10 +19,10 @@ class Root {
   static Root get ins => _ins;
 
   late LocalStorage localStorage;
-  late AppAdapter adapter;
+  late _AppAdapter adapter;
 
   Root._() {
-    adapter = AppAdapter();
+    adapter = _AppAdapter();
   }
   final List<Future<String>> _asyncs = [];
 

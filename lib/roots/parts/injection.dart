@@ -1,15 +1,14 @@
-import 'package:education_helper/roots/parts/adapter.dart';
-import 'package:flutter/material.dart';
+part of '../app_root.dart';
 
-class AppAdapter {
-  static final AppAdapter _ins = AppAdapter._();
-  factory AppAdapter() {
+class _AppAdapter {
+  static final _AppAdapter _ins = _AppAdapter._();
+  factory _AppAdapter() {
     return _ins;
   }
 
   late Map<String, dynamic> _appAdapter;
 
-  AppAdapter._() {
+  _AppAdapter._() {
     _appAdapter = {};
   }
 

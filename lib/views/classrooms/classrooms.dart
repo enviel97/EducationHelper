@@ -3,6 +3,7 @@ import 'package:education_helper/helpers/widgets/error_authenticate.dart';
 import 'package:education_helper/models/classroom.model.dart';
 import 'package:education_helper/roots/bloc/app_bloc.dart';
 import 'package:education_helper/roots/bloc/app_state.dart';
+import 'package:education_helper/views/classrooms/adapter/classroom.adapter.dart';
 import 'package:education_helper/views/classrooms/bloc/classroom/classroom_state.dart';
 import 'package:education_helper/views/classrooms/dialogs/classroom_dialog.dart';
 import 'package:education_helper/views/home/bloc/home_bloc.dart';
@@ -12,11 +13,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'bloc/classroom/classroom_bloc.dart';
-import 'pages/classrooms_list/classroom_list.dart';
-import 'pages/classrooms_list/widgets/classrooms_header.dart';
+import 'pages/classroom_list.dart';
+import 'pages/widgets/classrooms_header.dart';
 import 'placeholders/p_classrooms_header.dart';
 
 class Classrooms extends StatefulWidget {
+  static final adapter = ClassroomAdapter();
   const Classrooms({Key? key}) : super(key: key);
 
   @override

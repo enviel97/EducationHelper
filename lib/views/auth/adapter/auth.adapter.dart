@@ -1,6 +1,5 @@
 import 'package:education_helper/helpers/widgets/router_animation.dart';
 import 'package:education_helper/roots/app_root.dart';
-import 'package:education_helper/roots/miragate/injection.dart';
 import 'package:education_helper/roots/parts/adapter.dart';
 import 'package:education_helper/views/auth/bloc/auth_bloc.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,7 +18,7 @@ class AuthAdpater extends IAdapter {
     return _ins;
   }
 
-  IAdapter get _homeAdapter => AppAdapter().getAdapter(homeAdapter);
+  IAdapter get _homeAdapter => Root.ins.adapter.getAdapter(homeAdapter);
 
   @override
   Widget layout({Map<String, dynamic>? params}) {

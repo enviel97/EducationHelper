@@ -1,8 +1,8 @@
 import 'package:education_helper/constants/typing.dart';
-import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:education_helper/models/classroom.model.dart';
+import 'package:education_helper/views/classrooms/adapter/classroom.adapter.dart';
+import 'package:education_helper/views/classrooms/classrooms.dart';
 import 'package:education_helper/views/classrooms/dialogs/classroom_dialog.dart';
-import 'package:education_helper/views/classrooms/pages/classroom_detail/classroom_detail.dart';
 import 'package:flutter/material.dart';
 
 import 'classroom_item_empty.dart';
@@ -16,10 +16,12 @@ class ClassroomItem extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
+  ClassroomAdapter get adapter => Classrooms.adapter;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.goTo(ClassroomDetail(id: classroom.id)),
+      onTap: () => adapter.goToMembers(context, classroom.id),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
