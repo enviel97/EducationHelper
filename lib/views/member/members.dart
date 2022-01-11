@@ -35,18 +35,22 @@ class _MembersState extends State<Members> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: GestureDetector(
-            onTap: context.disableKeyBoard,
-            child: NormalScroll(
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                  _buildHeader(),
-                  SPACING.SM.vertical,
-                  _buildBody()
-                ]))));
+      resizeToAvoidBottomInset: false,
+      body: GestureDetector(
+        onTap: context.disableKeyBoard,
+        child: NormalScroll(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              _buildHeader(),
+              SPACING.SM.vertical,
+              _buildBody(),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _buildHeader() {

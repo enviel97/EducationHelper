@@ -1,6 +1,9 @@
 import 'package:education_helper/roots/app_root.dart';
 import 'package:education_helper/roots/parts/adapter.dart';
+import 'package:education_helper/views/classrooms/bloc/member/member_bloc.dart';
+import 'package:education_helper/views/member/members.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MemberAdapter extends IAdapter {
   static final MemberAdapter _ins = MemberAdapter._internal();
@@ -10,11 +13,14 @@ class MemberAdapter extends IAdapter {
   }
 
   MemberAdapter._internal() {
-    Root.ins.adapter.injectAdapter(classroomAdpater, this);
+    Root.ins.adapter.injectAdapter(memberAdapter, this);
   }
 
   @override
   Widget layout({Map<String, dynamic>? params}) {
-    return Container();
+    return BlocProvider(
+      create: (context) => MemberBloc(),
+      child: Members(id: params!['id']),
+    );
   }
 }

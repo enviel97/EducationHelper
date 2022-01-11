@@ -4,6 +4,7 @@ import 'package:education_helper/roots/parts/adapter.dart';
 import 'package:education_helper/views/auth/adapter/auth.adapter.dart';
 import 'package:education_helper/views/classrooms/adapter/classroom.adapter.dart';
 import 'package:education_helper/views/home/adapters/home.adapter.dart';
+import 'package:education_helper/views/member/adapter/member.adapter.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -61,6 +62,7 @@ class Root {
     AuthAdpater();
     HomeAdapter();
     ClassroomAdapter();
+    MemberAdapter();
     return 'Done';
   }
 }

@@ -3,6 +3,7 @@ import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/helpers/extensions/state.x.dart';
 import 'package:education_helper/helpers/widgets/scroller_grow_disable.dart';
 import 'package:education_helper/roots/bloc/app_bloc.dart';
+import 'package:education_helper/views/home/adapters/home.adapter.dart';
 import 'package:education_helper/views/home/bloc/home_bloc.dart';
 import 'package:education_helper/views/home/bloc/home_state.dart';
 import 'package:education_helper/views/widgets/button/custom_link_button.dart';
@@ -21,7 +22,7 @@ class ClassroomColection extends StatefulWidget {
 }
 
 class _ClassroomColectionState extends State<ClassroomColection> {
-  final adapter = Home.adapter;
+  HomeAdapter get adapter => Home.adapter;
   @override
   void initState() {
     super.initState();
