@@ -7,7 +7,10 @@ enum Method { post, get, put }
 class RestApi {
   static final RestApi _ins = RestApi._internal();
   late Client _client;
-  Map<String, String>? _header;
+  final Map<String, String> _header = {
+    'Content-Type': 'application/json',
+    'api-key': '270897'
+  };
 
   RestApi._internal() {
     _client = Client();
@@ -33,9 +36,8 @@ class RestApi {
   }
 
   void setHeaders(String? token) {
-    _header = {'api-key': '270897'};
     if (token != null && token.isNotEmpty) {
-      _header!['authenticate'] = token;
+      _header['authenticate'] = token;
     }
   }
 
@@ -44,8 +46,10 @@ class RestApi {
     Map<String, dynamic> body,
   ) async {
     final url = _baseUrl(path);
+
     try {
-      final response = await _client.post(url, headers: _header, body: body);
+      final response =
+          await _client.post(url, headers: _header, body: jsonEncode(body));
       return _result(response);
     } catch (error) {
       debugPrint('[$path]: $error');
@@ -59,7 +63,8 @@ class RestApi {
   ) async {
     final url = _baseUrl(path);
     try {
-      final response = await _client.put(url, headers: _header, body: body);
+      final response =
+          await _client.put(url, headers: _header, body: jsonEncode(body));
       return _result(response);
     } catch (error) {
       debugPrint('[$path]: $error');

@@ -1,6 +1,6 @@
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/helpers/extensions/build_context_x.dart';
-import 'package:education_helper/views/classrooms/bloc/classroom/classroom_bloc.dart';
+import 'package:education_helper/views/classrooms/bloc/classroom_bloc.dart';
 import 'package:education_helper/views/widgets/button/custom_text_button.dart';
 import 'package:education_helper/views/widgets/form/custom_text_field.dart';
 import 'package:flutter/material.dart';

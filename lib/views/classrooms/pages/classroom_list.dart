@@ -1,6 +1,6 @@
 import 'package:education_helper/helpers/widgets/scroller_grow_disable.dart';
-import 'package:education_helper/views/classrooms/bloc/classroom/classroom_bloc.dart';
-import 'package:education_helper/views/classrooms/bloc/classroom/classroom_state.dart';
+import 'package:education_helper/views/classrooms/bloc/classroom_bloc.dart';
+import 'package:education_helper/views/classrooms/bloc/classroom_state.dart';
 import 'package:education_helper/views/classrooms/placeholders/p_classrooims_list_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

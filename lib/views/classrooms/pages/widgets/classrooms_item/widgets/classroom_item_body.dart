@@ -3,14 +3,13 @@ import 'dart:math';
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/helpers/extensions/build_context_x.dart';
-import 'package:education_helper/models/members.model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 import 'classroom_member_short.dart';
 
 class ClassroomItemBody extends StatefulWidget {
-  final List<Member> members;
+  final List<Map<String, String>> members;
 
   const ClassroomItemBody({
     required this.members,
@@ -23,7 +22,7 @@ class ClassroomItemBody extends StatefulWidget {
 
 class _ClassroomItemBodyState extends State<ClassroomItemBody> {
   bool hasMore = false;
-  late List<Member> members;
+  late List<Map<String, String>> members;
   @override
   void initState() {
     super.initState();
@@ -66,9 +65,9 @@ class _ClassroomItemBodyState extends State<ClassroomItemBody> {
     final memberMax = members.getRange(0, min(members.length, 18));
     final List<Widget> widgets = memberMax
         .map<Widget>((e) => ClassroomMemberShort(
-            firstname: e.firstName,
-            lastname: e.lastName,
-            info: e.phoneNumber ?? e.mail ?? '',
+            firstname: e['firstName']!,
+            lastname: e['lastName']!,
+            info: e['phoneNumber'] ?? e['mail'] ?? '',
             size: 45))
         .toList();
 

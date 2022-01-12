@@ -4,7 +4,6 @@ import 'package:education_helper/models/classroom.model.dart';
 import 'package:education_helper/roots/bloc/app_bloc.dart';
 import 'package:education_helper/roots/bloc/app_state.dart';
 import 'package:education_helper/views/classrooms/adapter/classroom.adapter.dart';
-import 'package:education_helper/views/classrooms/bloc/classroom/classroom_state.dart';
 import 'package:education_helper/views/classrooms/dialogs/classroom_dialog.dart';
 import 'package:education_helper/views/home/bloc/home_bloc.dart';
 import 'package:education_helper/views/widgets/form/custom_search_field.dart';
@@ -12,7 +11,8 @@ import 'package:education_helper/views/widgets/header/appbar_bottom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'bloc/classroom/classroom_bloc.dart';
+import 'bloc/classroom_bloc.dart';
+import 'bloc/classroom_state.dart';
 import 'pages/classroom_list.dart';
 import 'pages/widgets/classrooms_header.dart';
 import 'placeholders/p_classrooms_header.dart';

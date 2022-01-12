@@ -1,14 +1,11 @@
-import 'dart:math';
-
-import 'package:education_helper/models/members.model.dart';
 import 'package:faker/faker.dart';
 
 class Classroom {
   final String id;
   final String creatorId;
   final String name;
-  final List<Member> members;
-  final List<dynamic> exams;
+  final List<Map<String, String>> members;
+  final List<String> exams;
 
   const Classroom({
     required this.name,
@@ -21,25 +18,21 @@ class Classroom {
   Map<String, dynamic> toJson() => {'name': name};
 
   factory Classroom.fromJson(Map<String, dynamic> json) {
+    final exams = json['exams'] ?? [];
+    final members = json['members'] ?? [];
+
     return Classroom(
       name: json['name'],
       creatorId: json['creatorId'],
       id: json['id'] ?? json['_id'],
-      exams: json['exams'] ?? [],
-      members: json['members'] == null || (json['members']?.length ?? 0) == 0
-          ? []
-          : (json['members'] as List<Map<String, dynamic>>)
-              .map((m) => Member.fromJson(m))
-              .toList(),
+      exams: exams,
+      members: members,
     );
   }
 
   factory Classroom.fake() {
     final faker = Faker();
-    final rnd = Random();
-    final members =
-        List<Member>.generate(rnd.nextInt(60), (_) => Member.faker());
 
-    return Classroom(name: faker.job.title(), members: members, exams: []);
+    return Classroom(name: faker.job.title(), members: [], exams: []);
   }
 }

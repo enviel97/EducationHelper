@@ -1,7 +1,7 @@
 import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:education_helper/roots/app_root.dart';
 import 'package:education_helper/roots/parts/adapter.dart';
-import 'package:education_helper/views/classrooms/bloc/classroom/classroom_bloc.dart';
+import 'package:education_helper/views/classrooms/bloc/classroom_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

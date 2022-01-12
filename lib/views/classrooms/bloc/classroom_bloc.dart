@@ -1,9 +1,10 @@
 import 'package:education_helper/constants/constant.dart';
 import 'package:education_helper/models/classroom.model.dart';
 import 'package:education_helper/roots/miragate/http.dart';
-import 'package:education_helper/views/classrooms/bloc/classroom/classroom_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'classroom_state.dart';
 
 class ClassroomBloc extends Cubit<ClassroomState> {
   final _path = '/classrooms';

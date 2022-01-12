@@ -1,5 +1,5 @@
 import 'package:education_helper/models/members.model.dart';
-import 'package:education_helper/views/classrooms/bloc/member/member_bloc.dart';
+import 'package:education_helper/views/member/bloc/member_bloc.dart';
 import 'package:education_helper/views/member/widgets/member_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +9,7 @@ void addMemberBottemSheet(BuildContext builder) {
     topLeft: Radius.circular(40.0),
     topRight: Radius.circular(40.0),
   );
+  final member = Member.faker();
   showModalBottomSheet(
     elevation: 1,
     context: builder,
@@ -17,10 +18,7 @@ void addMemberBottemSheet(BuildContext builder) {
     builder: (context) {
       return BlocProvider.value(
         value: BlocProvider.of<MemberBloc>(builder),
-        child: MemberForm(
-          onConfirm: (Member member) {},
-          addWithCSV: () {},
-        ),
+        child: MemberForm(initMember: member),
       );
     },
   );

@@ -4,20 +4,18 @@ import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:education_helper/helpers/ultils/validation.dart';
 import 'package:education_helper/helpers/widgets/scroller_grow_disable.dart';
 import 'package:education_helper/models/members.model.dart';
+import 'package:education_helper/views/member/bloc/member_bloc.dart';
 import 'package:education_helper/views/widgets/button/custom_icon_button.dart';
 import 'package:education_helper/views/widgets/button/custom_text_button.dart';
 import 'package:education_helper/views/widgets/form/custom_date_field.dart';
 import 'package:education_helper/views/widgets/form/custom_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 class MemberForm extends StatefulWidget {
-  final Function(Member member) onConfirm;
-  final Function() addWithCSV;
   final Member? initMember;
   const MemberForm({
-    required this.onConfirm,
-    required this.addWithCSV,
     Key? key,
     this.initMember,
   }) : super(key: key);
@@ -34,7 +32,22 @@ class _MemberFormState extends State<MemberForm> {
   String gender = 'male';
   String phoneNumber = '';
   String email = '';
-  String dateBirthDay = '';
+  String? dateBirthDay;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initMember != null) {
+      final member = widget.initMember!;
+      firstname = member.firstName;
+      lastname = member.lastName;
+      gender = member.gender;
+      isFemale = gender.toLowerCase() == 'female';
+      phoneNumber = member.phoneNumber ?? '';
+      email = member.mail ?? '';
+      dateBirthDay = member.birth;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +76,7 @@ class _MemberFormState extends State<MemberForm> {
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('Add User',
+                      const Text('Add Member',
                           style: TextStyle(
                               color: kBlackColor,
                               fontWeight: FontWeight.bold,
@@ -74,7 +87,7 @@ class _MemberFormState extends State<MemberForm> {
                           tooltip: 'ADDS WITH CSV',
                           splashRadius: 2.0,
                           color: kPrimaryColor,
-                          onPressed: widget.addWithCSV)
+                          onPressed: _handleAddCSV)
                     ]),
                 Expanded(
                   child: NormalScroll(
@@ -88,6 +101,7 @@ class _MemberFormState extends State<MemberForm> {
                                     iconData: MaterialCommunityIcons
                                         .format_text_variant,
                                     hintText: 'First',
+                                    initValue: firstname,
                                     onChange: (value) => firstname = value,
                                     validation: isNotEmpty)),
                             SPACING.M.horizontal,
@@ -96,6 +110,7 @@ class _MemberFormState extends State<MemberForm> {
                                     iconData: MaterialCommunityIcons
                                         .format_text_variant,
                                     hintText: 'Last',
+                                    initValue: lastname,
                                     onChange: (value) => lastname = value,
                                     validation: isNotEmpty))
                           ]),
@@ -104,6 +119,7 @@ class _MemberFormState extends State<MemberForm> {
                                 flex: 3,
                                 child: KDateField(
                                     hintText: 'Date birth',
+                                    initDate: dateBirthDay,
                                     onChange: (String date) =>
                                         dateBirthDay = date)),
                             Flexible(
@@ -123,6 +139,7 @@ class _MemberFormState extends State<MemberForm> {
                           ]),
                           KTextField(
                               iconData: Feather.phone_call,
+                              initValue: phoneNumber,
                               hintText: 'Phone',
                               onChange: (value) => phoneNumber = value,
                               keyboardType: TextInputType.number,
@@ -131,6 +148,7 @@ class _MemberFormState extends State<MemberForm> {
                           KTextField(
                               iconData: Feather.mail,
                               hintText: 'Email',
+                              initValue: email,
                               onChange: (value) => email = value,
                               keyboardType: TextInputType.emailAddress,
                               textInputAction: TextInputAction.done,
@@ -173,14 +191,16 @@ class _MemberFormState extends State<MemberForm> {
   void confirmAddMember() {
     context.disableKeyBoard();
     if (_form.currentState?.validate() ?? false) {
-      widget.onConfirm(Member(
-          uid: '',
-          firstName: firstname,
-          lastName: lastname,
-          gender: gender,
-          phoneNumber: phoneNumber,
-          mail: email,
-          birth: dateBirthDay));
+      BlocProvider.of<MemberBloc>(context).addMember(
+        firstname: firstname,
+        lastname: lastname,
+        gender: gender,
+        birth: dateBirthDay,
+        mail: email,
+        phonenumber: phoneNumber,
+      );
     }
   }
+
+  void _handleAddCSV() {}
 }

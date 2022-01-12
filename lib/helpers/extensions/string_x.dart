@@ -21,9 +21,9 @@ extension StringX on String {
     );
   }
 
-  String toDateString() {
+  String toDateString({String format = 'dd/MM/yyyy'}) {
     final date = DateTime.tryParse(this);
-    if (date == null) return 'dd/MM/yyyy';
-    return date.toStringFormat(format: 'dd/MM/yyyy');
+    if (date == null) return format;
+    return date.toStringFormat(format: format);
   }
 }

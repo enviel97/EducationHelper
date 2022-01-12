@@ -1,13 +1,14 @@
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/helpers/extensions/state.x.dart';
+import 'package:education_helper/helpers/extensions/string_x.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class KDateField extends StatefulWidget {
   final String hintText;
   final bool isClearButton;
-  final DateTime? initDate;
+  final String? initDate;
   final String formatDate;
   final Function(String date) onChange;
   const KDateField({
@@ -29,10 +30,9 @@ class _KDateFieldState extends State<KDateField> {
   @override
   void initState() {
     super.initState();
-    value = widget.initDate == null
-        ? ''
-        : DateFormat(widget.formatDate).format(widget.initDate!);
-    selectedDateTime = widget.initDate;
+    value = widget.initDate ?? '';
+    selectedDateTime =
+        value.isEmpty ? DateTime.now() : DateTime.tryParse(value);
   }
 
   Color get iconColor => isLightTheme ? kPrimaryLightColor : kSecondaryColor;
@@ -66,7 +66,7 @@ class _KDateFieldState extends State<KDateField> {
             ),
             Expanded(
               child: Text(
-                value.isEmpty ? widget.hintText : value,
+                value.isEmpty ? widget.hintText : value.toDateString(),
                 style: TextStyle(
                   fontSize: SPACING.M.size,
                   fontWeight: FontWeight.bold,
@@ -116,17 +116,20 @@ class _KDateFieldState extends State<KDateField> {
         cancelText: 'Cancel',
         confirmText: 'Set',
         fieldHintText: widget.formatDate,
-        builder: (_, __) => Theme(
-              data: Theme.of(context).copyWith(
-                colorScheme: Theme.of(context).colorScheme.copyWith(
-                      primary: isLightTheme
-                          ? kPlaceholderDarkColor
-                          : kPlacehoderSuperDarkColor,
-                      onPrimary: isLightTheme ? kBlackColor : kWhiteColor,
-                    ),
-              ),
-              child: SizedBox(child: __),
-            ));
+        builder: (_, __) {
+          final ColorScheme colorScheme;
+          if (isLightTheme) {
+            colorScheme = const ColorScheme.light();
+          } else {
+            colorScheme = const ColorScheme.dark();
+          }
+          return Theme(
+            data: Theme.of(context).copyWith(
+              colorScheme: colorScheme,
+            ),
+            child: SizedBox(child: __),
+          );
+        });
 
     if (picked != null && picked != selectedDateTime) {
       setState(() {

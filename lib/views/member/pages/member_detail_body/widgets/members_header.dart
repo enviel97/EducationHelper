@@ -18,9 +18,10 @@ class MemberBodyHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = context.mediaSize.width;
 
-    return SizedBox(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
