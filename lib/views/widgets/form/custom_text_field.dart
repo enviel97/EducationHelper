@@ -169,6 +169,6 @@ class _KTextFieldState extends State<KTextField> {
       setState(() {});
     }
     if (widget.onChange == null) return;
-    widget.onChange!(value);
+    widget.onChange!(value.trim());
   }
 }

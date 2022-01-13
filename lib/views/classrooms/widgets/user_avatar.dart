@@ -1,5 +1,6 @@
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
+import 'package:education_helper/helpers/ultils/funtions.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -11,37 +12,44 @@ class UserAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(40.0),
-      child: url.isNotEmpty
-          ? FadeInImage.memoryNetwork(
-              height: 100,
-              width: 100,
-              fit: BoxFit.cover,
-              placeholder: kTransparentImage,
-              imageErrorBuilder: _buildError,
-              image: url,
-            )
-          : Container(
-              height: 100,
-              width: 100,
-              decoration: const BoxDecoration(color: kPrimaryColor),
-              child: const Center(
-                child: CircularProgressIndicator(
-                  color: kWhiteColor,
+      child: Container(
+        height: 100,
+        width: 100,
+        decoration: const BoxDecoration(color: kPrimaryColor),
+        child: url.isNotEmpty
+            ? FadeInImage.memoryNetwork(
+                fit: BoxFit.cover,
+                placeholder: kTransparentImage,
+                imageErrorBuilder: _buildError,
+                image: url,
+              )
+            : Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image.asset(
+                  ImageFromLocal.asPng('error_avatar'),
+                  fit: BoxFit.cover,
                 ),
               ),
-            ),
+      ),
     );
   }
 
   Widget _buildError(
       BuildContext context, Object error, StackTrace? stackTrace) {
     debugPrint(error.toString());
-    return SizedBox(
+    return Container(
       height: 100,
       width: 100,
+      decoration: BoxDecoration(
+        color: kWhiteColor,
+        border: Border.all(
+          width: 2.0,
+          color: kPrimaryColor,
+        ),
+      ),
       child: Center(
         child: Text(
-          'Image error',
+          'Error',
           style: TextStyle(color: kErrorColor, fontSize: SPACING.LG.size),
         ),
       ),

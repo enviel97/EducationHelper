@@ -1,4 +1,4 @@
-import 'package:education_helper/constants/colors.dart';
+import 'package:education_helper/constants/colors.dart' show kWhiteColor;
 import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:education_helper/views/classrooms/bloc/classroom_bloc.dart';
 import 'package:education_helper/views/widgets/button/custom_text_button.dart';

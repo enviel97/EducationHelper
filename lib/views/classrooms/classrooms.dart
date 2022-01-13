@@ -81,7 +81,8 @@ class _ClassroomsState extends State<Classrooms> {
               ),
             ),
             SPACING.M.vertical,
-            Expanded(child: _buildListClassroom())
+            Expanded(child: _buildListClassroom()),
+            SPACING.XXL.vertical,
           ],
         ),
       ),
