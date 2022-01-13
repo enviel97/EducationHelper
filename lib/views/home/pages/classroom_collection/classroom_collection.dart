@@ -92,7 +92,12 @@ class _ClassroomColectionState extends State<ClassroomColection> {
                           itemBuilder: (_, index) {
                             final classroom = classrooms[index];
                             return GestureDetector(
-                                onTap: () => goToDetail(classroom.id),
+                                onTap: () => goToDetail(
+                                      classroom.id,
+                                      classroom.name,
+                                      classroom.exams.length,
+                                      classroom.members.length,
+                                    ),
                                 child: ClassroomCollectionItem(
                                     name: classroom.name,
                                     exams: classroom.exams.length,
@@ -118,7 +123,18 @@ class _ClassroomColectionState extends State<ClassroomColection> {
     adapter.goToClassroom(context);
   }
 
-  Future<void> goToDetail(String id) async {
-    await adapter.goToClassroomDetail(context, id);
+  Future<void> goToDetail(
+    String id,
+    String classname,
+    int exams,
+    int members,
+  ) async {
+    await adapter.goToClassroomDetail(
+      context,
+      uid: id,
+      classname: classname,
+      exams: exams,
+      members: members,
+    );
   }
 }

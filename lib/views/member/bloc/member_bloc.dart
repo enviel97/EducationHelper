@@ -1,5 +1,4 @@
 import 'package:education_helper/helpers/extensions/map_x.dart';
-import 'package:education_helper/models/classroom.model.dart';
 import 'package:education_helper/models/members.model.dart';
 import 'package:education_helper/roots/miragate/http.dart';
 import 'package:flutter/material.dart';
@@ -8,10 +7,9 @@ import 'member_state.dart';
 
 class MemberBloc extends Cubit<MemberState> {
   final _restApi = RestApi();
-  List<Member> members = [];
-  Classroom? classroom;
-
   final String idClassrooms;
+
+  final List<Member> members = [];
 
   MemberBloc(this.idClassrooms) : super(const MemberInitialState());
   String get path => '/members/$idClassrooms';
@@ -27,8 +25,7 @@ class MemberBloc extends Cubit<MemberState> {
         },
       );
       if (result == null) return;
-
-      emit(MemberLoadedState([], '', []));
+      emit(MemberLoadedState([]));
     });
   }
 
@@ -61,7 +58,6 @@ class MemberBloc extends Cubit<MemberState> {
       final member = Member.fromJson(result);
       members.add(member);
 
-      emit(MemberLoadedState(members, classroom!.name, classroom!.exams));
       emit(MemberCreateState(member));
     });
   }

@@ -20,7 +20,11 @@ class MemberAdapter extends IAdapter {
   Widget layout({Map<String, dynamic>? params}) {
     return BlocProvider(
       create: (context) => MemberBloc(params!['id']),
-      child: const Members(),
+      child: Members(
+        classname: params!['classname'],
+        totalExams: params['exams'],
+        totalMembers: params['members'],
+      ),
     );
   }
 }

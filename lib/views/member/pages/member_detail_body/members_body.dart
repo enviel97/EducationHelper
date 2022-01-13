@@ -17,13 +17,7 @@ import 'widgets/members_empty.dart';
 import 'widgets/members_header.dart';
 
 class MembersBody extends StatefulWidget {
-  final String nameClass;
-  final List<dynamic> exams;
-  final List<Member> members;
   const MembersBody({
-    required this.nameClass,
-    required this.exams,
-    required this.members,
     Key? key,
   }) : super(key: key);
 
@@ -42,23 +36,17 @@ class _MembersBodyState extends State<MembersBody> {
   @override
   void initState() {
     super.initState();
-    exams = widget.exams;
-    members = widget.members;
-    name = widget.nameClass;
-    totalMember = widget.members.length;
-    totalExam = widget.exams.length;
+    exams = [];
+    members = [];
+    name = 'name';
+    totalMember = 0;
+    totalExam = 0;
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        MemberBodyHeader(
-          name: name,
-          numExams: totalExam,
-          numMembers: totalMember,
-        ),
-        SPACING.SM.vertical,
         Container(
           width: double.infinity,
           height: size.height * 3 / 5,
@@ -146,7 +134,7 @@ class _MembersBodyState extends State<MembersBody> {
 
   void _onSearch(String value) {
     if (value.isEmpty) {
-      members = widget.members;
+      members = [];
       return;
     }
     members = members.where((member) {

@@ -31,7 +31,19 @@ class HomeAdapter extends IAdapter {
     await context.goTo(_classroomAdapter.layout());
   }
 
-  Future<void> goToClassroomDetail(BuildContext context, String id) async {
-    await _classroomAdapter.as<ClassroomAdapter>().goToMembers(context, id);
+  Future<void> goToClassroomDetail(
+    BuildContext context, {
+    required String uid,
+    required int exams,
+    required int members,
+    required String classname,
+  }) async {
+    await _classroomAdapter.as<ClassroomAdapter>().goToMembers(
+          context,
+          uid: uid,
+          exams: exams,
+          members: members,
+          classname: classname,
+        );
   }
 }

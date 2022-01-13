@@ -9,14 +9,20 @@ import 'package:education_helper/views/member/bloc/member_bloc.dart';
 import 'package:education_helper/views/member/bloc/member_state.dart';
 import 'package:education_helper/views/member/pages/member_detail_body/members_body.dart';
 import 'package:education_helper/views/member/pages/members_header.dart';
-import 'package:education_helper/views/member/placeholders/p_member_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'pages/member_detail_body/widgets/members_header.dart';
 import 'placeholders/p_member_header.dart';
 
 class Members extends StatefulWidget {
+  final String classname;
+  final int totalExams;
+  final int totalMembers;
   const Members({
+    required this.classname,
+    required this.totalExams,
+    required this.totalMembers,
     Key? key,
   }) : super(key: key);
 
@@ -27,9 +33,15 @@ class Members extends StatefulWidget {
 class _MembersState extends State<Members> {
   late Classroom classroom;
   bool isNeedRefresh = false;
+  late String classname;
+  late int totalExams, totalMembers;
+
   @override
   void initState() {
     super.initState();
+    classname = widget.classname;
+    totalExams = widget.totalExams;
+    totalMembers = widget.totalMembers;
     BlocProvider.of<AppBloc>(context).getUser();
     BlocProvider.of<MemberBloc>(context).getMembers();
   }
@@ -47,7 +59,16 @@ class _MembersState extends State<Members> {
             children: [
               _buildHeader(),
               SPACING.SM.vertical,
-              _buildBody(),
+              Column(
+                children: [
+                  MemberBodyHeader(
+                    name: classname,
+                    numExams: totalExams,
+                    numMembers: totalMembers,
+                  ),
+                  SPACING.SM.vertical,
+                ],
+              )
             ],
           ),
         ),
@@ -78,22 +99,13 @@ class _MembersState extends State<Members> {
   }
 
   Widget _buildBody() {
-    return BlocConsumer<MemberBloc, MemberState>(
+    return BlocListener<MemberBloc, MemberState>(
       listener: (context, state) {
         if (state is MemberFailureState) {
           BlocProvider.of<AppBloc>(context).showError(context, state.messenger);
         }
       },
-      builder: (context, state) {
-        if (state is MemberLoadedState) {
-          return MembersBody(
-            nameClass: state.clasroomName,
-            exams: state.exams,
-            members: state.members,
-          );
-        }
-        return const PMemberBody();
-      },
+      child: const MembersBody(),
     );
   }
 }

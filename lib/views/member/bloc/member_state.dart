@@ -19,19 +19,24 @@ class MemberLoadingState extends MemberState {
   List<Object?> get props => [];
 }
 
-class MemberLoadedState extends MemberState {
-  final List<Member> members;
-  final String clasroomName;
+class MemberClassroomInfoSuccessState extends MemberState {
+  final String name;
   final List<String> exams;
 
+  const MemberClassroomInfoSuccessState(this.name, this.exams);
+
+  @override
+  List<Object?> get props => [name, exams];
+}
+
+class MemberLoadedState extends MemberState {
+  final List<Member> members;
   const MemberLoadedState(
     this.members,
-    this.clasroomName,
-    this.exams,
   );
 
   @override
-  List<Object?> get props => [members, clasroomName, exams];
+  List<Object?> get props => [members];
 }
 
 class MemberCreateState extends MemberState {

@@ -21,7 +21,13 @@ class ClassroomItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => adapter.goToMembers(context, classroom.id),
+      onTap: () => adapter.goToMembers(
+        context,
+        classname: classroom.name,
+        uid: classroom.id,
+        exams: classroom.exams.length,
+        members: classroom.members.length,
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
