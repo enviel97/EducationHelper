@@ -4,7 +4,7 @@ class Classroom {
   final String id;
   final String creatorId;
   final String name;
-  final List<Map<String, String>> members;
+  final List<dynamic> members;
   final List<String> exams;
 
   const Classroom({
@@ -18,8 +18,8 @@ class Classroom {
   Map<String, dynamic> toJson() => {'name': name};
 
   factory Classroom.fromJson(Map<String, dynamic> json) {
-    final exams = json['exams'] ?? [];
-    final members = json['members'] ?? [];
+    final exams = List<String>.from(json['members'] ?? []);
+    final members = List<dynamic>.from(json['members'] ?? []);
 
     return Classroom(
       name: json['name'],

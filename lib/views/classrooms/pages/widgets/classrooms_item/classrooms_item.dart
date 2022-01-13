@@ -43,11 +43,18 @@ class ClassroomItem extends StatelessWidget {
             ),
           ),
           SPACING.S.vertical,
-          classroom.members.isNotEmpty
-              ? ClassroomItemBody(members: classroom.members)
-              : const ClassroomItemEmpty(),
+          _buildBody()
         ],
       ),
     );
+  }
+
+  Widget _buildBody() {
+    if (classroom.members.isEmpty) {
+      return const ClassroomItemEmpty();
+    }
+    final mebers = List<Map<String, String>>.from(classroom.members);
+
+    return ClassroomItemBody(members: mebers);
   }
 }

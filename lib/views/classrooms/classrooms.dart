@@ -97,6 +97,11 @@ class _ClassroomsState extends State<Classrooms> {
         if (state is ClassroomGetAllSuccessState) {
           setState(() => totalClass = state.classrooms.length);
         }
+        if (state is ClassroomEditSuccessState ||
+            state is ClassroomDeleteSuccessState ||
+            state is ClassroomCreateSuccessState) {
+          isNeedRefresh = true;
+        }
         if (state is ClassroomDeleteSuccessState) {
           setState(() => totalClass -= 1);
         }
