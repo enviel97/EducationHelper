@@ -92,16 +92,18 @@ class _ClassroomColectionState extends State<ClassroomColection> {
                           itemBuilder: (_, index) {
                             final classroom = classrooms[index];
                             return GestureDetector(
-                                onTap: () => goToDetail(
-                                      classroom.id,
-                                      classroom.name,
-                                      classroom.exams.length,
-                                      classroom.members.length,
-                                    ),
-                                child: ClassroomCollectionItem(
-                                    name: classroom.name,
-                                    exams: classroom.exams.length,
-                                    members: classroom.members.length));
+                              onTap: () => goToDetail(
+                                classroom.id,
+                                classroom.name,
+                                classroom.exams.length,
+                                classroom.members.length,
+                              ),
+                              child: ClassroomCollectionItem(
+                                name: classroom.name,
+                                exams: classroom.exams.length,
+                                members: classroom.members.length,
+                              ),
+                            );
                           }));
                 }
                 if (state is HomeFailureState) {

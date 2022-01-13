@@ -84,6 +84,10 @@ class ClassroomBloc extends Cubit<ClassroomState> {
     });
   }
 
+  Future<void> refreshClassroom() async {
+    await getListClassroom();
+  }
+
   Future<void> getListClassroom() async {
     emit(ClassroomLoadingState());
     return await _struct(() async {

@@ -26,6 +26,8 @@ class MemberForm extends StatefulWidget {
 
 class _MemberFormState extends State<MemberForm> {
   final _form = GlobalKey<FormState>();
+  bool isEdit = false;
+  String error = '';
   bool isFemale = false;
   String firstname = '';
   String lastname = '';
@@ -37,16 +39,7 @@ class _MemberFormState extends State<MemberForm> {
   @override
   void initState() {
     super.initState();
-    if (widget.initMember != null) {
-      final member = widget.initMember!;
-      firstname = member.firstName;
-      lastname = member.lastName;
-      gender = member.gender;
-      isFemale = gender.toLowerCase() == 'female';
-      phoneNumber = member.phoneNumber ?? '';
-      email = member.mail ?? '';
-      dateBirthDay = member.birth;
-    }
+    _initMember();
   }
 
   @override
@@ -169,7 +162,7 @@ class _MemberFormState extends State<MemberForm> {
                         sideColor: kPlaceholderDarkColor,
                         text: 'Confirm',
                         textStyle: const TextStyle(color: kBlackColor),
-                        padding: const EdgeInsets.only(left: 20.0, right: 60.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
                         onPressed: confirmAddMember),
                     KTextButton(
                         width: 150.0,
@@ -191,16 +184,40 @@ class _MemberFormState extends State<MemberForm> {
   void confirmAddMember() {
     context.disableKeyBoard();
     if (_form.currentState?.validate() ?? false) {
-      BlocProvider.of<MemberBloc>(context).addMember(
-        firstname: firstname,
-        lastname: lastname,
+      final member = Member(
+        uid: widget.initMember?.uid ?? '',
+        firstName: firstname,
+        lastName: lastname,
         gender: gender,
         birth: dateBirthDay,
         mail: email,
-        phonenumber: phoneNumber,
+        phoneNumber: phoneNumber,
       );
+      if (isEdit) {
+        BlocProvider.of<MemberBloc>(context)
+            .editMember(member)
+            .then(Navigator.of(context).pop);
+      } else {
+        BlocProvider.of<MemberBloc>(context)
+            .addMember(member)
+            .then(Navigator.of(context).pop);
+      }
     }
   }
 
   void _handleAddCSV() {}
+
+  void _initMember() {
+    if (widget.initMember != null) {
+      final member = widget.initMember!;
+      firstname = member.firstName;
+      lastname = member.lastName;
+      gender = member.gender;
+      isFemale = gender.toLowerCase() == 'female';
+      phoneNumber = member.phoneNumber ?? '';
+      email = member.mail ?? '';
+      dateBirthDay = member.birth;
+      isEdit = true;
+    }
+  }
 }

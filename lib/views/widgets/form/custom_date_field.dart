@@ -30,7 +30,7 @@ class _KDateFieldState extends State<KDateField> {
   @override
   void initState() {
     super.initState();
-    value = widget.initDate ?? '';
+    value = widget.initDate?.toDateString() ?? '';
     selectedDateTime =
         value.isEmpty ? DateTime.now() : DateTime.tryParse(value);
   }
@@ -66,7 +66,7 @@ class _KDateFieldState extends State<KDateField> {
             ),
             Expanded(
               child: Text(
-                value.isEmpty ? widget.hintText : value.toDateString(),
+                value.isEmpty ? widget.hintText : value,
                 style: TextStyle(
                   fontSize: SPACING.M.size,
                   fontWeight: FontWeight.bold,
@@ -136,7 +136,7 @@ class _KDateFieldState extends State<KDateField> {
         selectedDateTime = picked;
         value = DateFormat(widget.formatDate).format(picked);
       });
-      widget.onChange(value);
+      widget.onChange(picked.toString());
     }
   }
 }

@@ -1,114 +1,63 @@
 import 'package:education_helper/constants/colors.dart';
-import 'package:education_helper/constants/typing.dart';
-import 'package:education_helper/helpers/extensions/string_x.dart';
-import 'package:education_helper/helpers/ultils/funtions.dart';
 import 'package:education_helper/models/members.model.dart';
+import 'package:education_helper/views/member/dialogs/member_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 class MemberDetail extends StatelessWidget {
   final Member member;
-  const MemberDetail({required this.member, Key? key}) : super(key: key);
+  final Widget content;
+
+  const MemberDetail({
+    required this.content,
+    required this.member,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10.0),
-      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-      decoration: BoxDecoration(
-          color: kPrimaryColor,
-          borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: kBlackColor),
-          boxShadow: [
-            BoxShadow(
-                color: kBlackColor.withOpacity(.5),
-                offset: const Offset(0, 4),
-                blurRadius: 4.0)
-          ]),
-      child: Row(
+    return Slidable(
+      child: content,
+      endActionPane: ActionPane(
+        motion: const DrawerMotion(),
         children: [
-          Container(
-            height: 70.0,
-            width: 70.0,
-            alignment: Alignment.center,
-            decoration: const BoxDecoration(
-              color: kWhiteColor,
-              borderRadius: BorderRadius.all(Radius.circular(20.0)),
-            ),
-            child: Text(
-              getLastName(member.lastName),
-              style: TextStyle(
-                color: kPrimaryColor,
-                fontWeight: FontWeight.bold,
-                fontSize: SPACING.LG.size,
+          CustomSlidableAction(
+            onPressed: (_) => _editPressed(context),
+            backgroundColor: Colors.transparent,
+            child: const CircleAvatar(
+              backgroundColor: Colors.transparent,
+              radius: 32.0,
+              child: Icon(
+                Feather.edit,
+                size: 32.0,
+                color: kWhiteColor,
               ),
             ),
           ),
-          SPACING.SM.horizontal,
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        '${member.firstName} ${member.lastName}',
-                        style: TextStyle(
-                          color: kWhiteColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: SPACING.M.size + 1.5,
-                        ),
-                      ),
-                    ),
-                    Tooltip(
-                      message: member.gender,
-                      child: Icon(
-                          member.gender.toLowerCase() == 'male'
-                              ? MaterialCommunityIcons.gender_male
-                              : MaterialCommunityIcons.gender_female,
-                          color: kWhiteColor,
-                          size: SPACING.LG.size),
-                    )
-                  ],
-                ),
-                SPACING.S.vertical,
-                if (member.mail != null)
-                  Container(
-                    padding: const EdgeInsets.only(right: 13.0),
-                    child: Text(
-                      '${member.mail}',
-                      style: TextStyle(
-                        color: kWhiteColor,
-                        fontSize: SPACING.M.size,
-                      ),
-                    ),
-                  ),
-                SPACING.S.vertical,
-                if (member.phoneNumber != null)
-                  Text(
-                    member.phoneNumber!.toPhone(),
-                    style: TextStyle(
-                      color: kWhiteColor,
-                      fontSize: SPACING.M.size,
-                    ),
-                  ),
-                SPACING.S.vertical,
-                if (member.birth != null)
-                  Text(
-                    member.birth!.toDateString(),
-                    style: TextStyle(
-                      color: kWhiteColor,
-                      fontSize: SPACING.M.size,
-                    ),
-                  )
-              ],
+          CustomSlidableAction(
+            onPressed: (_) => _removePressed(context),
+            backgroundColor: Colors.transparent,
+            child: const CircleAvatar(
+              backgroundColor: kErrorColor,
+              radius: 32.0,
+              child: Icon(
+                Feather.x_square,
+                size: 32.0,
+                color: kWhiteColor,
+              ),
             ),
           ),
         ],
       ),
     );
+  }
+
+  void _editPressed(BuildContext context) {
+    editMemberBottemSheet(context, member);
+  }
+
+  void _removePressed(BuildContext context) {
+    deleteMemberDialogConfirm(context, member.uid, member.toString());
   }
 }

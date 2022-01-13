@@ -8,8 +8,10 @@ import 'package:flutter/material.dart';
 
 class MembersHeader extends StatelessWidget {
   final User user;
+  final Function() onGoBack;
   const MembersHeader({
     required this.user,
+    required this.onGoBack,
     Key? key,
   }) : super(key: key);
 
@@ -54,7 +56,7 @@ class MembersHeader extends StatelessWidget {
             child: IconButton(
               icon: const Icon(Icons.arrow_back_ios_new),
               color: context.isLightTheme ? kBlackColor : kWhiteColor,
-              onPressed: Navigator.of(context).pop,
+              onPressed: onGoBack,
             ),
           )
         ],

@@ -59,7 +59,7 @@ class ClassroomItem extends StatelessWidget {
     if (classroom.members.isEmpty) {
       return const ClassroomItemEmpty();
     }
-    final mebers = List<Map<String, String>>.from(classroom.members);
+    final mebers = List<Map<String, dynamic>>.from(classroom.members);
 
     return ClassroomItemBody(members: mebers);
   }

@@ -22,10 +22,7 @@ class ClassroomAdapter extends IAdapter {
 
   @override
   Widget layout({Map<String, dynamic>? params}) {
-    return BlocProvider<ClassroomBloc>(
-      create: (context) => ClassroomBloc(),
-      child: const Classrooms(),
-    );
+    return const Classrooms();
   }
 
   Future<void> goToMembers(

@@ -5,16 +5,18 @@ import 'package:education_helper/models/members.model.dart';
 import 'package:education_helper/views/member/bloc/member_bloc.dart';
 import 'package:education_helper/views/member/bloc/member_state.dart';
 import 'package:education_helper/views/member/dialogs/member_dialog.dart';
+import 'package:education_helper/views/member/placeholders/p_member_body.dart';
 import 'package:education_helper/views/widgets/button/custom_icon_button.dart';
 import 'package:education_helper/views/widgets/button/custom_text_button.dart';
 import 'package:education_helper/views/widgets/form/custom_search_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
+import 'widgets/member_list.dart';
 import 'widgets/members_detail.dart';
 import 'widgets/members_empty.dart';
-import 'widgets/members_header.dart';
 
 class MembersBody extends StatefulWidget {
   const MembersBody({
@@ -27,17 +29,15 @@ class MembersBody extends StatefulWidget {
 
 class _MembersBodyState extends State<MembersBody> {
   String searchText = '';
-  List<Member> members = [];
-  List<dynamic> exams = [];
   String name = '';
+  List<Member> members = [];
+  List<Member> dynamicMembers = [];
   int totalMember = 0;
   int totalExam = 0;
 
   @override
   void initState() {
     super.initState();
-    exams = [];
-    members = [];
     name = 'name';
     totalMember = 0;
     totalExam = 0;
@@ -109,39 +109,38 @@ class _MembersBodyState extends State<MembersBody> {
   }
 
   Widget _buildListView() {
-    return BlocListener<MemberBloc, MemberState>(
-        listener: (context, state) {
-          if (state is MemberCreateState) {
-            members.add(state.member);
-            setState(() => totalMember += 1);
-          }
+    return BlocConsumer<MemberBloc, MemberState>(listener: (context, state) {
+      if (state is MemberCreateState) {
+        setState(() => totalMember += 1);
+      }
+      if (state is MemberLoadedState) {
+        print('tricker');
+        setState(() {
+          members = state.members;
+          dynamicMembers = state.members;
+        });
+      }
+    }, builder: (context, state) {
+      if (state is MemberLoadingState) {
+        return const PMemberBody();
+      }
 
-          if (state is MemberCreateState) {
-            members.add(state.member);
-            setState(() => totalMember += 1);
-          }
-        },
-        child: (members.isEmpty)
-            ? const MembersEmpty()
-            : ListView.builder(
-                padding: const EdgeInsets.only(bottom: 20.0),
-                itemCount: members.length,
-                itemBuilder: (context, index) {
-                  final member = members[index];
-                  return MemberDetail(member: member);
-                }));
+      return dynamicMembers.isEmpty
+          ? const MembersEmpty()
+          : MemberList(members: dynamicMembers);
+    });
   }
 
   void _onSearch(String value) {
     if (value.isEmpty) {
-      members = [];
+      dynamicMembers = members;
       return;
     }
-    members = members.where((member) {
+    dynamicMembers = members.where((member) {
       final bool isMail = member.mail?.contains(value) ?? false;
       final bool isPhonenumber = member.phoneNumber?.contains(value) ?? false;
-      return member.firstName.contains(value) ||
-          member.lastName.contains(value) ||
+      return member.firstName.toLowerCase().contains(value.toLowerCase()) ||
+          member.lastName.toLowerCase().contains(value.toLowerCase()) ||
           isMail ||
           isPhonenumber;
     }).toList();

@@ -53,6 +53,8 @@ class _KSearchTextState extends State<KSearchText> {
       child: TextField(
         controller: _controller,
         cursorColor: kWhiteColor,
+        enableSuggestions: false,
+        enableInteractiveSelection: false,
         autocorrect: false,
         onChanged: _onChange,
         onTap: () {
@@ -96,7 +98,6 @@ class _KSearchTextState extends State<KSearchText> {
   }
 
   Widget? _buildSend() {
-    if (value.isEmpty) return null;
     return IconButton(
       icon: const Icon(
         Ionicons.send_sharp,

@@ -23,7 +23,7 @@ class Member {
 
   factory Member.fromJson(Map<String, dynamic> json) {
     return Member(
-      uid: json['uid'],
+      uid: json['id'] ?? json['_id'],
       firstName: json['firstName'],
       lastName: json['lastName'],
       gender: json['gender'],
@@ -42,6 +42,11 @@ class Member {
         'phoneNumber': phoneNumber,
         'birth': birth,
       };
+
+  @override
+  String toString() {
+    return '$firstName $lastName';
+  }
 
   factory Member.faker() {
     final faker = Faker();

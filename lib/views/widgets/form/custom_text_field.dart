@@ -157,8 +157,10 @@ class _KTextFieldState extends State<KTextField> {
           splashColor: kBlackColor,
           highlightColor: kBlackColor,
           onPressed: () {
-            if (mounted) {
-              setState(controller.clear);
+            if (!mounted) return;
+            setState(controller.clear);
+            if (widget.onChange != null) {
+              widget.onChange!('');
             }
           }),
     );

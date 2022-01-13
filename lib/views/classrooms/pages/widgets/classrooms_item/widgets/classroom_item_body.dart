@@ -9,7 +9,7 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'classroom_member_short.dart';
 
 class ClassroomItemBody extends StatefulWidget {
-  final List<Map<String, String>> members;
+  final List<Map<String, dynamic>> members;
 
   const ClassroomItemBody({
     required this.members,
@@ -22,7 +22,7 @@ class ClassroomItemBody extends StatefulWidget {
 
 class _ClassroomItemBodyState extends State<ClassroomItemBody> {
   bool hasMore = false;
-  late List<Map<String, String>> members;
+  late List<Map<String, dynamic>> members;
   @override
   void initState() {
     super.initState();

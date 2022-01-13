@@ -53,6 +53,7 @@ dependencies:
   shimmer: ^2.0.0
   faker: ^2.0.0
   mask_text_input_formatter: ^2.0.0
+  flutter_slidable: ^1.2.0
 
 dev_dependencies:
   flutter_test:
