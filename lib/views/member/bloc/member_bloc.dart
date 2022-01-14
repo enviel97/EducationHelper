@@ -13,18 +13,15 @@ class MemberBloc extends Cubit<MemberState> {
 
   MemberBloc(this.idClassrooms) : super(const MemberInitialState());
 
-  String path({String? action}) {
-    if (action?.isEmpty ?? true) {
-      return '/members/$idClassrooms';
-    }
-    return '';
+  Future<void> refreshMembers() async {
+    await getMembers();
   }
 
   Future<void> getMembers() async {
     emit(const MemberLoadingState());
 
     return await _structure(() async {
-      final result = await _restApi.get(path()).catchError(
+      final result = await _restApi.get('/members/$idClassrooms').catchError(
         (error) {
           emit(MemberFailureState(error[error]));
           return null;
@@ -34,6 +31,23 @@ class MemberBloc extends Cubit<MemberState> {
       final List<dynamic> members = result['members'] ?? [];
       _members.addAll(List<Member>.generate(
           members.length, (i) => Member.fromJson(members[i])));
+      notificationChanged();
+    });
+  }
+
+  Future<void> addMembers(List<Member> members) async {
+    emit(const MemberLoadingState());
+
+    return await _structure(() async {
+      final result = await _restApi.put(
+          '/members/create/$idClassrooms', {'members': members}).catchError(
+        (error) {
+          emit(MemberFailureState(error[error]));
+          return null;
+        },
+      );
+      if (result == null) return;
+
       notificationChanged();
     });
   }

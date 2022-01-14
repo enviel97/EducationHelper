@@ -7,14 +7,14 @@ import 'package:education_helper/roots/bloc/app_bloc.dart';
 import 'package:education_helper/roots/bloc/app_state.dart';
 import 'package:education_helper/views/classrooms/bloc/classroom_bloc.dart';
 import 'package:education_helper/views/home/bloc/home_bloc.dart';
-import 'package:education_helper/views/member/bloc/member_bloc.dart';
-import 'package:education_helper/views/member/bloc/member_state.dart';
-import 'package:education_helper/views/member/pages/member_detail_body/members_body.dart';
-import 'package:education_helper/views/member/pages/members_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'pages/member_detail_body/widgets/members_header.dart';
+import 'bloc/member_bloc.dart';
+import 'bloc/member_state.dart';
+import 'pages/members_list/member_detail_body/members_body.dart';
+import 'pages/members_list/member_detail_body/widgets/members_header.dart';
+import 'pages/members_list/members_header.dart';
 import 'placeholders/p_member_header.dart';
 
 class Members extends StatefulWidget {
