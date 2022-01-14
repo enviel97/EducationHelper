@@ -33,25 +33,19 @@ class KConfirmAlert extends StatelessWidget {
       title: Text(title),
       content: RichText(
         text: TextSpan(children: [
-          TextSpan(
-            text: notice,
-            style: TextStyle(fontSize: SPACING.M.size),
-          ),
+          TextSpan(text: notice, style: TextStyle(fontSize: SPACING.M.size)),
           TextSpan(
               text: content,
               style: TextStyle(
-                color: highlightColor,
-                fontSize: SPACING.M.size * 1.2,
-              )),
+                  color: highlightColor, fontSize: SPACING.M.size * 1.2)),
         ]),
       ),
       actions: <Widget>[
         IconButton(
-          icon: const Icon(Icons.check, color: kErrorColor),
-          onPressed: onConfirm,
-        ),
+            icon: const Icon(Icons.check, color: kErrorColor),
+            onPressed: onConfirm),
         IconButton(
-            icon: Icon(Icons.close, color: textColor),
+            icon: const Icon(Icons.close, color: kWhiteColor),
             onPressed: () => _onGoBack(context))
       ],
     );

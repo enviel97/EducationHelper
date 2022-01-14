@@ -69,8 +69,8 @@ class _MemberFormState extends State<MemberForm> {
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('Add Member',
-                          style: TextStyle(
+                      Text(isEdit ? 'Edit Member' : 'Add Member',
+                          style: const TextStyle(
                               color: kBlackColor,
                               fontWeight: FontWeight.bold,
                               fontSize: 20.0)),
@@ -196,11 +196,11 @@ class _MemberFormState extends State<MemberForm> {
       if (isEdit) {
         BlocProvider.of<MemberBloc>(context)
             .editMember(member)
-            .then(Navigator.of(context).pop);
+            .whenComplete(Navigator.of(context).pop);
       } else {
         BlocProvider.of<MemberBloc>(context)
             .addMember(member)
-            .then(Navigator.of(context).pop);
+            .whenComplete(Navigator.of(context).pop);
       }
     }
   }
@@ -208,16 +208,15 @@ class _MemberFormState extends State<MemberForm> {
   void _handleAddCSV() {}
 
   void _initMember() {
-    if (widget.initMember != null) {
-      final member = widget.initMember!;
-      firstname = member.firstName;
-      lastname = member.lastName;
-      gender = member.gender;
-      isFemale = gender.toLowerCase() == 'female';
-      phoneNumber = member.phoneNumber ?? '';
-      email = member.mail ?? '';
-      dateBirthDay = member.birth;
-      isEdit = true;
-    }
+    if (widget.initMember == null) return;
+    final member = widget.initMember!;
+    firstname = member.firstName;
+    lastname = member.lastName;
+    gender = member.gender;
+    isFemale = gender.toLowerCase() == 'female';
+    phoneNumber = member.phoneNumber ?? '';
+    email = member.mail ?? '';
+    dateBirthDay = member.birth;
+    isEdit = true;
   }
 }

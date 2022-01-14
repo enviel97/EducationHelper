@@ -11,6 +11,8 @@ class KDateField extends StatefulWidget {
   final String? initDate;
   final String formatDate;
   final Function(String date) onChange;
+  final DateTime? minDate;
+  final DateTime? maxDate;
   const KDateField({
     required this.hintText,
     required this.onChange,
@@ -18,6 +20,8 @@ class KDateField extends StatefulWidget {
     this.isClearButton = true,
     this.initDate,
     this.formatDate = 'dd/MM/yyyy',
+    this.minDate,
+    this.maxDate,
   }) : super(key: key);
 
   @override
@@ -109,25 +113,23 @@ class _KDateFieldState extends State<KDateField> {
     final picked = await showDatePicker(
         context: context,
         initialDate: selectedDateTime ?? DateTime.now(),
-        firstDate: DateTime(2000),
-        lastDate: DateTime(2025),
+        firstDate: widget.minDate ?? DateTime(1700),
+        lastDate: widget.maxDate ?? DateTime(2500),
         initialEntryMode: DatePickerEntryMode.calendar,
         helpText: widget.hintText,
         cancelText: 'Cancel',
         confirmText: 'Set',
         fieldHintText: widget.formatDate,
         builder: (_, __) {
-          final ColorScheme colorScheme;
-          if (isLightTheme) {
-            colorScheme = const ColorScheme.light();
-          } else {
-            colorScheme = const ColorScheme.dark();
-          }
+          final ColorScheme colorScheme = isLightTheme
+              ? const ColorScheme.light()
+              : const ColorScheme.dark();
           return Theme(
             data: Theme.of(context).copyWith(
               colorScheme: colorScheme,
+              dialogBackgroundColor: colorScheme.background,
             ),
-            child: SizedBox(child: __),
+            child: SizedBox.shrink(child: __),
           );
         });
 

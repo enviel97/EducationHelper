@@ -109,6 +109,7 @@ class _ClassroomColectionState extends State<ClassroomColection> {
                 if (state is HomeFailureState) {
                   return ClassroomCollectionEmpty(
                     goToClassrooms: gotoClassList,
+                    error: 'Some thing wrong !!',
                   );
                 }
 

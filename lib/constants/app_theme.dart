@@ -39,6 +39,11 @@ class AppTheme {
         ), // button text color
       ),
     ),
+    textSelectionTheme: TextSelectionThemeData(
+      cursorColor: kPrimaryColor,
+      selectionColor: kPrimaryColor.withOpacity(.7),
+      selectionHandleColor: kPrimaryColor.withOpacity(.7),
+    ),
   );
 
   final AppBarTheme appBarTheme = AppBarTheme(
@@ -64,7 +69,7 @@ class AppTheme {
         brightness: Brightness.light,
         onBack: kBlackColor,
       ),
-      dialogBackgroundColor: kWhiteColor,
+      dialogBackgroundColor: kBlackColor,
       scaffoldBackgroundColor: kWhiteColor,
       backgroundColor: kWhiteColor,
       hintColor: kPlaceholderDarkColor,
@@ -77,6 +82,7 @@ class AppTheme {
       appBarTheme: theme.appBarTheme.copyWith(
         backgroundColor: kPrimaryLightColor,
       ),
+      cardColor: kWhiteColor,
     );
   }
 
@@ -97,9 +103,11 @@ class AppTheme {
         bodyColor: kWhiteColor,
         displayColor: kWhiteColor,
       ),
+      selectedRowColor: kBlackColor,
       appBarTheme: theme.appBarTheme.copyWith(
         backgroundColor: kPrimaryColor,
       ),
+      cardColor: kBlackColor,
     );
   }
 }
