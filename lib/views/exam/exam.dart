@@ -2,7 +2,7 @@ import 'package:education_helper/views/widgets/header/appbar_bottom.dart';
 import 'package:flutter/material.dart';
 
 class Exam extends StatefulWidget {
-  Exam({Key? key}) : super(key: key);
+  const Exam({Key? key}) : super(key: key);
 
   @override
   _ExamState createState() => _ExamState();

@@ -10,7 +10,7 @@ import 'widgets/date_horizantal/date_picker_timeline.dart';
 
 class Home extends StatefulWidget {
   static final HomeAdapter adapter =
-      Root.ins.adapter.getAdapter(homeAdapter).as<HomeAdapter>();
+      Root.ins.adapter.getAdapter(homeAdapter).cast<HomeAdapter>();
   const Home({Key? key}) : super(key: key);
 
   @override

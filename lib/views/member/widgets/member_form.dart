@@ -4,13 +4,11 @@ import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:education_helper/helpers/ultils/validation.dart';
 import 'package:education_helper/helpers/widgets/scroller_grow_disable.dart';
 import 'package:education_helper/models/members.model.dart';
-import 'package:education_helper/views/member/bloc/member_bloc.dart';
 import 'package:education_helper/views/widgets/button/custom_icon_button.dart';
 import 'package:education_helper/views/widgets/button/custom_text_button.dart';
 import 'package:education_helper/views/widgets/form/custom_date_field.dart';
 import 'package:education_helper/views/widgets/form/custom_text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 class MemberForm extends StatefulWidget {
@@ -193,23 +191,20 @@ class _MemberFormState extends State<MemberForm> {
         mail: email,
         phoneNumber: phoneNumber,
       );
-      if (isEdit) {
-        BlocProvider.of<MemberBloc>(context)
-            .editMember(member)
-            .whenComplete(Navigator.of(context).pop);
-      } else {
-        BlocProvider.of<MemberBloc>(context)
-            .addMember(member)
-            .whenComplete(Navigator.of(context).pop);
-      }
+      Navigator.of(context).pop(member);
     }
   }
 
   void _handleAddCSV() {}
 
   void _initMember() {
-    if (widget.initMember == null) return;
-    final member = widget.initMember!;
+    final Member member;
+    if (widget.initMember == null) {
+      member = Member.faker();
+    } else {
+      member = widget.initMember!;
+    }
+
     firstname = member.firstName;
     lastname = member.lastName;
     gender = member.gender;

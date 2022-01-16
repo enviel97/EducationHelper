@@ -1,3 +1,5 @@
+// ignore: file_names
+// ignore_for_file: file_names, duplicate_ignore
 import 'package:education_helper/constants/colors.dart' show kWhiteColor;
 import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:education_helper/views/classrooms/bloc/classroom_bloc.dart';

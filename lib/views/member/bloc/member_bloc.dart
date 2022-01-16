@@ -36,18 +36,18 @@ class MemberBloc extends Cubit<MemberState> {
   }
 
   Future<void> addMembers(List<Member> members) async {
-    emit(const MemberLoadingState());
-
     return await _structure(() async {
       final result = await _restApi.put(
-          '/members/create/$idClassrooms', {'members': members}).catchError(
+          '/members/creates/$idClassrooms', {'members': members}).catchError(
         (error) {
           emit(MemberFailureState(error[error]));
           return null;
         },
       );
       if (result == null) return;
-
+      final mems = mapJsonToList(result);
+      _members.addAll(mems);
+      emit(MembersCreateState(mems));
       notificationChanged();
     });
   }
@@ -107,8 +107,24 @@ class MemberBloc extends Cubit<MemberState> {
     });
   }
 
+  // helper
   void notificationChanged() {
     emit(MemberLoadedState(_members));
+  }
+
+  List<Member> mapJsonToList(dynamic result) {
+    try {
+      if ((result?.length ?? 0) == 0) {
+        return [];
+      }
+      return List<Member>.generate(
+        result.length,
+        (index) => Member.fromJson(result[index]),
+      );
+    } catch (error) {
+      debugPrint('[Classroom]: map list error');
+      return [];
+    }
   }
 
   Future<void> _structure(Future<void> Function() handler) async {

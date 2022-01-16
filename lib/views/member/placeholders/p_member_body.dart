@@ -1,10 +1,6 @@
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
-import 'package:education_helper/helpers/extensions/build_context_x.dart';
-import 'package:education_helper/views/widgets/button/custom_icon_button.dart';
-import 'package:education_helper/views/widgets/button/custom_text_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:shimmer/shimmer.dart';
 
 class PMemberBody extends StatelessWidget {

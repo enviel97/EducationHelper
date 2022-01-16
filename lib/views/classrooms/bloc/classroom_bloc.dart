@@ -57,7 +57,6 @@ class ClassroomBloc extends Cubit<ClassroomState> {
       });
       if (result == null) return;
       final classroom = Classroom.fromJson(result);
-      classrooms = classrooms;
       classrooms = classrooms.where((c) => c.id != id).toList();
       emit(ClassroomDeleteSuccessState(classroom));
     });

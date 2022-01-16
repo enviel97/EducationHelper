@@ -1,7 +1,7 @@
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
-
 import 'package:education_helper/helpers/widgets/circle_animation.dart';
+
 import 'package:education_helper/roots/app_root.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -18,17 +18,38 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> {
-// Root.ins.getScreens()
-  Widget loading(isComplete) => Center(
+  @override
+  void initState() {
+    super.initState();
+    gotoScreen();
+  }
+
+  void gotoScreen() async {
+    final lastScreens =
+        await Future.wait(Root.ins.config()).then((_) => Root.ins.getScreens());
+
+    await Future.delayed(
+      const Duration(milliseconds: 1500),
+      () => Navigator.of(context).pushReplacement(
+        AnimationCircleSource(lastScreens),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: kPrimaryColor,
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SpinKitFadingCube(color: kWhiteColor, size: 60.0),
             SPACING.XXL.vertical,
-            Text(
-              isComplete ? 'Welcome' : 'Loading...',
-              style: const TextStyle(
+            const Text(
+              'Welcome',
+              style: TextStyle(
                 color: kWhiteColor,
                 fontWeight: FontWeight.bold,
                 fontSize: 40.0,
@@ -36,29 +57,6 @@ class _SplashState extends State<Splash> {
             )
           ],
         ),
-      );
-
-  void gotoScreen() async {
-    Root.ins.getScreens().then((value) async =>
-        await Future.delayed(const Duration(milliseconds: 700))
-            .whenComplete(() {
-          Navigator.of(context).pushReplacement(AnimationCircleSource(value));
-        }));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kPrimaryColor,
-      body: FutureBuilder(
-        future: Future.wait(Root.ins.config()),
-        builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
-          if (snapshot.connectionState != ConnectionState.done) {
-            return loading(false);
-          }
-          Future.delayed(const Duration(seconds: 1), gotoScreen);
-          return loading(true);
-        },
       ),
     );
   }

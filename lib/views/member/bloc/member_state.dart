@@ -38,6 +38,15 @@ class MemberCreateState extends MemberState {
   List<Object?> get props => [member];
 }
 
+class MembersCreateState extends MemberState {
+  final List<Member> members;
+
+  const MembersCreateState(this.members);
+
+  @override
+  List<Object?> get props => [members];
+}
+
 class MemberFailureState extends MemberState {
   final String messenger;
 

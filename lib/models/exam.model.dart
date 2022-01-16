@@ -4,7 +4,7 @@ class Exam {
   const Exam();
 
   static Exam fromJson(dynamic json) {
-    return Exam();
+    return const Exam();
   }
 
   Map<String, dynamic> toJson({bool fillterNull = false}) {

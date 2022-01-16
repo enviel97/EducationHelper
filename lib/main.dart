@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:education_helper/helpers/ultils/widgets.dart';
-import 'package:education_helper/helpers/widgets/splash.dart';
 import 'package:education_helper/views/classrooms/bloc/classroom_bloc.dart';
 import 'package:education_helper/views/exam/bloc/exam_bloc.dart';
 import 'package:education_helper/views/home/bloc/home_bloc.dart';
@@ -19,7 +18,7 @@ Future<void> main() async {
       BlocProvider(create: (context) => HomeBloc()),
       BlocProvider(create: (context) => ClassroomBloc()),
       BlocProvider(create: (context) => ExamBloc())
-    ], child: const Routes(firstScreen: Splash())));
+    ], child: const Routes()));
   }, (error, trace) {
     // Splash in time
   });

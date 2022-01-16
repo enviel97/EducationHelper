@@ -5,42 +5,46 @@ import 'package:education_helper/views/widgets/deorate/custom_confirm_alert.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+const _raidus = BorderRadius.only(
+  topLeft: Radius.circular(40.0),
+  topRight: Radius.circular(40.0),
+);
 void addMemberBottemSheet(BuildContext builder) {
-  const borderRadius = BorderRadius.only(
-    topLeft: Radius.circular(40.0),
-    topRight: Radius.circular(40.0),
-  );
   showModalBottomSheet(
     elevation: 1,
     context: builder,
     isScrollControlled: true,
-    shape: const RoundedRectangleBorder(borderRadius: borderRadius),
+    shape: const RoundedRectangleBorder(borderRadius: _raidus),
     builder: (context) {
       return BlocProvider.value(
         value: BlocProvider.of<MemberBloc>(builder),
         child: const MemberForm(),
       );
     },
-  );
+  ).then((value) {
+    if (value is Member) {
+      BlocProvider.of<MemberBloc>(builder).addMember(value);
+    }
+  });
 }
 
 void editMemberBottemSheet(BuildContext builder, Member member) {
-  const borderRadius = BorderRadius.only(
-    topLeft: Radius.circular(40.0),
-    topRight: Radius.circular(40.0),
-  );
   showModalBottomSheet(
     elevation: 1,
     context: builder,
     isScrollControlled: true,
-    shape: const RoundedRectangleBorder(borderRadius: borderRadius),
+    shape: const RoundedRectangleBorder(borderRadius: _raidus),
     builder: (context) {
       return BlocProvider.value(
         value: BlocProvider.of<MemberBloc>(builder),
         child: MemberForm(initMember: member),
       );
     },
-  );
+  ).then((value) {
+    if (value is Member) {
+      BlocProvider.of<MemberBloc>(builder).editMember(value);
+    }
+  });
 }
 
 void deleteMemberDialogConfirm(
@@ -67,3 +71,17 @@ void deleteMemberDialogConfirm(
     },
   );
 }
+
+Future<Member?> editMemberBottemSheetStatic(
+  BuildContext builder,
+  Member member,
+) =>
+    showModalBottomSheet(
+      elevation: 1,
+      context: builder,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(borderRadius: _raidus),
+      builder: (context) {
+        return MemberForm(initMember: member);
+      },
+    );

@@ -1,25 +1,28 @@
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/helpers/extensions/state.x.dart';
+import 'package:education_helper/helpers/modules/csv_modules.dart';
+import 'package:education_helper/helpers/modules/file_picker.dart';
 import 'package:education_helper/models/members.model.dart';
 import 'package:education_helper/views/member/bloc/member_bloc.dart';
 import 'package:education_helper/views/member/bloc/member_state.dart';
 import 'package:education_helper/views/member/dialogs/member_dialog.dart';
+import 'package:education_helper/views/member/members.dart';
 import 'package:education_helper/views/member/placeholders/p_member_body.dart';
 import 'package:education_helper/views/widgets/button/custom_icon_button.dart';
 import 'package:education_helper/views/widgets/button/custom_text_button.dart';
 import 'package:education_helper/views/widgets/form/custom_search_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 import 'widgets/member_list.dart';
-import 'widgets/members_detail.dart';
 import 'widgets/members_empty.dart';
 
 class MembersBody extends StatefulWidget {
+  final String classname;
   const MembersBody({
+    required this.classname,
     Key? key,
   }) : super(key: key);
 
@@ -29,19 +32,9 @@ class MembersBody extends StatefulWidget {
 
 class _MembersBodyState extends State<MembersBody> {
   String searchText = '';
-  String name = '';
   List<Member> members = [];
   List<Member> dynamicMembers = [];
-  int totalMember = 0;
-  int totalExam = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    name = 'name';
-    totalMember = 0;
-    totalExam = 0;
-  }
+  final filePicker = FilePickerController();
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +90,7 @@ class _MembersBodyState extends State<MembersBody> {
                     color: kBlackColor,
                     backgroudColor: kWhiteColor,
                     width: 150.0,
-                    onPressed: () {},
+                    onPressed: () => addMembersWithCSV(context),
                   )
                 ],
               )
@@ -110,11 +103,7 @@ class _MembersBodyState extends State<MembersBody> {
 
   Widget _buildListView() {
     return BlocConsumer<MemberBloc, MemberState>(listener: (context, state) {
-      if (state is MemberCreateState) {
-        setState(() => totalMember += 1);
-      }
       if (state is MemberLoadedState) {
-        print('tricker');
         setState(() {
           members = state.members;
           dynamicMembers = state.members;
@@ -144,5 +133,26 @@ class _MembersBodyState extends State<MembersBody> {
           isMail ||
           isPhonenumber;
     }).toList();
+  }
+
+  Future<void> addMembersWithCSV(BuildContext context) async {
+    try {
+      final file = await filePicker.getFilePicker();
+      if (file == null) return;
+      final csvHandle = CSVController(file);
+      final sheet = await csvHandle.readFileCSV();
+      if (sheet == null) return;
+      final jsons = csvHandle.toJsons(sheet);
+      final members =
+          List.generate(jsons.length, (index) => Member.fromJson(jsons[index]));
+
+      Members.adapter.goToMembersAdd(
+        context,
+        classname: widget.classname,
+        members: members,
+      );
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 }

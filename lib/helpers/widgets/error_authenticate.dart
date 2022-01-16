@@ -17,7 +17,7 @@ class ErrorAuthenticate extends StatelessWidget {
   }) : super(key: key);
 
   HomeAdapter get _adapter =>
-      Root.ins.adapter.getAdapter(homeAdapter).as<HomeAdapter>();
+      Root.ins.adapter.getAdapter(homeAdapter).cast<HomeAdapter>();
 
   @override
   Widget build(BuildContext context) {

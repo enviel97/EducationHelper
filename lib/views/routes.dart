@@ -2,11 +2,10 @@
 import 'package:education_helper/constants/app_theme.dart';
 import 'package:flutter/material.dart';
 
-class Routes extends StatefulWidget {
-  final Widget firstScreen;
+import 'splash/splash.dart';
 
+class Routes extends StatefulWidget {
   const Routes({
-    required this.firstScreen,
     Key? key,
   }) : super(key: key);
 
@@ -22,7 +21,7 @@ class _RoutesState extends State<Routes> {
       title: 'Education Helper',
       theme: AppTheme.lightTheme(context),
       darkTheme: AppTheme.darkTheme(context),
-      home: widget.firstScreen,
+      home: const Splash(),
     );
   }
 }

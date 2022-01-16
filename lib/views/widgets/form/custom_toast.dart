@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 
 class KToast extends StatelessWidget {
   final String error;
-  const KToast({Key? key, required this.error}) : super(key: key);
+  const KToast({
+    required this.error,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

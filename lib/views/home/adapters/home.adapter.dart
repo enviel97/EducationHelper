@@ -38,7 +38,7 @@ class HomeAdapter extends IAdapter {
     required int members,
     required String classname,
   }) async {
-    await _classroomAdapter.as<ClassroomAdapter>().goToMembers(
+    await _classroomAdapter.cast<ClassroomAdapter>().goToMembers(
           context,
           uid: uid,
           exams: exams,

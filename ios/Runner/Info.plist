@@ -51,6 +51,18 @@
       </array>
     </dict>
   </array>
+  <key>UIBackgroundModes</key>
+  <array>
+   <string>fetch</string>
+   <string>remote-notification</string>
+  </array>
+  <key>UISupportsDocumentBrowser</key>
+  <true/>
+  <key>LSSupportsOpeningDocumentsInPlace</key>
+  <true/>
+  <key>NSPhotoLibraryUsageDescription</key>
+  <string>This app use photos collection of your device to help pick homework data</string>
+
 	<false/>
 </dict>
 </plist>

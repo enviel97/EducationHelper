@@ -55,6 +55,12 @@ dependencies:
   mask_text_input_formatter: ^2.0.0
   flutter_slidable: ^1.2.0
 
+  # file
+  file_picker: ^4.3.1
+  excel: ^2.0.0-null-safety-3
+  open_file: ^3.2.1
+  path_provider: ^2.0.8
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

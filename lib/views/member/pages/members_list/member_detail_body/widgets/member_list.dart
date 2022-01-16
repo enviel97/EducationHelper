@@ -1,5 +1,6 @@
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
+import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:education_helper/helpers/extensions/string_x.dart';
 import 'package:education_helper/helpers/ultils/funtions.dart';
 import 'package:education_helper/models/members.model.dart';
@@ -28,7 +29,9 @@ class MemberList extends StatelessWidget {
             vertical: 10.0,
           ),
           decoration: BoxDecoration(
-              color: kPrimaryColor,
+              color: context.isLightTheme
+                  ? kSecondarySuperDarkColor
+                  : kSecondaryDarkColor,
               borderRadius: BorderRadius.circular(24),
               border: Border.all(color: kBlackColor),
               boxShadow: [

@@ -3,10 +3,12 @@ import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:education_helper/helpers/widgets/error_authenticate.dart';
 import 'package:education_helper/helpers/widgets/scroller_grow_disable.dart';
 import 'package:education_helper/models/classroom.model.dart';
+import 'package:education_helper/roots/app_root.dart';
 import 'package:education_helper/roots/bloc/app_bloc.dart';
 import 'package:education_helper/roots/bloc/app_state.dart';
 import 'package:education_helper/views/classrooms/bloc/classroom_bloc.dart';
 import 'package:education_helper/views/home/bloc/home_bloc.dart';
+import 'package:education_helper/views/member/adapter/member.adapter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,6 +20,8 @@ import 'pages/members_list/members_header.dart';
 import 'placeholders/p_member_header.dart';
 
 class Members extends StatefulWidget {
+  static final adapter =
+      Root.ins.adapter.getAdapter(memberAdapter).cast<MemberAdapter>();
   final String classname;
   final int totalExams;
   final int totalMembers;
@@ -110,13 +114,23 @@ class _MembersState extends State<Members> {
         if (state is MemberFailureState) {
           BlocProvider.of<AppBloc>(context).showError(context, state.messenger);
         }
+        if (state is MemberDeleteSuccessState) {
+          setState(() => totalMembers--);
+        }
+        if (state is MemberCreateState) {
+          setState(() => totalMembers++);
+        }
+        if (state is MembersCreateState) {
+          setState(() => totalMembers += state.members.length);
+        }
         if (state is MemberDeleteSuccessState ||
             state is MemberCreateState ||
-            state is MemberEditSuccessState) {
-          isNeedRefresh = true;
+            state is MemberEditSuccessState ||
+            state is MembersCreateState) {
+          setState(() => isNeedRefresh = true);
         }
       },
-      child: const MembersBody(),
+      child: MembersBody(classname: classname),
     );
   }
 

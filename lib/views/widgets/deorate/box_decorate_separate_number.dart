@@ -44,7 +44,10 @@ class BoxDecorateSeparateNumber extends StatelessWidget {
                 ),
                 child: Text(
                   '$totalExams',
-                  style: const TextStyle(color: kWhiteColor),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: kWhiteColor,
+                  ),
                 ),
               ),
             ),
@@ -55,7 +58,10 @@ class BoxDecorateSeparateNumber extends StatelessWidget {
               padding: const EdgeInsets.only(right: 6.0),
               child: Text(
                 '$totalMembers',
-                style: const TextStyle(color: kBlackColor),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: kBlackColor,
+                ),
               ),
             ),
           )

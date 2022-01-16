@@ -23,14 +23,14 @@ class Member {
 
   factory Member.fromJson(Map<String, dynamic> json) {
     return Member(
-      uid: json['id'] ?? json['_id'],
+      uid: json['id'] ?? json['_id'] ?? '',
       firstName: json['firstName'],
       lastName: json['lastName'],
       gender: json['gender'],
       avatar: json['avatar'],
       mail: json['mail'],
-      phoneNumber: json['phoneNumber'],
-      birth: json['birth'],
+      phoneNumber: json['phoneNumber'] ?? json['phone'],
+      birth: json['birth'] ?? json['datebirth'],
     );
   }
 

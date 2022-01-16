@@ -26,7 +26,7 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
-  final adapter = Root.ins.adapter.getAdapter(authAdapter).as<AuthAdpater>();
+  final adapter = Root.ins.adapter.getAdapter(authAdapter).cast<AuthAdpater>();
   double get height => size.height * .8;
   String username = '';
   String password = '';
