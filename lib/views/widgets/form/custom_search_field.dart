@@ -50,42 +50,57 @@ class _KSearchTextState extends State<KSearchText> {
             color: isLightTheme ? kPrimaryDarkColor : kPrimaryColor,
             width: 1.5),
       ),
-      child: TextField(
-        controller: _controller,
-        cursorColor: kWhiteColor,
-        enableSuggestions: false,
-        enableInteractiveSelection: false,
-        autocorrect: false,
-        onChanged: _onChange,
-        onTap: () {
-          _controller.selection = TextSelection(
-            baseOffset: 0,
-            extentOffset: value.length,
-          );
-        },
-        onSubmitted: (value) => widget.onSearch(value),
-        decoration: InputDecoration(
-          prefixIcon: const Icon(
-            Feather.search,
-            color: kWhiteColor,
-            size: 20.0,
+      child: Row(
+        children: [
+          Expanded(
+            child: Theme(
+              data: ThemeData(
+                  textSelectionTheme: TextSelectionThemeData(
+                      cursorColor: kWhiteColor,
+                      selectionColor: kWhiteColor.withOpacity(.5),
+                      selectionHandleColor: kWhiteColor.withOpacity(.5))),
+              child: TextField(
+                controller: _controller,
+                cursorColor: kWhiteColor,
+                enableSuggestions: false,
+                enableInteractiveSelection: false,
+                autocorrect: false,
+                onChanged: _onChange,
+                onTap: () {
+                  _controller.selection = TextSelection(
+                    baseOffset: 0,
+                    extentOffset: value.length,
+                  );
+                },
+                onSubmitted: (value) => widget.onSearch(value),
+                style: const TextStyle(color: kWhiteColor),
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(
+                    Feather.search,
+                    color: kWhiteColor,
+                    size: 20.0,
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 20.0,
+                    vertical: 10.0,
+                  ),
+                  hintText: 'Search',
+                  hintStyle: const TextStyle(
+                      fontWeight: FontWeight.bold, color: kWhiteColor),
+                  border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(40.0)),
+                  ),
+                  focusColor: kBlackColor,
+                  filled: true,
+                  fillColor: isLightTheme ? kPrimaryDarkColor : kPrimaryColor,
+                  errorMaxLines: 1,
+                  suffixIcon: _buildClearButton(),
+                ),
+              ),
+            ),
           ),
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 20.0,
-            vertical: 10.0,
-          ),
-          hintText: 'Search',
-          hintStyle:
-              const TextStyle(fontWeight: FontWeight.bold, color: kWhiteColor),
-          border: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(40.0)),
-          ),
-          focusColor: kBlackColor,
-          filled: true,
-          fillColor: isLightTheme ? kPrimaryDarkColor : kPrimaryColor,
-          errorMaxLines: 1,
-          suffixIcon: _buildSend(),
-        ),
+          _buildSend(),
+        ],
       ),
     );
   }
@@ -97,11 +112,29 @@ class _KSearchTextState extends State<KSearchText> {
     setState(() => this.value = value);
   }
 
-  Widget? _buildSend() {
+  Widget _buildClearButton() {
+    if (_controller.text.isEmpty) {
+      return const SizedBox.shrink();
+    }
+    return IconButton(
+      icon: const Icon(
+        Icons.cancel,
+        color: kWhiteColor,
+      ),
+      onPressed: () {
+        context.disableKeyBoard();
+        setState(() => value = '');
+        _controller.clear();
+        widget.onSearch('');
+      },
+    );
+  }
+
+  Widget _buildSend() {
     return IconButton(
       icon: const Icon(
         Ionicons.send_sharp,
-        color: kWhiteColor,
+        color: kPrimaryColor,
       ),
       onPressed: () {
         context.disableKeyBoard();

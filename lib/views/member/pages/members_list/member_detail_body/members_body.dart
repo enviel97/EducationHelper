@@ -1,13 +1,11 @@
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/helpers/extensions/state.x.dart';
-import 'package:education_helper/helpers/modules/csv_modules.dart';
-import 'package:education_helper/helpers/modules/file_picker.dart';
 import 'package:education_helper/models/members.model.dart';
+import 'package:education_helper/roots/bloc/app_bloc.dart';
 import 'package:education_helper/views/member/bloc/member_bloc.dart';
 import 'package:education_helper/views/member/bloc/member_state.dart';
 import 'package:education_helper/views/member/dialogs/member_dialog.dart';
-import 'package:education_helper/views/member/members.dart';
 import 'package:education_helper/views/member/placeholders/p_member_body.dart';
 import 'package:education_helper/views/widgets/button/custom_icon_button.dart';
 import 'package:education_helper/views/widgets/button/custom_text_button.dart';
@@ -16,6 +14,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
+import '../../../members.dart';
+import 'streams/excel_reader.dart';
+import 'streams/search_member.dart';
 import 'widgets/member_list.dart';
 import 'widgets/members_empty.dart';
 
@@ -31,10 +32,26 @@ class MembersBody extends StatefulWidget {
 }
 
 class _MembersBodyState extends State<MembersBody> {
-  String searchText = '';
-  List<Member> members = [];
-  List<Member> dynamicMembers = [];
-  final filePicker = FilePickerController();
+  late ExcelReader excelReader;
+  late SearchMember searchMember;
+
+  @override
+  void initState() {
+    super.initState();
+    excelReader = ExcelReader();
+
+    excelReader.stream.listen(
+      excelReadSuccess,
+      onError: excelReadError,
+    );
+    searchMember = SearchMember([]);
+  }
+
+  @override
+  void dispose() {
+    excelReader.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +80,7 @@ class _MembersBodyState extends State<MembersBody> {
             children: [
               KSearchText(
                 hintText: 'Search',
-                onSearch: _onSearch,
+                onSearch: searchMember.onSearch,
               ),
               SPACING.SM.vertical,
               Expanded(child: _buildListView()),
@@ -90,7 +107,7 @@ class _MembersBodyState extends State<MembersBody> {
                     color: kBlackColor,
                     backgroudColor: kWhiteColor,
                     width: 150.0,
-                    onPressed: () => addMembersWithCSV(context),
+                    onPressed: () => excelReader.pickFile(),
                   )
                 ],
               )
@@ -103,56 +120,38 @@ class _MembersBodyState extends State<MembersBody> {
 
   Widget _buildListView() {
     return BlocConsumer<MemberBloc, MemberState>(listener: (context, state) {
+      // if(state is create)
       if (state is MemberLoadedState) {
         setState(() {
-          members = state.members;
-          dynamicMembers = state.members;
+          searchMember.setMembers(state.members);
+          searchMember.refresh();
         });
       }
     }, builder: (context, state) {
       if (state is MemberLoadingState) {
         return const PMemberBody();
       }
-
-      return dynamicMembers.isEmpty
-          ? const MembersEmpty()
-          : MemberList(members: dynamicMembers);
+      return StreamBuilder<List<Member>>(
+        initialData: searchMember.list,
+        stream: searchMember.stream,
+        builder: (context, AsyncSnapshot<List<Member>> snapshot) =>
+            snapshot.data == null
+                ? const MembersEmpty()
+                : MemberList(members: snapshot.data!),
+      );
     });
   }
 
-  void _onSearch(String value) {
-    if (value.isEmpty) {
-      dynamicMembers = members;
-      return;
-    }
-    dynamicMembers = members.where((member) {
-      final bool isMail = member.mail?.contains(value) ?? false;
-      final bool isPhonenumber = member.phoneNumber?.contains(value) ?? false;
-      return member.firstName.toLowerCase().contains(value.toLowerCase()) ||
-          member.lastName.toLowerCase().contains(value.toLowerCase()) ||
-          isMail ||
-          isPhonenumber;
-    }).toList();
+  excelReadError(Object error) {
+    BlocProvider.of<AppBloc>(context).showError(context, '$error');
   }
 
-  Future<void> addMembersWithCSV(BuildContext context) async {
-    try {
-      final file = await filePicker.getFilePicker();
-      if (file == null) return;
-      final csvHandle = CSVController(file);
-      final sheet = await csvHandle.readFileCSV();
-      if (sheet == null) return;
-      final jsons = csvHandle.toJsons(sheet);
-      final members =
-          List.generate(jsons.length, (index) => Member.fromJson(jsons[index]));
-
-      Members.adapter.goToMembersAdd(
-        context,
-        classname: widget.classname,
-        members: members,
-      );
-    } catch (e) {
-      debugPrint(e.toString());
-    }
+  void excelReadSuccess(List<Member> data) {
+    if (data.isEmpty) return;
+    Members.adapter.goToMembersAdd(
+      context,
+      classname: widget.classname,
+      members: data,
+    );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:education_helper/helpers/extensions/datetime_x.dart';
 import 'package:faker/faker.dart';
 
 class Member {
@@ -59,7 +60,9 @@ class Member {
         gender: gender == 'Mr.' || gender == 'Dr' ? 'male' : 'female',
         mail: faker.internet.email(),
         phoneNumber: faker.randomGenerator.fromPattern(['077#######']),
-        birth: faker.date.dateTime(minYear: 1990, maxYear: 2020).toString(),
+        birth: faker.date
+            .dateTime(minYear: 1990, maxYear: 2020)
+            .toStringFormat(format: 'dd/MM/yyyy'),
         avatar: faker.image.image(width: 500, height: 500, random: true));
   }
 }

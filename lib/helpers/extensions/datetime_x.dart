@@ -8,7 +8,11 @@ extension DateTimeX on DateTime {
   }
 
   static DateTime cast(String date, {String format = 'dd/MM/yyyy'}) {
-    return DateFormat(format).parse(date);
+    try {
+      return DateFormat(format).parse(date);
+    } catch (e) {
+      return DateTime.parse(date);
+    }
   }
 
   static bool compare(DateTime date, DateTime otherDate) {
