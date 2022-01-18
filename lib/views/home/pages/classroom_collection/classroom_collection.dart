@@ -2,11 +2,13 @@ import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/helpers/extensions/state.x.dart';
 import 'package:education_helper/helpers/widgets/scroller_grow_disable.dart';
+import 'package:education_helper/models/classroom.model.dart';
 import 'package:education_helper/roots/bloc/app_bloc.dart';
 import 'package:education_helper/views/home/adapters/home.adapter.dart';
 import 'package:education_helper/views/home/bloc/home_bloc.dart';
 import 'package:education_helper/views/home/bloc/home_state.dart';
 import 'package:education_helper/views/widgets/button/custom_link_button.dart';
+import 'package:education_helper/views/widgets/list/list_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,6 +25,7 @@ class ClassroomColection extends StatefulWidget {
 
 class _ClassroomColectionState extends State<ClassroomColection> {
   HomeAdapter get adapter => Home.adapter;
+  String errorMessenger = '';
   @override
   void initState() {
     super.initState();
@@ -74,46 +77,45 @@ class _ClassroomColectionState extends State<ClassroomColection> {
                 if (state is HomeFailureState) {
                   BlocProvider.of<AppBloc>(context)
                       .showError(context, state.messenger);
+                  setState(() => errorMessenger = 'Classroom loading error!');
                 }
               },
               builder: (context, state) {
                 if (state is HClassCollectionSuccessState) {
                   final classrooms = state.classrooms;
-                  if (classrooms.isEmpty) {
-                    return ClassroomCollectionEmpty(
-                      goToClassrooms: gotoClassList,
-                    );
-                  }
-                  return NormalScroll(
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemCount: classrooms.length,
-                          itemBuilder: (_, index) {
-                            final classroom = classrooms[index];
-                            return GestureDetector(
-                              onTap: () => goToDetail(
-                                classroom.id,
-                                classroom.name,
-                                classroom.exams.length,
-                                classroom.members.length,
-                              ),
-                              child: ClassroomCollectionItem(
-                                name: classroom.name,
-                                exams: classroom.exams.length,
-                                members: classroom.members.length,
-                              ),
-                            );
-                          }));
-                }
-                if (state is HomeFailureState) {
-                  return ClassroomCollectionEmpty(
-                    goToClassrooms: gotoClassList,
-                    error: 'Some thing wrong !!',
-                  );
+                  return ListBuilder(
+                      scrollDirection: Axis.horizontal,
+                      emptyList: ClassroomCollectionEmpty(
+                        goToClassrooms: gotoClassList,
+                      ),
+                      shirinkWrap: true,
+                      scrollBehavior: NormalScollBehavior(),
+                      datas: classrooms,
+                      itemBuilder: (index) {
+                        final classroom = classrooms[index];
+                        return GestureDetector(
+                          onTap: () => goToDetail(classroom),
+                          child: ClassroomCollectionItem(
+                            name: classroom.name,
+                            exams: classroom.exams.length,
+                            members: classroom.members.length,
+                          ),
+                        );
+                      });
                 }
 
-                return const Center(child: CircularProgressIndicator());
+                return Center(
+                  child: errorMessenger.isEmpty
+                      ? const CircularProgressIndicator()
+                      : Text(
+                          errorMessenger,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: kPlaceholderDarkColor,
+                            fontSize: SPACING.LG.size,
+                          ),
+                        ),
+                );
               },
             ),
           ),
@@ -126,18 +128,13 @@ class _ClassroomColectionState extends State<ClassroomColection> {
     adapter.goToClassroom(context);
   }
 
-  Future<void> goToDetail(
-    String id,
-    String classname,
-    int exams,
-    int members,
-  ) async {
+  Future<void> goToDetail(Classroom classroom) async {
     await adapter.goToClassroomDetail(
       context,
-      uid: id,
-      classname: classname,
-      exams: exams,
-      members: members,
+      uid: classroom.id,
+      classname: classroom.name,
+      exams: classroom.exams.length,
+      members: classroom.members.length,
     );
   }
 }

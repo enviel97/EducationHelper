@@ -19,6 +19,7 @@ class HomeAdapter extends IAdapter {
   IAdapter get _authAdapter => Root.ins.adapter.getAdapter(authAdapter);
   IAdapter get _classroomAdapter =>
       Root.ins.adapter.getAdapter(classroomAdpater);
+  IAdapter get _examAdapter => Root.ins.adapter.getAdapter(examAdapter);
 
   @override
   Widget layout({Map<String, dynamic>? params}) => const Home();
@@ -45,5 +46,9 @@ class HomeAdapter extends IAdapter {
           members: members,
           classname: classname,
         );
+  }
+
+  Future<void> goToExams(BuildContext context) async {
+    context.goTo(_examAdapter.layout());
   }
 }

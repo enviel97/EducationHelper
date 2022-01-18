@@ -1,15 +1,17 @@
 import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/helpers/widgets/circle_animation.dart';
+import 'package:education_helper/helpers/widgets/scroller_grow_disable.dart';
 import 'package:education_helper/roots/app_root.dart';
 import 'package:education_helper/views/home/adapters/home.adapter.dart';
 import 'package:education_helper/views/widgets/header/appbar_bottom.dart';
 import 'package:flutter/material.dart';
 
 import 'pages/classroom_collection/classroom_collection.dart';
+import 'pages/exam_collection.dart/exam_collection.dart';
 import 'widgets/date_horizantal/date_picker_timeline.dart';
 
 class Home extends StatefulWidget {
-  static final HomeAdapter adapter =
+  static final adapter =
       Root.ins.adapter.getAdapter(homeAdapter).cast<HomeAdapter>();
   const Home({Key? key}) : super(key: key);
 
@@ -54,10 +56,20 @@ class _HomeState extends State<Home> {
               ),
             )),
         body: SafeArea(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [SPACING.LG.vertical, const ClassroomColection()],
+          child: NormalScroll(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SPACING.LG.vertical,
+                  const ClassroomColection(),
+                  SPACING.LG.vertical,
+                  const ExamCollection(),
+                  SPACING.LG.vertical,
+                ],
+              ),
+            ),
           ),
         ),
       ),

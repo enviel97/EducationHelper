@@ -3,6 +3,7 @@ import 'package:education_helper/roots/miragate/http.dart';
 import 'package:education_helper/roots/parts/adapter.dart';
 import 'package:education_helper/views/auth/adapter/auth.adapter.dart';
 import 'package:education_helper/views/classrooms/adapter/classroom.adapter.dart';
+import 'package:education_helper/views/exam/adapter/exam.adapter.dart';
 import 'package:education_helper/views/home/adapters/home.adapter.dart';
 import 'package:education_helper/views/member/adapter/member.adapter.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -63,6 +64,7 @@ class Root {
     HomeAdapter();
     ClassroomAdapter();
     MemberAdapter();
+    ExamAdapter();
     return 'Done';
   }
 }

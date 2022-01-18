@@ -5,11 +5,9 @@ import 'package:flutter/material.dart';
 
 class ClassroomCollectionEmpty extends StatelessWidget {
   final Function() goToClassrooms;
-  final String? error;
   const ClassroomCollectionEmpty({
     required this.goToClassrooms,
     Key? key,
-    this.error,
   }) : super(key: key);
 
   @override
@@ -19,7 +17,7 @@ class ClassroomCollectionEmpty extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          error ?? "You don't have any classrooms",
+          "You don't have any classrooms",
           textAlign: TextAlign.center,
           style: TextStyle(
             color: kPlaceholderDarkColor,
@@ -27,10 +25,7 @@ class ClassroomCollectionEmpty extends StatelessWidget {
           ),
         ),
         SPACING.LG.vertical,
-        error?.isEmpty ?? true
-            ? KTextButton(
-                text: 'Go To Classroom List', onPressed: goToClassrooms)
-            : const SizedBox.shrink(),
+        KTextButton(text: 'Go To Classroom List', onPressed: goToClassrooms)
       ],
     );
   }

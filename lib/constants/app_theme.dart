@@ -46,17 +46,20 @@ class AppTheme {
     ),
   );
 
-  final AppBarTheme appBarTheme = AppBarTheme(
-    centerTitle: true,
-    titleTextStyle: TextStyle(
-      fontSize: SPACING.LG.size,
-      fontWeight: FontWeight.bold,
-      color: kWhiteColor,
-    ),
-    iconTheme: const IconThemeData(color: kWhiteColor),
-    shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(bottomRight: Radius.circular(25.0))),
-  );
+  AppBarTheme get _appBarTheme => AppBarTheme(
+        centerTitle: true,
+        titleTextStyle: TextStyle(
+          fontSize: SPACING.LG.size,
+          fontWeight: FontWeight.bold,
+          color: kWhiteColor,
+        ),
+        elevation: 0.0,
+        shadowColor: Colors.transparent,
+        iconTheme: const IconThemeData(color: kWhiteColor),
+        shape: const RoundedRectangleBorder(
+            borderRadius:
+                BorderRadius.only(bottomRight: Radius.circular(25.0))),
+      );
 
   static TextTheme defaultFonts(BuildContext context) {
     return GoogleFonts.robotoTextTheme(Theme.of(context).textTheme);
@@ -79,7 +82,7 @@ class AppTheme {
         bodyColor: kBlackColor,
         displayColor: kBlackColor,
       ),
-      appBarTheme: theme.appBarTheme.copyWith(
+      appBarTheme: theme._appBarTheme.copyWith(
         backgroundColor: kPrimaryLightColor,
       ),
       cardColor: kWhiteColor,
@@ -104,7 +107,7 @@ class AppTheme {
         displayColor: kWhiteColor,
       ),
       selectedRowColor: kBlackColor,
-      appBarTheme: theme.appBarTheme.copyWith(
+      appBarTheme: theme._appBarTheme.copyWith(
         backgroundColor: kPrimaryColor,
       ),
       cardColor: kBlackColor,
