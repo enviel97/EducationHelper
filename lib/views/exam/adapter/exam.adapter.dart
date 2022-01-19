@@ -2,7 +2,7 @@ import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:education_helper/roots/app_root.dart';
 import 'package:education_helper/roots/parts/adapter.dart';
 import 'package:education_helper/views/exam/exam.dart';
-import 'package:education_helper/views/exam/pages/exam_create/exam_create.dart';
+import 'package:education_helper/views/exam/pages/exam_form/exam_form.dart';
 import 'package:education_helper/views/exam/pages/exams_detail/exam_detail.dart';
 import 'package:flutter/material.dart';
 

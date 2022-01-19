@@ -13,7 +13,7 @@ class FilePickerController {
         allowMultiple: false,
         type: type,
       );
-      if (result == null) return Future.error('File error');
+      if (result == null) return null;
       return result.files.first;
     } catch (error) {
       debugPrint(error.toString());

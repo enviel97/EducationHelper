@@ -75,28 +75,24 @@ class _ExamDetailState extends State<ExamDetail> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Text(
-                'Subject:',
-                maxLines: 1,
-                style: TextStyle(
-                  fontSize: SPACING.M.size,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(
-                exam.subject,
-                maxLines: 1,
-                style: TextStyle(
-                  color: isLightTheme ? kPrimaryColor : kSecondaryColor,
-                  fontSize: SPACING.M.size * 1.2,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Subject:',
+                        maxLines: 1,
+                        style: TextStyle(
+                            fontSize: SPACING.M.size,
+                            fontWeight: FontWeight.bold)),
+                    Text(exam.subject,
+                        maxLines: 1,
+                        style: TextStyle(
+                            color:
+                                isLightTheme ? kPrimaryColor : kSecondaryColor,
+                            fontSize: SPACING.M.size * 1.2,
+                            fontWeight: FontWeight.bold))
+                  ])),
           Expanded(child: ExamDetailContent(content: exam.content)),
         ],
       ),

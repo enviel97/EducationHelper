@@ -39,6 +39,7 @@ class _ExamPdfState extends State<ExamPdf> {
         interactionMode: PdfInteractionMode.selection,
         scrollDirection: PdfScrollDirection.horizontal,
         pageLayoutMode: PdfPageLayoutMode.single,
+        canShowPaginationDialog: false,
       ),
     );
   }
