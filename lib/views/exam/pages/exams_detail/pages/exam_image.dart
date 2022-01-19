@@ -1,11 +1,13 @@
-import 'package:education_helper/models/exam.model.dart';
+import 'dart:io';
+
+import 'package:education_helper/helpers/extensions/state.x.dart';
 import 'package:flutter/material.dart';
 
 class ExamImage extends StatefulWidget {
-  final Content content;
+  final File file;
 
   const ExamImage({
-    required this.content,
+    required this.file,
     Key? key,
   }) : super(key: key);
 
@@ -14,15 +16,23 @@ class ExamImage extends StatefulWidget {
 }
 
 class _ExamImageState extends State<ExamImage> {
+  late File file;
+  @override
+  void initState() {
+    super.initState();
+    file = widget.file;
+    debugPrint(file.toString());
+  }
+
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(20.0),
       child: InteractiveViewer(
-        constrained: false,
-        minScale: 1,
-        child: Image.network(
-          widget.content.public,
+        child: Image.file(
+          file,
+          width: size.width,
+          fit: BoxFit.fitWidth,
         ),
       ),
     );

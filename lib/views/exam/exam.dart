@@ -68,7 +68,9 @@ class _ExamsState extends State<Exams> {
     );
   }
 
-  void _addExams() {}
+  void _addExams() {
+    Exams.adapter.goToCreateExam(context);
+  }
 
   void _gotoExamDetail(String id) {
     Exams.adapter.gotoDetailExam(context, idExam: id);

@@ -53,7 +53,7 @@ class Content {
   final String originName;
   final String download;
   final String public;
-  final Quest? offset;
+  final List<Quest>? offset;
 
   const Content({
     required this.name,
@@ -67,12 +67,13 @@ class Content {
   bool get isPDF => name.toUpperCase().contains('PDF');
 
   static Content fromJson(dynamic json) {
+    final offset = mapToList<Quest>(json['answer'], Quest.fromJson);
     return Content(
       name: json['name'] ?? '',
       originName: json['originName'] ?? '',
       download: json['download'] ?? '',
       public: json['public'] ?? '',
-      offset: json['offset'],
+      offset: offset,
     );
   }
 
@@ -81,7 +82,7 @@ class Content {
         'originName': originName,
         'download': download,
         'public': public,
-        'offset': offset?.toJson(),
+        'offset': offset,
       };
 }
 

@@ -62,7 +62,8 @@
   <true/>
   <key>NSPhotoLibraryUsageDescription</key>
   <string>This app use photos collection of your device to help pick homework data</string>
-
+  <key>io.flutter.embedded_views_preview</key>
+  <true/>
 	<false/>
 </dict>
 </plist>

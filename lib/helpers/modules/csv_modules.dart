@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:excel/excel.dart';
 import 'package:file_picker/file_picker.dart';
 
-class CSVController<T> {
+class CSVController {
   final PlatformFile file;
   const CSVController(this.file);
   // get csv
