@@ -50,6 +50,7 @@ class _MembersBodyState extends State<MembersBody> {
   @override
   void dispose() {
     excelReader.dispose();
+    searchMember.dispose();
     super.dispose();
   }
 

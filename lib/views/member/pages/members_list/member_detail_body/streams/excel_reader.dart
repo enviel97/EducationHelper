@@ -4,6 +4,7 @@ import 'package:education_helper/helpers/modules/csv_modules.dart';
 import 'package:education_helper/helpers/modules/file_picker.dart';
 import 'package:education_helper/models/members.model.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/cupertino.dart';
 
 class ExcelReader {
   final _filePicker = FilePickerController();
@@ -16,18 +17,20 @@ class ExcelReader {
       _csvReaderStream.stream.transform(_transformStream);
 
   Future<void> pickFile() async {
-    final file = await _filePicker.getFilePicker();
-    _csvReaderStream.sink.add(file);
+    try {
+      final file = await _filePicker.getFilePicker();
+      if (file == null) return;
+      _csvReaderStream.sink.add(file);
+    } catch (error) {
+      debugPrint(error.toString());
+    }
   }
 
   static Future<void> _handleData(
     PlatformFile? file,
     EventSink<List<Member>> sink,
   ) async {
-    if (file == null) {
-      sink.addError("Can't get file ${file?.name ?? ''}");
-      return;
-    }
+    if (file == null) return;
     final csvHandle = CSVController(file);
     final sheet = await csvHandle.readFileCSV();
     if (sheet == null) {
