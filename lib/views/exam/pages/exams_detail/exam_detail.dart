@@ -26,36 +26,22 @@ class _ExamDetailState extends State<ExamDetail> {
   @override
   void initState() {
     super.initState();
+
     exam = Exam.fromJson({
       '_id': '61e6584502a910de66af388c',
       'creatorId': '61b23ed8d9c491f7e97178bd',
       'subject': 'Biology',
       'examType': 'ESSAY',
       'content': {
-        'name': 'PDF/PDF-a4a2142a-eb8a-488f-9bd0-d6807a749b7a-01-2022',
-        'originName': 'QuizExam.pdf',
+        'name': 'Image/Image-37c8690a-b0bd-456b-8884-4faa0e757785-01-2022',
+        'originName': '271656093_2099695566864074_1280132571646855750_n.jpg',
         'download':
-            'https://storage.googleapis.com/download/storage/v1/b/educationhelper-334518.appspot.com/o/PDF%2FPDF-a4a2142a-eb8a-488f-9bd0-d6807a749b7a-01-2022?generation=1642485828644119&alt=media',
+            'https://storage.googleapis.com/download/storage/v1/b/educationhelper-334518.appspot.com/o/Image%2FImage-37c8690a-b0bd-456b-8884-4faa0e757785-01-2022?generation=1642515300871449&alt=media',
         'public':
-            'https://storage.googleapis.com/educationhelper-334518.appspot.com/PDF/PDF-a4a2142a-eb8a-488f-9bd0-d6807a749b7a-01-2022',
+            'https://storage.googleapis.com/educationhelper-334518.appspot.com/Image/Image-37c8690a-b0bd-456b-8884-4faa0e757785-01-2022',
         'offset': []
       },
     });
-    // exam = Exam.fromJson({
-    //   '_id': '61e6584502a910de66af388c',
-    //   'creatorId': '61b23ed8d9c491f7e97178bd',
-    //   'subject': 'Biology',
-    //   'examType': 'ESSAY',
-    //   'content': {
-    //     'name': 'Image/Image-37c8690a-b0bd-456b-8884-4faa0e757785-01-2022',
-    //     'originName': '271656093_2099695566864074_1280132571646855750_n.jpg',
-    //     'download':
-    //         'https://storage.googleapis.com/download/storage/v1/b/educationhelper-334518.appspot.com/o/Image%2FImage-37c8690a-b0bd-456b-8884-4faa0e757785-01-2022?generation=1642515300871449&alt=media',
-    //     'public':
-    //         'https://storage.googleapis.com/educationhelper-334518.appspot.com/Image/Image-37c8690a-b0bd-456b-8884-4faa0e757785-01-2022',
-    //     'offset': []
-    //   },
-    // });
   }
 
   @override

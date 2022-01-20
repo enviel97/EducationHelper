@@ -1,7 +1,10 @@
+import 'dart:async';
 import 'dart:io';
 
+import 'package:education_helper/helpers/extensions/state.x.dart';
+import 'package:education_helper/views/widgets/deorate/box_decorate_separate_number.dart';
 import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
 
 class ExamPdf extends StatefulWidget {
   final File file;
@@ -15,34 +18,67 @@ class ExamPdf extends StatefulWidget {
 }
 
 class _ExamPdfState extends State<ExamPdf> {
-  final _pdfkey = GlobalKey<SfPdfViewerState>();
-  final _controller = PdfViewerController();
-
-  @override
-  void initState() {
-    super.initState();
-    _controller.addListener(pdfControllerListen);
-  }
+  final _controller = Completer<PDFViewController>();
+  int? pages = 0;
+  int? currentPage = 0;
+  bool isReady = false;
+  String errorMessage = '';
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: const BorderRadius.all(Radius.circular(20.0)),
-      child: SfPdfViewer.file(
-        widget.file,
-        key: _pdfkey,
-        controller: _controller,
-        pageSpacing: 0.0,
-        initialScrollOffset: const Offset(40.0, 25.0),
-        enableTextSelection: false,
-        initialZoomLevel: 1,
-        interactionMode: PdfInteractionMode.selection,
-        scrollDirection: PdfScrollDirection.horizontal,
-        pageLayoutMode: PdfPageLayoutMode.single,
-        canShowPaginationDialog: false,
-      ),
+    return Stack(
+      children: [
+        ClipRRect(
+          borderRadius: const BorderRadius.all(Radius.circular(25.0)),
+          child: PDF(
+            enableSwipe: true,
+            swipeHorizontal: true,
+            autoSpacing: true,
+            pageFling: true,
+            pageSnap: true,
+            defaultPage: currentPage!,
+            fitPolicy: FitPolicy.BOTH,
+            nightMode: !isLightTheme,
+            preventLinkNavigation: false,
+            onRender: (_pages) {
+              setState(() {
+                pages = _pages;
+                isReady = true;
+              });
+            },
+            onError: (error) {
+              setState(() => errorMessage = error.toString());
+            },
+            onViewCreated: _controller.complete,
+            onPageChanged: (int? page, int? total) {
+              setState(() => currentPage = page);
+            },
+            onPageError: (page, error) {
+              setState(() {
+                errorMessage = '$page: ${error.toString()}';
+              });
+            },
+          ).fromPath(widget.file.path),
+        ),
+        errorMessage.isEmpty
+            ? !isReady
+                ? const Center(child: CircularProgressIndicator())
+                : Container()
+            : Center(
+                child: Text(errorMessage,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 16.0))),
+        Align(
+          alignment: Alignment.bottomRight,
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: BoxDecorateSeparateNumber(
+              totalMembers: pages!,
+              totalExams: currentPage!,
+            ),
+          ),
+        )
+      ],
     );
   }
-
-  void pdfControllerListen({String? property}) {}
 }

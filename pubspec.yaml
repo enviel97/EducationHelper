@@ -66,6 +66,8 @@ dependencies:
   flowder:
     git: https://github.com/Harsh223/flowder.git
   open_file: ^3.2.1
+  native_pdf_view: ^5.0.0
+  flutter_cached_pdfview: ^0.4.1
 
 dev_dependencies:
   flutter_test:

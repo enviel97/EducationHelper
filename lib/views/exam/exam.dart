@@ -26,7 +26,7 @@ class _ExamsState extends State<Exams> {
   @override
   void initState() {
     super.initState();
-    exams = [];
+    exams = [Exam.faker()];
   }
 
   @override
