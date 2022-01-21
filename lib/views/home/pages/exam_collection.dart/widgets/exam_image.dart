@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +10,19 @@ class ExamImage extends StatelessWidget {
     required this.name,
     Key? key,
   }) : super(key: key);
+
+  Color get color {
+    switch (name.split('/').first.toUpperCase()) {
+      case 'PDF':
+        return Colors.red;
+      case 'RAR':
+        return const Color(0xFF16772b);
+      case 'ZIP':
+        return const Color(0xFF3b3da3);
+      default:
+        return Colors.transparent;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,10 +59,10 @@ class ExamImage extends StatelessWidget {
                 ),
               )
             : Container(
-                color: kErrorColor,
+                color: color,
                 alignment: Alignment.center,
                 child: Text(
-                  '.PDF',
+                  name.split('/').first,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: SPACING.XL.size,

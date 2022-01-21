@@ -144,8 +144,8 @@ class _ClassroomsState extends State<Classrooms> {
   void _onGoBack() {
     if (isNeedRefresh) {
       BlocProvider.of<HomeBloc>(context)
-          .refreshClassroomCollection()
-          .then((_) => Navigator.of(context).pop());
+          .refreshCollections(RefreshEvent.classroom)
+          .then((value) => Navigator.of(context).pop());
     } else {
       Navigator.of(context).pop();
     }

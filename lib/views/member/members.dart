@@ -137,9 +137,10 @@ class _MembersState extends State<Members> {
   Future<void> _onGoBack() async {
     if (isNeedRefresh) {
       await Future.wait([
-        BlocProvider.of<ClassroomBloc>(context).refreshClassroom(),
-        BlocProvider.of<HomeBloc>(context).refreshClassroomCollection(),
-      ]).whenComplete(Navigator.of(context).pop);
+        BlocProvider.of<HomeBloc>(context)
+            .refreshCollections(RefreshEvent.classroom),
+        BlocProvider.of<ClassroomBloc>(context).refreshClassroom()
+      ]).then((value) => Navigator.of(context).pop());
     } else {
       Navigator.of(context).pop();
     }

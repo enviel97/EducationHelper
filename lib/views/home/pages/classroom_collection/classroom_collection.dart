@@ -26,6 +26,8 @@ class ClassroomColection extends StatefulWidget {
 class _ClassroomColectionState extends State<ClassroomColection> {
   HomeAdapter get adapter => Home.adapter;
   String errorMessenger = '';
+  List<Classroom> classrooms = [];
+
   @override
   void initState() {
     super.initState();
@@ -79,43 +81,44 @@ class _ClassroomColectionState extends State<ClassroomColection> {
                       .showError(context, state.messenger);
                   setState(() => errorMessenger = 'Classroom loading error!');
                 }
+                if (state is ClassroomLoadedState) {
+                  setState(() => classrooms = state.classrooms);
+                }
               },
               builder: (context, state) {
-                if (state is HClassCollectionSuccessState) {
-                  final classrooms = state.classrooms;
-                  return ListBuilder(
-                      scrollDirection: Axis.horizontal,
-                      emptyList: ClassroomCollectionEmpty(
-                        goToClassrooms: gotoClassList,
-                      ),
-                      shirinkWrap: true,
-                      scrollBehavior: NormalScollBehavior(),
-                      datas: classrooms,
-                      itemBuilder: (index) {
-                        final classroom = classrooms[index];
-                        return GestureDetector(
-                          onTap: () => goToDetail(classroom),
-                          child: ClassroomCollectionItem(
-                            name: classroom.name,
-                            exams: classroom.exams.length,
-                            members: classroom.members.length,
+                if (state is ClassroomLoadingState) {
+                  return Center(
+                    child: errorMessenger.isEmpty
+                        ? const CircularProgressIndicator()
+                        : Text(
+                            errorMessenger,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: kPlaceholderDarkColor,
+                              fontSize: SPACING.LG.size,
+                            ),
                           ),
-                        );
-                      });
+                  );
                 }
-
-                return Center(
-                  child: errorMessenger.isEmpty
-                      ? const CircularProgressIndicator()
-                      : Text(
-                          errorMessenger,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: kPlaceholderDarkColor,
-                            fontSize: SPACING.LG.size,
-                          ),
+                return ListBuilder(
+                    scrollDirection: Axis.horizontal,
+                    emptyList: ClassroomCollectionEmpty(
+                      goToClassrooms: gotoClassList,
+                    ),
+                    shirinkWrap: true,
+                    scrollBehavior: NormalScollBehavior(),
+                    datas: classrooms,
+                    itemBuilder: (index) {
+                      final classroom = classrooms[index];
+                      return GestureDetector(
+                        onTap: () => goToDetail(classroom),
+                        child: ClassroomCollectionItem(
+                          name: classroom.name,
+                          exams: classroom.exams.length,
+                          members: classroom.members.length,
                         ),
-                );
+                      );
+                    });
               },
             ),
           ),

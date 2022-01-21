@@ -3,13 +3,16 @@ import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/helpers/extensions/state.x.dart';
 import 'package:education_helper/helpers/widgets/scroller_grow_disable.dart';
 import 'package:education_helper/models/exam.model.dart';
-import 'package:education_helper/roots/app_root.dart';
+import 'package:education_helper/roots/bloc/app_bloc.dart';
 import 'package:education_helper/views/home/adapters/home.adapter.dart';
+import 'package:education_helper/views/home/bloc/home_bloc.dart';
+import 'package:education_helper/views/home/bloc/home_state.dart';
 import 'package:education_helper/views/home/home.dart';
 import 'package:education_helper/views/home/pages/exam_collection.dart/widgets/exam_collection_empty.dart';
 import 'package:education_helper/views/widgets/button/custom_link_button.dart';
 import 'package:education_helper/views/widgets/list/list_builder.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'widgets/exam_collection_item.dart';
 
@@ -23,12 +26,12 @@ class ExamCollection extends StatefulWidget {
 class _ExamCollectionState extends State<ExamCollection> {
   HomeAdapter get adapter => Home.adapter;
   String errorMessenger = '';
-  late List<Exam> exams;
+  List<Exam> exams = [];
 
   @override
   void initState() {
     super.initState();
-    exams = List.generate(6, (index) => Exam.faker());
+    BlocProvider.of<HomeBloc>(context).getExamCollection();
   }
 
   @override
@@ -70,19 +73,44 @@ class _ExamCollectionState extends State<ExamCollection> {
           SPACING.M.vertical,
           // Build List scrole
           Expanded(
-            child: ListBuilder(
-              scrollDirection: Axis.horizontal,
-              emptyList: ExamCollectionEmpty(
-                gotoExams: gotoExams,
-              ),
-              shirinkWrap: true,
-              scrollBehavior: NormalScollBehavior(),
-              datas: exams,
-              itemBuilder: (index) {
-                final exam = exams[index];
-                return GestureDetector(
-                  onTap: () => goToDetail(exam),
-                  child: ExamCollectionItem(exam: exam),
+            child: BlocConsumer<HomeBloc, HomeState>(
+              listener: (context, state) {
+                if (state is HomeFailureState) {
+                  BlocProvider.of<AppBloc>(context)
+                      .showError(context, state.messenger);
+                  setState(() => errorMessenger = 'Exam loading error!');
+                }
+                if (state is ExamLoadedState) {
+                  setState(() => exams = state.exams);
+                }
+              },
+              builder: (context, state) {
+                if (state is ExamLoadingState) {
+                  return Center(
+                      child: errorMessenger.isEmpty
+                          ? const CircularProgressIndicator()
+                          : Text(errorMessenger,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: kPlaceholderDarkColor,
+                                  fontSize: SPACING.LG.size)));
+                }
+
+                return ListBuilder(
+                  scrollDirection: Axis.horizontal,
+                  emptyList: ExamCollectionEmpty(
+                    gotoExams: gotoExams,
+                  ),
+                  shirinkWrap: true,
+                  scrollBehavior: NormalScollBehavior(),
+                  datas: exams,
+                  itemBuilder: (index) {
+                    final exam = exams[index];
+                    return GestureDetector(
+                      onTap: () => goToDetail(exam),
+                      child: ExamCollectionItem(exam: exam),
+                    );
+                  },
                 );
               },
             ),

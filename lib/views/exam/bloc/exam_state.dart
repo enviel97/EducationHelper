@@ -25,8 +25,39 @@ class ExamLoadedState extends ExamState {
 }
 
 class ExamCreateState extends ExamState {
+  final Exam exam;
+
+  const ExamCreateState(this.exam);
+
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [exam];
+}
+
+class ExamUdateState extends ExamState {
+  final Exam exam;
+
+  const ExamUdateState(this.exam);
+
+  @override
+  List<Object?> get props => [exam];
+}
+
+class ExamDeleteState extends ExamState {
+  final Exam exam;
+
+  const ExamDeleteState(this.exam);
+
+  @override
+  List<Object?> get props => [exam];
+}
+
+class ExamGetState extends ExamState {
+  final Exam exam;
+
+  const ExamGetState(this.exam);
+
+  @override
+  List<Object?> get props => [exam];
 }
 
 class ExamFailureState extends ExamState {
