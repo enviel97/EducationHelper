@@ -2,6 +2,7 @@ import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:education_helper/roots/app_root.dart';
 import 'package:education_helper/roots/parts/adapter.dart';
 import 'package:education_helper/views/classrooms/adapter/classroom.adapter.dart';
+import 'package:education_helper/views/exam/adapter/exam.adapter.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../home.dart';
@@ -50,5 +51,10 @@ class HomeAdapter extends IAdapter {
 
   Future<void> goToExams(BuildContext context) async {
     context.goTo(_examAdapter.layout());
+  }
+
+  Future<void> goToExamDetail(BuildContext context, String idExam) async {
+    final adapter = _examAdapter.cast<ExamAdapter>();
+    adapter.gotoDetailExam(context, idExam: idExam);
   }
 }

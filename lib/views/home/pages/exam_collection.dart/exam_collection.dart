@@ -125,5 +125,7 @@ class _ExamCollectionState extends State<ExamCollection> {
     adapter.goToExams(context);
   }
 
-  Future<void> goToDetail(Exam exam) async {}
+  Future<void> goToDetail(Exam exam) async {
+    adapter.goToExamDetail(context, exam.id);
+  }
 }

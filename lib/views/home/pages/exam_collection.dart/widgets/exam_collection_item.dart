@@ -47,7 +47,7 @@ class ExamCollectionItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  exam.content.originName,
+                  exam.content.originName.split('.').first,
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
