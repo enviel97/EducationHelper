@@ -28,12 +28,17 @@ class KTextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = Size(width ?? context.mediaSize.width / 2, SPACING.LG.size);
+    final _color = isDisable ? color.withOpacity(.6) : color;
     final primaryColor =
         context.isLightTheme ? kSecondaryLightColor : kPrimaryLightColor;
 
     final backgoundColor =
-        isOutline ? (backgroudColor ?? context.backgroundColor) : color;
-    final textColor = isOutline ? color : kWhiteColor;
+        isOutline ? (backgroudColor ?? context.backgroundColor) : _color;
+    final textColor = isOutline
+        ? _color
+        : isDisable
+            ? kWhiteColor.withOpacity(.6)
+            : kWhiteColor;
     return TextButton(
         style: TextButton.styleFrom(
             minimumSize: size,
@@ -45,7 +50,7 @@ class KTextButton extends StatelessWidget {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(18.0),
                 side: BorderSide(
-                  color: color,
+                  color: _color,
                   width: 2.0,
                 ))),
         onPressed: isDisable ? null : onPressed,

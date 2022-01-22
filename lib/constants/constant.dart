@@ -18,3 +18,8 @@ class Helper {
         'limit': limit == null ? null : '$limit',
       };
 }
+
+class Messenger {
+  final String mess;
+  const Messenger(this.mess);
+}

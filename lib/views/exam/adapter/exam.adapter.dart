@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:education_helper/roots/app_root.dart';
 import 'package:education_helper/roots/parts/adapter.dart';
@@ -29,6 +31,19 @@ class ExamAdapter extends IAdapter {
   }
 
   Future<void> goToCreateExam(BuildContext context) async {
-    await context.goTo(const ExamForm(title: 'CREATE EXAM'));
+    await context.goTo(const ExamForm());
+  }
+
+  Future<void> goToEditExam(
+    BuildContext context, {
+    required String id,
+    required String subject,
+    required File file,
+  }) async {
+    await context.goTo(ExamForm(
+      id: id,
+      subject: subject,
+      file: file,
+    ));
   }
 }

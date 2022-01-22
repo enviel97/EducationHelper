@@ -7,10 +7,10 @@ import 'package:faker/faker.dart';
 
 enum ExamType { quiz, essay }
 
-extension _ on ExamType {
+extension _ExamType on ExamType {
   String get name => toString().split('.')[1].toUpperCase();
   static ExamType value(String value) {
-    return ExamType.values[0];
+    return ExamType.values.where((type) => type.name == value).first;
   }
 }
 
@@ -106,7 +106,7 @@ class Exam {
       id: json['id'] ?? json['_id'] ?? '',
       creatorId: json['creatorId'] ?? '',
       subject: json['subject'] ?? '',
-      examType: _.value(json['examType']),
+      examType: _ExamType.value(json['examType']),
       content: Content.fromJson(json['content']),
     );
   }

@@ -3,8 +3,7 @@ import 'dart:io';
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:education_helper/views/exam/pages/exam_form/streams/file_picker_stream.dart';
-import 'package:education_helper/views/exam/pages/exams_detail/pages/exam_image.dart';
-import 'package:education_helper/views/exam/pages/exams_detail/pages/exam_pdf.dart';
+import 'package:education_helper/views/exam/pages/exams_detail/widgets/exam_content.dart';
 import 'package:flutter/material.dart';
 
 class ExamPickerContent extends StatelessWidget {
@@ -31,6 +30,7 @@ class ExamPickerContent extends StatelessWidget {
           borderRadius: BorderRadius.circular(25.0),
         ),
         child: StreamBuilder<File?>(
+          initialData: controller.file,
           stream: controller.stream,
           builder: _streamBuilder,
         ),
@@ -41,13 +41,7 @@ class ExamPickerContent extends StatelessWidget {
   Widget _streamBuilder(BuildContext context, AsyncSnapshot<File?> snapshot) {
     if (snapshot.hasData && snapshot.data != null) {
       final file = snapshot.data!;
-      final exts = file.path.split('/').last.split('.').last;
-      if (exts.toLowerCase() == 'pdf') {
-        return ExamPdf(file: file);
-      }
-      if (exts.toLowerCase() == 'png' || exts.toLowerCase() == 'jpg') {
-        return ExamImage(file: file);
-      }
+      return ExamContent(file: file);
     }
 
     return IconButton(

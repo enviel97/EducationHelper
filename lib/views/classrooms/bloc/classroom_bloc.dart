@@ -44,8 +44,9 @@ class ClassroomBloc extends Cubit<ClassroomState> {
       if (result == null) return;
       final classroom = Classroom.fromJson(result);
       emit(ClassroomEditSuccessState(classroom));
-      classrooms[classrooms.indexWhere((c) => c.id == classroom.id)] =
-          classroom;
+
+      final index = classrooms.indexWhere((c) => c.id == classroom.id);
+      if (index >= 0) classrooms[index] = classroom;
     });
   }
 

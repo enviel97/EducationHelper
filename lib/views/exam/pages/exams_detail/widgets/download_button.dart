@@ -4,7 +4,6 @@ import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/helpers/extensions/state.x.dart';
 import 'package:flowder/flowder.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
@@ -83,7 +82,7 @@ class _DownloadButtonState extends State<DownloadButton> {
         _download();
       }
     } catch (error) {
-      print(error);
+      debugPrint('$error');
     }
   }
 

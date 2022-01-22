@@ -1,3 +1,4 @@
+import 'package:education_helper/constants/constant.dart';
 import 'package:education_helper/models/exam.model.dart';
 import 'package:equatable/equatable.dart';
 
@@ -61,9 +62,9 @@ class ExamGetState extends ExamState {
 }
 
 class ExamFailureState extends ExamState {
-  final String messanger;
-  const ExamFailureState(this.messanger);
+  final Messenger error;
+  const ExamFailureState(this.error);
 
   @override
-  List<Object?> get props => [messanger];
+  List<Object?> get props => [error];
 }

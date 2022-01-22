@@ -2,9 +2,12 @@ import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/helpers/extensions/state.x.dart';
 import 'package:education_helper/models/exam.model.dart';
+import 'package:education_helper/views/exam/bloc/exam_bloc.dart';
+import 'package:education_helper/views/exam/bloc/exam_state.dart';
 import 'package:education_helper/views/exam/pages/exams_detail/widgets/exam_appbar_bottom.dart';
 import 'package:education_helper/views/widgets/header/appbar_bottom.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'widgets/exam_detail_content.dart';
 
 class ExamDetail extends StatefulWidget {
@@ -19,29 +22,16 @@ class ExamDetail extends StatefulWidget {
 }
 
 class _ExamDetailState extends State<ExamDetail> {
-  late Exam exam;
   double process = 0.0;
   late String path;
+  String originName = '';
+  String download = '';
+  String public = '';
 
   @override
   void initState() {
     super.initState();
-
-    exam = Exam.fromJson({
-      '_id': '61e6584502a910de66af388c',
-      'creatorId': '61b23ed8d9c491f7e97178bd',
-      'subject': 'Biology',
-      'examType': 'ESSAY',
-      'content': {
-        'name': 'Image/Image-37c8690a-b0bd-456b-8884-4faa0e757785-01-2022',
-        'originName': '271656093_2099695566864074_1280132571646855750_n.jpg',
-        'download':
-            'https://storage.googleapis.com/download/storage/v1/b/educationhelper-334518.appspot.com/o/Image%2FImage-37c8690a-b0bd-456b-8884-4faa0e757785-01-2022?generation=1642515300871449&alt=media',
-        'public':
-            'https://storage.googleapis.com/educationhelper-334518.appspot.com/Image/Image-37c8690a-b0bd-456b-8884-4faa0e757785-01-2022',
-        'offset': []
-      },
-    });
+    BlocProvider.of<ExamBloc>(context).getOnce(widget.id);
   }
 
   @override
@@ -52,36 +42,60 @@ class _ExamDetailState extends State<ExamDetail> {
         bottom: AppbarBottom(
           height: 105,
           child: ExamAppbarBottom(
-            name: exam.content.originName,
-            downloadLink: exam.content.download,
-            publicLink: exam.content.public,
+            name: originName,
+            downloadLink: download,
+            publicLink: public,
           ),
         ),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Subject:',
-                        maxLines: 1,
-                        style: TextStyle(
-                            fontSize: SPACING.M.size,
-                            fontWeight: FontWeight.bold)),
-                    Text(exam.subject,
-                        maxLines: 1,
-                        style: TextStyle(
-                            color:
-                                isLightTheme ? kPrimaryColor : kSecondaryColor,
-                            fontSize: SPACING.M.size * 1.2,
-                            fontWeight: FontWeight.bold))
-                  ])),
-          Expanded(child: ExamDetailContent(content: exam.content)),
-        ],
+      body: BlocConsumer<ExamBloc, ExamState>(
+        listener: (context, state) {
+          if (state is ExamGetState) {
+            setState(() {
+              originName = state.exam.content.originName;
+              download = state.exam.content.download;
+              public = state.exam.content.public;
+            });
+          }
+        },
+        builder: (context, state) {
+          if (state is ExamGetState) {
+            return _builderFile(state.exam);
+          }
+          if (state is ExamFailureState) {
+            return Container();
+          }
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
       ),
+    );
+  }
+
+  Widget _builderFile(Exam exam) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Subject:',
+                      maxLines: 1,
+                      style: TextStyle(
+                          fontSize: SPACING.M.size,
+                          fontWeight: FontWeight.bold)),
+                  Text(exam.subject,
+                      maxLines: 1,
+                      style: TextStyle(
+                          color: isLightTheme ? kPrimaryColor : kSecondaryColor,
+                          fontSize: SPACING.M.size * 1.2,
+                          fontWeight: FontWeight.bold))
+                ])),
+        Expanded(child: ExamDetailContent(content: exam.content)),
+      ],
     );
   }
 }
