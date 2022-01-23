@@ -39,6 +39,7 @@ class AppTheme {
         ), // button text color
       ),
     ),
+    visualDensity: VisualDensity.adaptivePlatformDensity,
     textSelectionTheme: TextSelectionThemeData(
       cursorColor: kPrimaryColor,
       selectionColor: kPrimaryColor.withOpacity(.7),
