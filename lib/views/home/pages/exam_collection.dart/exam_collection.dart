@@ -17,7 +17,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'widgets/exam_collection_item.dart';
 
 class ExamCollection extends StatefulWidget {
-  const ExamCollection({Key? key}) : super(key: key);
+  final void Function() goToExams;
+  const ExamCollection({
+    required this.goToExams,
+    Key? key,
+  }) : super(key: key);
 
   @override
   _ExamCollectionState createState() => _ExamCollectionState();
@@ -62,7 +66,7 @@ class _ExamCollectionState extends State<ExamCollection> {
                 ),
                 KLinkButton(
                   'More',
-                  onPress: gotoExams,
+                  onPress: widget.goToExams,
                   color: isLightTheme ? kWhiteColor : kBlackColor,
                   isBold: true,
                   isUnderline: true,
@@ -99,7 +103,7 @@ class _ExamCollectionState extends State<ExamCollection> {
                 return ListBuilder(
                   scrollDirection: Axis.horizontal,
                   emptyList: ExamCollectionEmpty(
-                    gotoExams: gotoExams,
+                    gotoExams: widget.goToExams,
                   ),
                   shirinkWrap: true,
                   scrollBehavior: NormalScollBehavior(),
@@ -119,10 +123,6 @@ class _ExamCollectionState extends State<ExamCollection> {
         ],
       ),
     );
-  }
-
-  void gotoExams() {
-    adapter.goToExams(context);
   }
 
   Future<void> goToDetail(Exam exam) async {

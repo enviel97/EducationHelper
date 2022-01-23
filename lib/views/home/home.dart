@@ -63,9 +63,9 @@ class _HomeState extends State<Home> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SPACING.LG.vertical,
-                  const ClassroomColection(),
+                  ClassroomColection(goToClassRoomList: gotoClassList),
                   SPACING.LG.vertical,
-                  const ExamCollection(),
+                  ExamCollection(goToExams: gotoExams),
                   SPACING.LG.vertical,
                 ],
               ),
@@ -74,5 +74,13 @@ class _HomeState extends State<Home> {
         ),
       ),
     );
+  }
+
+  void gotoClassList() {
+    Home.adapter.goToClassroom(context);
+  }
+
+  void gotoExams() {
+    Home.adapter.goToExams(context);
   }
 }

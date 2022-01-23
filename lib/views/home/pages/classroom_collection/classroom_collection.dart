@@ -17,7 +17,11 @@ import 'widgets/classroom_collection_empty.dart';
 import 'widgets/classroom_collection_item.dart';
 
 class ClassroomColection extends StatefulWidget {
-  const ClassroomColection({Key? key}) : super(key: key);
+  final void Function() goToClassRoomList;
+  const ClassroomColection({
+    required this.goToClassRoomList,
+    Key? key,
+  }) : super(key: key);
 
   @override
   _ClassroomColectionState createState() => _ClassroomColectionState();
@@ -62,7 +66,7 @@ class _ClassroomColectionState extends State<ClassroomColection> {
                 ),
                 KLinkButton(
                   'More',
-                  onPress: gotoClassList,
+                  onPress: widget.goToClassRoomList,
                   color: isLightTheme ? kWhiteColor : kBlackColor,
                   isBold: true,
                   isUnderline: true,
@@ -103,7 +107,7 @@ class _ClassroomColectionState extends State<ClassroomColection> {
                 return ListBuilder(
                     scrollDirection: Axis.horizontal,
                     emptyList: ClassroomCollectionEmpty(
-                      goToClassrooms: gotoClassList,
+                      goToClassrooms: widget.goToClassRoomList,
                     ),
                     shirinkWrap: true,
                     scrollBehavior: NormalScollBehavior(),
@@ -125,10 +129,6 @@ class _ClassroomColectionState extends State<ClassroomColection> {
         ],
       ),
     );
-  }
-
-  void gotoClassList() {
-    adapter.goToClassroom(context);
   }
 
   Future<void> goToDetail(Classroom classroom) async {
