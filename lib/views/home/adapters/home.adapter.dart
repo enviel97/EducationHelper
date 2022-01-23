@@ -3,7 +3,8 @@ import 'package:education_helper/roots/app_root.dart';
 import 'package:education_helper/roots/parts/adapter.dart';
 import 'package:education_helper/views/classrooms/adapter/classroom.adapter.dart';
 import 'package:education_helper/views/exam/adapter/exam.adapter.dart';
-import 'package:education_helper/views/home/bloc/home_bloc.dart';
+import 'package:education_helper/views/home/bloc/classrooms/classroom.bloc.dart';
+import 'package:education_helper/views/home/bloc/exams/exam.bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -25,8 +26,11 @@ class HomeAdapter extends IAdapter {
   IAdapter get _examAdapter => Root.ins.adapter.getAdapter(examAdapter);
 
   @override
-  Widget layout({Map<String, dynamic>? params}) => BlocProvider(
-        create: (context) => HomeBloc(),
+  Widget layout({Map<String, dynamic>? params}) => MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => ExamsBloc()),
+          BlocProvider(create: (context) => ClassroomsBloc()),
+        ],
         child: const Home(),
       );
 
@@ -37,7 +41,7 @@ class HomeAdapter extends IAdapter {
   Future<void> goToClassroom(BuildContext context) async {
     await context.goTo(
       BlocProvider.value(
-        value: BlocProvider.of<HomeBloc>(context),
+        value: BlocProvider.of<ClassroomsBloc>(context),
         child: _classroomAdapter.layout(),
       ),
     );
@@ -57,17 +61,14 @@ class HomeAdapter extends IAdapter {
       exams: exams,
       members: members,
       classname: classname,
-      refresh: () async {
-        await BlocProvider.of<HomeBloc>(context)
-            .refreshCollections(RefreshEvent.classroom);
-      },
+      refresh: BlocProvider.of<ClassroomsBloc>(context).refresh,
     );
   }
 
   Future<void> goToExams(BuildContext context) async {
     context.goTo(
       BlocProvider.value(
-        value: BlocProvider.of<HomeBloc>(context),
+        value: BlocProvider.of<ExamsBloc>(context),
         child: _examAdapter.layout(),
       ),
     );

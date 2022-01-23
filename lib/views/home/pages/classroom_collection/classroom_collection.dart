@@ -5,8 +5,8 @@ import 'package:education_helper/helpers/widgets/scroller_grow_disable.dart';
 import 'package:education_helper/models/classroom.model.dart';
 import 'package:education_helper/roots/bloc/app_bloc.dart';
 import 'package:education_helper/views/home/adapters/home.adapter.dart';
-import 'package:education_helper/views/home/bloc/home_bloc.dart';
-import 'package:education_helper/views/home/bloc/home_state.dart';
+import 'package:education_helper/views/home/bloc/classrooms/classroom.bloc.dart';
+import 'package:education_helper/views/home/bloc/classrooms/classroom.state.dart';
 import 'package:education_helper/views/widgets/button/custom_link_button.dart';
 import 'package:education_helper/views/widgets/list/list_builder.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +31,7 @@ class _ClassroomColectionState extends State<ClassroomColection> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<HomeBloc>(context).getClassCollection();
+    BlocProvider.of<ClassroomsBloc>(context).getClassCollection();
   }
 
   @override
@@ -74,11 +74,11 @@ class _ClassroomColectionState extends State<ClassroomColection> {
           SizedBox(
             height: 160.0,
             width: double.infinity,
-            child: BlocConsumer<HomeBloc, HomeState>(
+            child: BlocConsumer<ClassroomsBloc, ClassroomState>(
               listener: (context, state) {
-                if (state is HomeFailureState) {
+                if (state is ClassroomFailState) {
                   BlocProvider.of<AppBloc>(context)
-                      .showError(context, state.messenger);
+                      .showError(context, state.messenger.mess);
                   setState(() => errorMessenger = 'Classroom loading error!');
                 }
                 if (state is ClassroomLoadedState) {

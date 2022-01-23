@@ -5,8 +5,8 @@ import 'package:education_helper/helpers/widgets/scroller_grow_disable.dart';
 import 'package:education_helper/models/exam.model.dart';
 import 'package:education_helper/roots/bloc/app_bloc.dart';
 import 'package:education_helper/views/home/adapters/home.adapter.dart';
-import 'package:education_helper/views/home/bloc/home_bloc.dart';
-import 'package:education_helper/views/home/bloc/home_state.dart';
+import 'package:education_helper/views/home/bloc/exams/exam.bloc.dart';
+import 'package:education_helper/views/home/bloc/exams/exam.state.dart';
 import 'package:education_helper/views/home/home.dart';
 import 'package:education_helper/views/home/pages/exam_collection.dart/widgets/exam_collection_empty.dart';
 import 'package:education_helper/views/widgets/button/custom_link_button.dart';
@@ -31,7 +31,7 @@ class _ExamCollectionState extends State<ExamCollection> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<HomeBloc>(context).getExamCollection();
+    BlocProvider.of<ExamsBloc>(context).getExamCollection();
   }
 
   @override
@@ -73,11 +73,11 @@ class _ExamCollectionState extends State<ExamCollection> {
           SPACING.M.vertical,
           // Build List scrole
           Expanded(
-            child: BlocConsumer<HomeBloc, HomeState>(
+            child: BlocConsumer<ExamsBloc, ExamState>(
               listener: (context, state) {
-                if (state is HomeFailureState) {
+                if (state is ExamFailState) {
                   BlocProvider.of<AppBloc>(context)
-                      .showError(context, state.messenger);
+                      .showError(context, '${state.messenger}');
                   setState(() => errorMessenger = 'Exam loading error!');
                 }
                 if (state is ExamLoadedState) {

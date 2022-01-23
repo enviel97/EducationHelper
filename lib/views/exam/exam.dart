@@ -5,7 +5,7 @@ import 'package:education_helper/views/exam/adapter/exam.adapter.dart';
 import 'package:education_helper/views/exam/bloc/exam_bloc.dart';
 import 'package:education_helper/views/exam/bloc/exam_state.dart';
 import 'package:education_helper/views/exam/widgets/exams_empty.dart';
-import 'package:education_helper/views/home/bloc/home_bloc.dart';
+import 'package:education_helper/views/home/bloc/exams/exam.bloc.dart';
 import 'package:education_helper/views/widgets/button/custom_go_back.dart';
 import 'package:education_helper/views/widgets/form/custom_search_field.dart';
 import 'package:education_helper/views/widgets/header/appbar_bottom.dart';
@@ -111,7 +111,7 @@ class _ExamsState extends State<Exams> {
 
   void _preGoBack() {
     if (isNeedRefresh) {
-      BlocProvider.of<HomeBloc>(context).refreshCollections(RefreshEvent.exam);
+      BlocProvider.of<ExamsBloc>(context).refresh();
     }
   }
 

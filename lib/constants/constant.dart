@@ -22,4 +22,9 @@ class Helper {
 class Messenger {
   final String mess;
   const Messenger(this.mess);
+
+  @override
+  String toString() {
+    return mess;
+  }
 }

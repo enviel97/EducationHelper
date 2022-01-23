@@ -5,7 +5,7 @@ import 'package:education_helper/roots/bloc/app_bloc.dart';
 import 'package:education_helper/roots/bloc/app_state.dart';
 import 'package:education_helper/views/classrooms/adapter/classroom.adapter.dart';
 import 'package:education_helper/views/classrooms/dialogs/classroom_dialog.dart';
-import 'package:education_helper/views/home/bloc/home_bloc.dart';
+import 'package:education_helper/views/home/bloc/classrooms/classroom.bloc.dart';
 import 'package:education_helper/views/widgets/form/custom_search_field.dart';
 import 'package:education_helper/views/widgets/header/appbar_bottom.dart';
 import 'package:flutter/material.dart';
@@ -142,13 +142,10 @@ class _ClassroomsState extends State<Classrooms> {
     );
   }
 
-  void _onGoBack() {
+  Future<void> _onGoBack() async {
     if (isNeedRefresh) {
-      BlocProvider.of<HomeBloc>(context)
-          .refreshCollections(RefreshEvent.classroom)
-          .then((value) => Navigator.of(context).pop());
-    } else {
-      Navigator.of(context).pop();
+      await BlocProvider.of<ClassroomsBloc>(context).refresh();
     }
+    Navigator.of(context).pop();
   }
 }
