@@ -5,3 +5,4 @@ const authAdapter = 'AuthAdapter';
 const classroomAdpater = 'ClassroomAdapter';
 const memberAdapter = 'MemberAdapter';
 const examAdapter = 'ExamAdapter';
+const topicAdapter = 'TopicAdapter';
