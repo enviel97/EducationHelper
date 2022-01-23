@@ -1,9 +1,11 @@
 import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/models/classroom.model.dart';
 import 'package:education_helper/views/classrooms/adapter/classroom.adapter.dart';
+import 'package:education_helper/views/classrooms/bloc/classroom_bloc.dart';
 import 'package:education_helper/views/classrooms/classrooms.dart';
 import 'package:education_helper/views/classrooms/dialogs/classroom_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'classroom_item_empty.dart';
 import 'widgets/classroom_item_body.dart';
@@ -27,6 +29,7 @@ class ClassroomItem extends StatelessWidget {
         uid: classroom.id,
         exams: classroom.exams.length,
         members: classroom.members.length,
+        refresh: BlocProvider.of<ClassroomBloc>(context).refreshClassroom,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,

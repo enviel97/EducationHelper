@@ -27,6 +27,10 @@ class MemberAdapter extends IAdapter {
         classname: params!['classname'],
         totalExams: params['exams'],
         totalMembers: params['members'],
+        refresh: params['refresh'] ??
+            () async {
+              debugPrint("Don't have refresh function");
+            },
       ),
     );
   }

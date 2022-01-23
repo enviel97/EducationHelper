@@ -1,12 +1,13 @@
 import 'dart:io';
-
 import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:education_helper/roots/app_root.dart';
 import 'package:education_helper/roots/parts/adapter.dart';
+import 'package:education_helper/views/exam/bloc/exam_bloc.dart';
 import 'package:education_helper/views/exam/exam.dart';
 import 'package:education_helper/views/exam/pages/exam_form/exam_form.dart';
 import 'package:education_helper/views/exam/pages/exams_detail/exam_detail.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ExamAdapter extends IAdapter {
   static final ExamAdapter _ins = ExamAdapter._internal();
@@ -20,7 +21,10 @@ class ExamAdapter extends IAdapter {
 
   @override
   Widget layout({Map<String, dynamic>? params}) {
-    return const Exams();
+    return BlocProvider(
+      create: (context) => ExamBloc(),
+      child: const Exams(),
+    );
   }
 
   Future<void> gotoDetailExam(

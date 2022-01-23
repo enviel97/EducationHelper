@@ -7,7 +7,6 @@ import 'package:education_helper/roots/app_root.dart';
 import 'package:education_helper/roots/bloc/app_bloc.dart';
 import 'package:education_helper/roots/bloc/app_state.dart';
 import 'package:education_helper/views/classrooms/bloc/classroom_bloc.dart';
-import 'package:education_helper/views/home/bloc/home_bloc.dart';
 import 'package:education_helper/views/member/adapter/member.adapter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,10 +24,12 @@ class Members extends StatefulWidget {
   final String classname;
   final int totalExams;
   final int totalMembers;
+  final Future<void> Function() refresh;
   const Members({
     required this.classname,
     required this.totalExams,
     required this.totalMembers,
+    required this.refresh,
     Key? key,
   }) : super(key: key);
 
@@ -134,15 +135,16 @@ class _MembersState extends State<Members> {
     );
   }
 
+  Future<void> refreshClassroom() async {
+    try {
+      await BlocProvider.of<ClassroomBloc>(context).refreshClassroom();
+    } catch (error) {}
+  }
+
   Future<void> _onGoBack() async {
     if (isNeedRefresh) {
-      await Future.wait([
-        BlocProvider.of<HomeBloc>(context)
-            .refreshCollections(RefreshEvent.classroom),
-        BlocProvider.of<ClassroomBloc>(context).refreshClassroom()
-      ]).then((value) => Navigator.of(context).pop());
-    } else {
-      Navigator.of(context).pop();
+      await widget.refresh();
     }
+    Navigator.of(context).pop();
   }
 }

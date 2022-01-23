@@ -15,6 +15,11 @@ class ClassroomLoadingState extends ClassroomState {
   List<Object?> get props => [];
 }
 
+class ClassroomRefreshState extends ClassroomState {
+  @override
+  List<Object?> get props => [];
+}
+
 class ClassroomCreateSuccessState extends ClassroomState {
   final Classroom classroom;
   const ClassroomCreateSuccessState(this.classroom);

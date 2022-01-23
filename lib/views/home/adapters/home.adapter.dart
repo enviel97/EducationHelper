@@ -3,7 +3,9 @@ import 'package:education_helper/roots/app_root.dart';
 import 'package:education_helper/roots/parts/adapter.dart';
 import 'package:education_helper/views/classrooms/adapter/classroom.adapter.dart';
 import 'package:education_helper/views/exam/adapter/exam.adapter.dart';
+import 'package:education_helper/views/home/bloc/home_bloc.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../home.dart';
 
@@ -23,14 +25,22 @@ class HomeAdapter extends IAdapter {
   IAdapter get _examAdapter => Root.ins.adapter.getAdapter(examAdapter);
 
   @override
-  Widget layout({Map<String, dynamic>? params}) => const Home();
+  Widget layout({Map<String, dynamic>? params}) => BlocProvider(
+        create: (context) => HomeBloc(),
+        child: const Home(),
+      );
 
   Future<void> goToLogin(BuildContext context) async {
     await context.replace(_authAdapter.layout());
   }
 
   Future<void> goToClassroom(BuildContext context) async {
-    await context.goTo(_classroomAdapter.layout());
+    await context.goTo(
+      BlocProvider.value(
+        value: BlocProvider.of<HomeBloc>(context),
+        child: _classroomAdapter.layout(),
+      ),
+    );
   }
 
   Future<void> goToClassroomDetail(
@@ -40,17 +50,27 @@ class HomeAdapter extends IAdapter {
     required int members,
     required String classname,
   }) async {
-    await _classroomAdapter.cast<ClassroomAdapter>().goToMembers(
-          context,
-          uid: uid,
-          exams: exams,
-          members: members,
-          classname: classname,
-        );
+    final adapter = _classroomAdapter.cast<ClassroomAdapter>();
+    adapter.goToMembers(
+      context,
+      uid: uid,
+      exams: exams,
+      members: members,
+      classname: classname,
+      refresh: () async {
+        await BlocProvider.of<HomeBloc>(context)
+            .refreshCollections(RefreshEvent.classroom);
+      },
+    );
   }
 
   Future<void> goToExams(BuildContext context) async {
-    context.goTo(_examAdapter.layout());
+    context.goTo(
+      BlocProvider.value(
+        value: BlocProvider.of<HomeBloc>(context),
+        child: _examAdapter.layout(),
+      ),
+    );
   }
 
   Future<void> goToExamDetail(BuildContext context, String idExam) async {

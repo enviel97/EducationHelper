@@ -1,7 +1,10 @@
 import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:education_helper/roots/app_root.dart';
 import 'package:education_helper/roots/parts/adapter.dart';
+import 'package:education_helper/views/classrooms/bloc/classroom_bloc.dart';
+import 'package:education_helper/views/home/bloc/home_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../classrooms.dart';
 
 class ClassroomAdapter extends IAdapter {
@@ -19,7 +22,10 @@ class ClassroomAdapter extends IAdapter {
 
   @override
   Widget layout({Map<String, dynamic>? params}) {
-    return const Classrooms();
+    return BlocProvider(
+      create: (context) => ClassroomBloc(),
+      child: const Classrooms(),
+    );
   }
 
   Future<void> goToMembers(
@@ -28,12 +34,17 @@ class ClassroomAdapter extends IAdapter {
     required int exams,
     required int members,
     required String classname,
+    required Future<void> Function() refresh,
   }) async {
-    await context.goTo(adapterMember.layout(params: {
-      'id': uid,
-      'classname': classname,
-      'exams': exams,
-      'members': members,
-    }));
+    await context.goTo(BlocProvider.value(
+      value: BlocProvider.of<HomeBloc>(context),
+      child: adapterMember.layout(params: {
+        'id': uid,
+        'classname': classname,
+        'exams': exams,
+        'members': members,
+        'refresh': refresh,
+      }),
+    ));
   }
 }

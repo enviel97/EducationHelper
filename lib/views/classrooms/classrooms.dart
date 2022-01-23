@@ -100,7 +100,8 @@ class _ClassroomsState extends State<Classrooms> {
         }
         if (state is ClassroomEditSuccessState ||
             state is ClassroomDeleteSuccessState ||
-            state is ClassroomCreateSuccessState) {
+            state is ClassroomCreateSuccessState ||
+            state is ClassroomRefreshState) {
           isNeedRefresh = true;
         }
         if (state is ClassroomDeleteSuccessState) {

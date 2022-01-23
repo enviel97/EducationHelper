@@ -11,7 +11,6 @@ class ClassroomBloc extends Cubit<ClassroomState> {
   late RestApi _restApi;
 
   /// store
-  List<Classroom> restoreFull = [];
   List<Classroom> classrooms = [];
 
   ClassroomBloc() : super(ClassroomInitialState()) {
@@ -85,6 +84,7 @@ class ClassroomBloc extends Cubit<ClassroomState> {
   }
 
   Future<void> refreshClassroom() async {
+    emit(ClassroomRefreshState());
     await getListClassroom();
   }
 
