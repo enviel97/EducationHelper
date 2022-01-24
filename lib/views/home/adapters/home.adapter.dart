@@ -5,6 +5,7 @@ import 'package:education_helper/views/classrooms/adapter/classroom.adapter.dart
 import 'package:education_helper/views/exam/adapter/exam.adapter.dart';
 import 'package:education_helper/views/home/bloc/classrooms/classroom.bloc.dart';
 import 'package:education_helper/views/home/bloc/exams/exam.bloc.dart';
+import 'package:education_helper/views/topic/adapter/topic.adapter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,6 +25,7 @@ class HomeAdapter extends IAdapter {
   IAdapter get _classroomAdapter =>
       Root.ins.adapter.getAdapter(classroomAdpater);
   IAdapter get _examAdapter => Root.ins.adapter.getAdapter(examAdapter);
+  IAdapter get _topicAdapter => Root.ins.adapter.getAdapter(topicAdapter);
 
   @override
   Widget layout({Map<String, dynamic>? params}) => MultiBlocProvider(
@@ -77,5 +79,10 @@ class HomeAdapter extends IAdapter {
   Future<void> goToExamDetail(BuildContext context, String idExam) async {
     final adapter = _examAdapter.cast<ExamAdapter>();
     adapter.gotoDetailExam(context, idExam: idExam);
+  }
+
+  Future<void> goToTopics(BuildContext context) async {
+    final adapter = _topicAdapter.cast<TopicAdapter>();
+    context.goTo(adapter.layout());
   }
 }

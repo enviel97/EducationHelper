@@ -16,7 +16,7 @@ class KGoBack extends StatelessWidget {
     final navigation = Navigator.of(context);
     if (navigation.canPop()) {
       if (preGoBack != null) {
-        await preGoBack!();
+        preGoBack!();
       }
       navigation.pop();
     }

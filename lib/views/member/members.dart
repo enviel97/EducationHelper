@@ -138,12 +138,14 @@ class _MembersState extends State<Members> {
   Future<void> refreshClassroom() async {
     try {
       await BlocProvider.of<ClassroomBloc>(context).refreshClassroom();
-    } catch (error) {}
+    } catch (_) {}
   }
 
   Future<void> _onGoBack() async {
     if (isNeedRefresh) {
-      await widget.refresh();
+      try {
+        widget.refresh();
+      } catch (_) {}
     }
     Navigator.of(context).pop();
   }

@@ -30,6 +30,7 @@ class CircularButton extends StatelessWidget {
         enableFeedback: true,
         tooltip: tooltip,
         icon: icon,
+        visualDensity: VisualDensity.comfortable,
         onPressed: onClick,
       ),
     );

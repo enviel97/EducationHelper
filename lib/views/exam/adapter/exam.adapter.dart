@@ -31,7 +31,12 @@ class ExamAdapter extends IAdapter {
     BuildContext context, {
     required String idExam,
   }) async {
-    await context.goTo(ExamDetail(id: idExam));
+    await context.goTo(
+      BlocProvider(
+        create: (context) => ExamBloc(),
+        child: ExamDetail(id: idExam),
+      ),
+    );
   }
 
   Future<void> goToCreateExam(BuildContext context) async {

@@ -13,23 +13,19 @@ class MenuController {
     _state = null;
   }
 
-  void closeMenu() {
+  Future<void> closeMenu() async {
     try {
-      if (_state!._controller.isCompleted &&
-          _state!._iconController.isCompleted) {
-        _state!._controller.reverse();
-        _state!._iconController.reverse();
-      }
-    } catch (_) {}
+      await _state!._openMenu();
+    } catch (_) {
+      debugPrint('[MenuController] $_');
+    }
   }
 
-  void openMenu() {
+  Future<void> openMenu() async {
     try {
-      if (_state!._controller.isDismissed &&
-          _state!._iconController.isCompleted) {
-        _state!._controller.forward();
-        _state!._iconController.forward();
-      }
-    } catch (_) {}
+      await _state!._closeMenu();
+    } catch (_) {
+      debugPrint('[MenuController] $_');
+    }
   }
 }

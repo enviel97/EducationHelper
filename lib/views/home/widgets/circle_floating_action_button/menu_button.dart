@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:education_helper/constants/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:vector_math/vector_math_64.dart';
 
 import 'circular_button.dart';
 part 'menu_controller.dart';
@@ -11,12 +13,14 @@ class MenuButton extends StatefulWidget {
   final Function() onClickClassroom;
   final Function() onClickExam;
   final Function() onClickTopic;
+  final bool autoClose;
   const MenuButton({
     required this.onClickClassroom,
     required this.onClickExam,
     required this.onClickTopic,
     Key? key,
     this.controler,
+    this.autoClose = true,
   }) : super(key: key);
 
   @override
@@ -77,6 +81,13 @@ class _MenuButtonState extends State<MenuButton> with TickerProviderStateMixin {
     return deg / unitRadian;
   }
 
+  Offset offset() {
+    return Offset.fromDirection(
+      getRadiansFromDegree(180.0),
+      100.0,
+    );
+  }
+
   Widget menuItem(
     Widget button, {
     required double deg,
@@ -100,76 +111,88 @@ class _MenuButtonState extends State<MenuButton> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        menuItem(
-          CircularButton(
-            color: kSecondaryColor,
-            width: 50.0,
-            height: 50.0,
-            icon: const Icon(Icons.class_),
-            onClick: () async {
-              await _closeMenu().whenComplete(() => widget.onClickClassroom());
-            },
-          ),
-          deg: 180.0,
-          controller: _movementController180,
-        ),
-        menuItem(
-          CircularButton(
-            color: kSecondaryColor,
-            width: 50.0,
-            height: 50.0,
-            icon: const Icon(Icons.menu),
-            onClick: () async {
-              await _closeMenu().whenComplete(() => widget.onClickExam());
-            },
-          ),
-          deg: 225.0,
-          controller: _movementController225,
-        ),
-        menuItem(
-          CircularButton(
-            color: kSecondaryColor,
-            width: 50.0,
-            height: 50.0,
-            icon: const Icon(Icons.menu),
-            onClick: () async {
-              await _closeMenu().whenComplete(() => widget.onClickTopic());
-            },
-          ),
-          deg: 270.0,
-          controller: _movementController270,
-        ),
-        Transform(
-          transform: Matrix4.rotationZ(
-            getRadiansFromDegree(_rotationController.value),
-          ),
-          alignment: Alignment.center,
-          child: CircularButton(
-            color: kPrimaryColor,
-            width: 60.0,
-            height: 60.0,
-            icon: AnimatedIcon(
-              icon: AnimatedIcons.menu_close,
-              progress: _iconController,
-              semanticLabel: 'Show menu',
+    return SizedBox(
+      width: 200.0,
+      height: 200.0,
+      child: Stack(
+        alignment: Alignment.bottomRight,
+        children: [
+          menuItem(
+            CircularButton(
+              color: kSecondaryColor,
+              width: 50.0,
+              height: 50.0,
+              icon: const Icon(MaterialCommunityIcons.google_classroom),
+              tooltip: 'Classrooms',
+              onClick: () async {
+                if (widget.autoClose) _closeMenu();
+                widget.onClickClassroom();
+              },
             ),
-            onClick: _primaryClick,
+            deg: 180.0,
+            controller: _movementController180,
           ),
-        ),
-      ],
+          menuItem(
+            CircularButton(
+              color: kSecondaryColor,
+              width: 50.0,
+              height: 50.0,
+              icon: const Icon(MaterialCommunityIcons.file_document_edit),
+              tooltip: 'Exams',
+              onClick: () async {
+                if (widget.autoClose) _closeMenu();
+                widget.onClickExam();
+              },
+            ),
+            deg: 225.0,
+            controller: _movementController225,
+          ),
+          menuItem(
+            CircularButton(
+              color: kSecondaryColor,
+              width: 50.0,
+              height: 50.0,
+              icon: const Icon(MaterialIcons.topic),
+              tooltip: 'Topics',
+              onClick: () async {
+                if (widget.autoClose) _closeMenu();
+                widget.onClickTopic();
+              },
+            ),
+            deg: 270.0,
+            controller: _movementController270,
+          ),
+          Transform(
+            transform: Matrix4.rotationZ(
+              getRadiansFromDegree(_rotationController.value),
+            ),
+            alignment: Alignment.center,
+            child: CircularButton(
+              color: kPrimaryColor,
+              width: 60.0,
+              height: 60.0,
+              icon: AnimatedIcon(
+                icon: AnimatedIcons.menu_close,
+                color: kWhiteColor,
+                progress: _iconController,
+                semanticLabel: 'Show menu',
+              ),
+              onClick: _primaryClick,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
-  Future<void> _openMenu() async {
+  Future<void> _closeMenu() async {
     await Future.wait([
       _controller.reverse(),
       _iconController.reverse(),
     ]);
   }
 
-  Future<void> _closeMenu() async {
+  Future<void> _openMenu() async {
     await Future.wait([
       _controller.forward(),
       _iconController.forward(),
@@ -179,15 +202,13 @@ class _MenuButtonState extends State<MenuButton> with TickerProviderStateMixin {
   void _primaryClick() {
     if (_controller.isAnimating) return;
     if (_controller.isCompleted) {
-      _openMenu();
-    } else {
       _closeMenu();
+    } else {
+      _openMenu();
     }
   }
 
   void _listenSetState() {
-    if (mounted) {
-      setState(() {});
-    }
+    setState(() {});
   }
 }

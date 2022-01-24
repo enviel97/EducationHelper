@@ -144,7 +144,9 @@ class _ClassroomsState extends State<Classrooms> {
 
   Future<void> _onGoBack() async {
     if (isNeedRefresh) {
-      await BlocProvider.of<ClassroomsBloc>(context).refresh();
+      try {
+        BlocProvider.of<ClassroomsBloc>(context).refresh();
+      } catch (_) {}
     }
     Navigator.of(context).pop();
   }

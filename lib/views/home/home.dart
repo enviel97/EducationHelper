@@ -1,6 +1,3 @@
-import 'dart:math';
-
-import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/helpers/extensions/state.x.dart';
 import 'package:education_helper/helpers/widgets/circle_animation.dart';
@@ -13,7 +10,6 @@ import 'package:flutter/material.dart';
 
 import 'pages/classroom_collection/classroom_collection.dart';
 import 'pages/exam_collection.dart/exam_collection.dart';
-import 'widgets/circle_floating_action_button/circular_button.dart';
 import 'widgets/date_horizantal/date_picker_timeline.dart';
 
 class Home extends StatefulWidget {
@@ -27,7 +23,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   late List<DateTime> expirDate;
-  final DatePickerTimelineControler dtControll = DatePickerTimelineControler();
+  final dtControll = DatePickerTimelineControler();
+  final mnController = MenuController();
 
   @override
   void initState() {
@@ -41,6 +38,7 @@ class _HomeState extends State<Home> {
   @override
   void dispose() {
     dtControll.dispose();
+    mnController.dispose();
     super.dispose();
   }
 
@@ -68,28 +66,32 @@ class _HomeState extends State<Home> {
             child: Stack(
               fit: StackFit.expand,
               children: [
-                NormalScroll(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SPACING.LG.vertical,
-                        ClassroomColection(goToClassRoomList: gotoClassList),
-                        SPACING.LG.vertical,
-                        ExamCollection(goToExams: gotoExams),
-                        SPACING.LG.vertical,
-                      ],
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 20.0),
+                  child: NormalScroll(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SPACING.LG.vertical,
+                          ClassroomColection(goToClassRoomList: gotoClassList),
+                          SPACING.LG.vertical,
+                          ExamCollection(goToExams: gotoExams),
+                          SPACING.LG.vertical,
+                        ],
+                      ),
                     ),
                   ),
                 ),
                 Positioned(
                   right: 30.0,
-                  bottom: 30.0,
+                  bottom: 10.0,
                   child: MenuButton(
+                    controler: mnController,
                     onClickClassroom: gotoClassList,
                     onClickExam: gotoExams,
-                    onClickTopic: goTopicList,
+                    onClickTopic: goTopic,
                   ),
                 ),
               ],
@@ -108,7 +110,7 @@ class _HomeState extends State<Home> {
     Home.adapter.goToExams(context);
   }
 
-  void goTopicList() {
-    // Home.adapter.goToClassroom(context);
+  void goTopic() {
+    Home.adapter.goToTopics(context);
   }
 }
