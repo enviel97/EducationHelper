@@ -16,27 +16,31 @@ class ClassroomsBloc extends Cubit<ClassroomState> {
   }
 
   Future<void> getClassCollection() async {
-    emit(const ClassroomLoadingState());
-    final sort = Helper(
-      sorted: 'updatedAt',
-      direction: 'desc',
-      limit: 10,
-    );
+    try {
+      emit(const ClassroomLoadingState());
+      final sort = Helper(
+        sorted: 'updatedAt',
+        direction: 'desc',
+        limit: 10,
+      );
 
-    final result = await _restApi
-        .get('classrooms/top', parametter: sort.toJson())
-        .catchError((err) {
-      emit(ClassroomFailState(err['error']));
-      return null;
-    });
-    if (result == null) return;
-    final List<Classroom> classrooms;
-    if ((result?.length ?? 0) == 0) {
-      classrooms = [];
-    } else {
-      classrooms = List<Classroom>.generate(
-          result.length, (index) => Classroom.fromJson(result[index]));
+      final result = await _restApi
+          .get('classrooms/top', parametter: sort.toJson())
+          .catchError((err) {
+        emit(ClassroomFailState(Messenger(err['error'] ?? err.toString())));
+        return null;
+      });
+      if (result == null) return;
+      final List<Classroom> classrooms;
+      if ((result?.length ?? 0) == 0) {
+        classrooms = [];
+      } else {
+        classrooms = List<Classroom>.generate(
+            result.length, (index) => Classroom.fromJson(result[index]));
+      }
+      emit(ClassroomLoadedState(classrooms));
+    } catch (e) {
+      emit(const ClassroomFailState(Messenger('System error')));
     }
-    emit(ClassroomLoadedState(classrooms));
   }
 }

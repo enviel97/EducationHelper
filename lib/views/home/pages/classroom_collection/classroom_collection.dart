@@ -7,6 +7,7 @@ import 'package:education_helper/roots/bloc/app_bloc.dart';
 import 'package:education_helper/views/home/adapters/home.adapter.dart';
 import 'package:education_helper/views/home/bloc/classrooms/classroom.bloc.dart';
 import 'package:education_helper/views/home/bloc/classrooms/classroom.state.dart';
+import 'package:education_helper/views/home/widgets/header_collections.dart';
 import 'package:education_helper/views/widgets/button/custom_link_button.dart';
 import 'package:education_helper/views/widgets/list/list_builder.dart';
 import 'package:flutter/material.dart';
@@ -17,9 +18,7 @@ import 'widgets/classroom_collection_empty.dart';
 import 'widgets/classroom_collection_item.dart';
 
 class ClassroomColection extends StatefulWidget {
-  final void Function() goToClassRoomList;
   const ClassroomColection({
-    required this.goToClassRoomList,
     Key? key,
   }) : super(key: key);
 
@@ -52,27 +51,10 @@ class _ClassroomColectionState extends State<ClassroomColection> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SPACING.M.vertical,
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 35.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'CLASSROOM',
-                  style: TextStyle(
-                      color: kPrimaryColor,
-                      fontSize: SPACING.M.size * 1.5,
-                      fontWeight: FontWeight.bold),
-                ),
-                KLinkButton(
-                  'More',
-                  onPress: widget.goToClassRoomList,
-                  color: isLightTheme ? kWhiteColor : kBlackColor,
-                  isBold: true,
-                  isUnderline: true,
-                )
-              ],
-            ),
+          HeaderCollection(
+            title: 'Classroom',
+            qunatity: classrooms.length,
+            onPressMore: goToClassRoomList,
           ),
           SPACING.M.vertical,
           SizedBox(
@@ -107,7 +89,7 @@ class _ClassroomColectionState extends State<ClassroomColection> {
                 return ListBuilder(
                     scrollDirection: Axis.horizontal,
                     emptyList: ClassroomCollectionEmpty(
-                      goToClassrooms: widget.goToClassRoomList,
+                      goToClassrooms: goToClassRoomList,
                     ),
                     shirinkWrap: true,
                     scrollBehavior: NormalScollBehavior(),
@@ -139,5 +121,9 @@ class _ClassroomColectionState extends State<ClassroomColection> {
       exams: classroom.exams.length,
       members: classroom.members.length,
     );
+  }
+
+  void goToClassRoomList() {
+    Home.adapter.goToClassroom(context);
   }
 }

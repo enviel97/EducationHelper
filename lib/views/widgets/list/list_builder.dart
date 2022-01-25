@@ -10,6 +10,7 @@ class ListBuilder extends StatelessWidget {
   final Axis scrollDirection;
   final ScrollController? controller;
   final ScrollBehavior? scrollBehavior;
+  final EdgeInsets margin;
 
   const ListBuilder({
     required this.datas,
@@ -22,6 +23,7 @@ class ListBuilder extends StatelessWidget {
     this.scrollDirection = Axis.vertical,
     this.controller,
     this.scrollBehavior,
+    this.margin = const EdgeInsets.all(0.0),
   }) : super(key: key);
 
   @override
@@ -51,5 +53,6 @@ class ListBuilder extends StatelessWidget {
     );
   }
 
-  Widget _itemBuilder(BuildContext context, int index) => itemBuilder(index);
+  Widget _itemBuilder(BuildContext context, int index) =>
+      Container(margin: margin, child: itemBuilder(index));
 }

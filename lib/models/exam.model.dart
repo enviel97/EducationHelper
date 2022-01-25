@@ -10,7 +10,9 @@ enum ExamType { quiz, essay }
 extension _ExamType on ExamType {
   String get name => toString().split('.')[1].toUpperCase();
   static ExamType value(String value) {
-    return ExamType.values.where((type) => type.name == value).first;
+    return ExamType.values
+        .where((type) => type.name.toLowerCase() == value.toLowerCase())
+        .first;
   }
 }
 

@@ -8,18 +8,17 @@ import 'package:education_helper/views/home/adapters/home.adapter.dart';
 import 'package:education_helper/views/home/bloc/exams/exam.bloc.dart';
 import 'package:education_helper/views/home/bloc/exams/exam.state.dart';
 import 'package:education_helper/views/home/home.dart';
-import 'package:education_helper/views/home/pages/exam_collection.dart/widgets/exam_collection_empty.dart';
+import 'package:education_helper/views/home/widgets/header_collections.dart';
 import 'package:education_helper/views/widgets/button/custom_link_button.dart';
 import 'package:education_helper/views/widgets/list/list_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'widgets/exam_collection_empty.dart';
 import 'widgets/exam_collection_item.dart';
 
 class ExamCollection extends StatefulWidget {
-  final void Function() goToExams;
   const ExamCollection({
-    required this.goToExams,
     Key? key,
   }) : super(key: key);
 
@@ -28,7 +27,6 @@ class ExamCollection extends StatefulWidget {
 }
 
 class _ExamCollectionState extends State<ExamCollection> {
-  HomeAdapter get adapter => Home.adapter;
   String errorMessenger = '';
   List<Exam> exams = [];
 
@@ -52,27 +50,10 @@ class _ExamCollectionState extends State<ExamCollection> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SPACING.M.vertical,
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 35.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'EXAM',
-                  style: TextStyle(
-                      color: kPrimaryColor,
-                      fontSize: SPACING.M.size * 1.5,
-                      fontWeight: FontWeight.bold),
-                ),
-                KLinkButton(
-                  'More',
-                  onPress: widget.goToExams,
-                  color: isLightTheme ? kWhiteColor : kBlackColor,
-                  isBold: true,
-                  isUnderline: true,
-                )
-              ],
-            ),
+          HeaderCollection(
+            title: 'Exams',
+            qunatity: exams.length,
+            onPressMore: gotoExams,
           ),
           SPACING.M.vertical,
           // Build List scrole
@@ -103,7 +84,7 @@ class _ExamCollectionState extends State<ExamCollection> {
                 return ListBuilder(
                   scrollDirection: Axis.horizontal,
                   emptyList: ExamCollectionEmpty(
-                    gotoExams: widget.goToExams,
+                    gotoExams: gotoExams,
                   ),
                   shirinkWrap: true,
                   scrollBehavior: NormalScollBehavior(),
@@ -125,7 +106,11 @@ class _ExamCollectionState extends State<ExamCollection> {
     );
   }
 
+  Future<void> gotoExams() async {
+    Home.adapter.goToExams(context);
+  }
+
   Future<void> goToDetail(Exam exam) async {
-    adapter.goToExamDetail(context, exam.id);
+    Home.adapter.goToExamDetail(context, exam.id);
   }
 }

@@ -57,9 +57,8 @@ class RestApi {
         data: jsonEncode(body),
       );
       return _result(response);
-    } catch (error) {
-      debugPrint('[$path]: $error');
-      return;
+    } on DioError catch (error) {
+      return Future.error(error.response?.data ?? error.message);
     }
   }
 
@@ -75,9 +74,8 @@ class RestApi {
         data: jsonEncode(body),
       );
       return _result(response);
-    } catch (error) {
-      debugPrint('[$path]: $error');
-      return Future.error(error);
+    } on DioError catch (error) {
+      return Future.error(error.response?.data ?? error.message);
     }
   }
 
@@ -91,9 +89,8 @@ class RestApi {
         ),
       );
       return _result(response);
-    } catch (error) {
-      debugPrint('[$path]: $error');
-      return Future.error(error);
+    } on DioError catch (error) {
+      return Future.error(error.response?.data ?? error.message);
     }
   }
 
@@ -107,9 +104,8 @@ class RestApi {
         ),
       );
       return _result(response);
-    } catch (error) {
-      debugPrint('[$path]: $error');
-      return Future.error(error);
+    } on DioError catch (error) {
+      return Future.error(error.response?.data ?? error.message);
     }
   }
 

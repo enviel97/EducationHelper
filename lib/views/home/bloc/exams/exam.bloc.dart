@@ -17,26 +17,30 @@ class ExamsBloc extends Cubit<ExamState> {
 
   Future<void> getExamCollection() async {
     emit(const ExamLoadingState());
-    final sort = Helper(
-      sorted: 'updatedAt',
-      direction: 'desc',
-      limit: 10,
-    );
+    try {
+      final sort = Helper(
+        sorted: 'updatedAt',
+        direction: 'desc',
+        limit: 10,
+      );
 
-    final result = await _restApi
-        .get('exams/top', parametter: sort.toJson())
-        .catchError((err) {
-      emit(ExamFailState(Messenger(err['error'])));
-      return null;
-    });
-    if (result == null) return;
-    final List<Exam> exams;
-    if ((result?.length ?? 0) == 0) {
-      exams = [];
-    } else {
-      exams = List<Exam>.generate(
-          result.length, (index) => Exam.fromJson(result[index]));
+      final result = await _restApi
+          .get('exams/top', parametter: sort.toJson())
+          .catchError((err) {
+        emit(ExamFailState(Messenger(err['error'] ?? err.toString())));
+        return null;
+      });
+      if (result == null) return;
+      final List<Exam> exams;
+      if ((result?.length ?? 0) == 0) {
+        exams = [];
+      } else {
+        exams = List<Exam>.generate(
+            result.length, (index) => Exam.fromJson(result[index]));
+      }
+      emit(ExamLoadedState(exams));
+    } catch (e) {
+      emit(const ExamFailState(Messenger('System error')));
     }
-    emit(ExamLoadedState(exams));
   }
 }

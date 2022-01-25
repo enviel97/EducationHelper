@@ -4,12 +4,13 @@ import 'package:education_helper/helpers/widgets/circle_animation.dart';
 import 'package:education_helper/helpers/widgets/scroller_grow_disable.dart';
 import 'package:education_helper/roots/app_root.dart';
 import 'package:education_helper/views/home/adapters/home.adapter.dart';
+import 'package:education_helper/views/home/pages/topic_collection/topic_collection.dart';
 import 'package:education_helper/views/home/widgets/circle_floating_action_button/menu_button.dart';
 import 'package:education_helper/views/widgets/header/appbar_bottom.dart';
 import 'package:flutter/material.dart';
 
 import 'pages/classroom_collection/classroom_collection.dart';
-import 'pages/exam_collection.dart/exam_collection.dart';
+import 'pages/exam_collection/exam_collection.dart';
 import 'widgets/date_horizantal/date_picker_timeline.dart';
 
 class Home extends StatefulWidget {
@@ -75,9 +76,11 @@ class _HomeState extends State<Home> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           SPACING.LG.vertical,
-                          ClassroomColection(goToClassRoomList: gotoClassList),
+                          const ClassroomColection(),
                           SPACING.LG.vertical,
-                          ExamCollection(goToExams: gotoExams),
+                          const ExamCollection(),
+                          SPACING.LG.vertical,
+                          const TopicCollection(),
                           SPACING.LG.vertical,
                         ],
                       ),
