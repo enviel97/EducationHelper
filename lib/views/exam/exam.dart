@@ -80,17 +80,11 @@ class _ExamsState extends State<Exams> {
                     );
                   }
 
-                  return ListBuilder(
+                  return ListBuilder<Exam>(
                     datas: exams,
                     padding: const EdgeInsets.only(bottom: 30.0),
                     emptyList: const ExamsEmpty(),
-                    itemBuilder: (int index) {
-                      final exam = exams[index];
-                      return GestureDetector(
-                        onTap: () => _gotoExamDetail(exam.id),
-                        child: ExamsItem(exam: exam),
-                      );
-                    },
+                    itemBuilder: _itemBuilder,
                   );
                 },
               ),
@@ -117,5 +111,12 @@ class _ExamsState extends State<Exams> {
 
   void _search(String value) async {
     await BlocProvider.of<ExamBloc>(context).search(value);
+  }
+
+  Widget _itemBuilder(Exam data) {
+    return GestureDetector(
+      onTap: () => _gotoExamDetail(data.id),
+      child: ExamsItem(exam: data),
+    );
   }
 }

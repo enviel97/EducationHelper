@@ -86,6 +86,27 @@ class Content {
         'public': public,
         'offset': offset,
       };
+
+  static Content faker(String subject) {
+    final faker = Faker();
+
+    final content = faker.image.image(
+      keywords: ['exam', 'homework', 'check'],
+      random: true,
+    );
+    final exts = ['RAR', 'ZIP', 'PDF', 'PNG'];
+    exts.shuffle();
+    final ext = exts[faker.randomGenerator.integer(exts.length - 1)];
+
+    return Content(
+      download: content,
+      name: '$ext/$ext-${DateTimeX.ctime}',
+      originName: '$subject-'
+          'N${faker.randomGenerator.integer(5)}'
+          'T${faker.randomGenerator.integer(5)}',
+      public: content,
+    );
+  }
 }
 
 class Exam {
@@ -129,22 +150,10 @@ class Exam {
   factory Exam.faker() {
     final faker = Faker();
     final subject = faker.sport.name();
-    final content = faker.image.image(
-      keywords: ['exam', 'homework', 'check'],
-      random: true,
-    );
-    final isPdf = faker.randomGenerator.integer(9999) % 2 == 0;
+
     return Exam(
       subject: subject,
-      content: Content(
-        download: content,
-        name: '${isPdf ? 'PDF' : 'Image'}-'
-            '${DateTimeX.ctime}',
-        originName: '$subject-'
-            'N${faker.randomGenerator.integer(5)}'
-            'T${faker.randomGenerator.integer(5)}',
-        public: content,
-      ),
+      content: Content.faker(subject),
     );
   }
 }

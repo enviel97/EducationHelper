@@ -1,4 +1,5 @@
 const token = 'token';
+const plus = '➕';
 
 class Helper {
   final String? sorted;

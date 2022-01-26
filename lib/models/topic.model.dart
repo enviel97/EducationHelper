@@ -53,6 +53,7 @@ class Topic {
   final Exam exam;
   final DateTime expiredDate;
   final List<Answer> answers;
+  final String? note;
 
   const Topic({
     required this.classroom,
@@ -60,6 +61,7 @@ class Topic {
     required this.expiredDate,
     required this.answers,
     this.id = '',
+    this.note,
   });
 
   Map<String, dynamic> get toJson {
@@ -88,12 +90,16 @@ class Topic {
       List<Member>.generate(45, (index) => Member.faker()),
     );
     final answers = List<Answer>.generate(45, (index) => Answer.faker());
+    final lorem = faker.randomGenerator.boolean()
+        ? faker.lorem.sentences(faker.randomGenerator.integer(5)).join('\n')
+        : null;
     return Topic(
       classroom: classroom,
       exam: Exam.faker(),
       expiredDate:
           DateTime.now().add(Duration(days: faker.randomGenerator.integer(10))),
       answers: answers,
+      note: lorem,
     );
   }
 }

@@ -4,10 +4,16 @@ import 'package:education_helper/views/widgets/button/custom_text_button.dart';
 import 'package:flutter/material.dart';
 
 class ExamCollectionEmpty extends StatelessWidget {
-  final Function() gotoExams;
+  final Function() onStateHandle;
+  final String title;
+  final String messneger;
+  final bool loading;
   const ExamCollectionEmpty({
-    required this.gotoExams,
+    required this.onStateHandle,
     Key? key,
+    this.messneger = "You don't have any Exams",
+    this.title = 'Go To Exams List',
+    this.loading = false,
   }) : super(key: key);
 
   @override
@@ -19,7 +25,7 @@ class ExamCollectionEmpty extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            "You don't have any Exams",
+            messneger,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: kPlaceholderDarkColor,
@@ -27,7 +33,7 @@ class ExamCollectionEmpty extends StatelessWidget {
             ),
           ),
           SPACING.LG.vertical,
-          KTextButton(text: 'Go To Exams List', onPressed: gotoExams)
+          KTextButton(text: title, onPressed: loading ? null : onStateHandle)
         ],
       ),
     );

@@ -4,10 +4,16 @@ import 'package:education_helper/views/widgets/button/custom_text_button.dart';
 import 'package:flutter/material.dart';
 
 class ClassroomCollectionEmpty extends StatelessWidget {
-  final Function() goToClassrooms;
+  final Function() onStateHandle;
+  final String title;
+  final String messneger;
+  final bool loading;
   const ClassroomCollectionEmpty({
-    required this.goToClassrooms,
+    required this.onStateHandle,
     Key? key,
+    this.title = 'Go To Classroom List',
+    this.messneger = "You don't have any classrooms",
+    this.loading = false,
   }) : super(key: key);
 
   @override
@@ -17,7 +23,7 @@ class ClassroomCollectionEmpty extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          "You don't have any classrooms",
+          messneger,
           textAlign: TextAlign.center,
           style: TextStyle(
             color: kPlaceholderDarkColor,
@@ -25,7 +31,7 @@ class ClassroomCollectionEmpty extends StatelessWidget {
           ),
         ),
         SPACING.LG.vertical,
-        KTextButton(text: 'Go To Classroom List', onPressed: goToClassrooms)
+        KTextButton(text: title, onPressed: loading ? null : onStateHandle)
       ],
     );
   }

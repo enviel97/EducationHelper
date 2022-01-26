@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:education_helper/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:vector_math/vector_math_64.dart';
 
 import 'circular_button.dart';
 part 'menu_controller.dart';

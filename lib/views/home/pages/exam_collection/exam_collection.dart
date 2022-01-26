@@ -4,12 +4,10 @@ import 'package:education_helper/helpers/extensions/state.x.dart';
 import 'package:education_helper/helpers/widgets/scroller_grow_disable.dart';
 import 'package:education_helper/models/exam.model.dart';
 import 'package:education_helper/roots/bloc/app_bloc.dart';
-import 'package:education_helper/views/home/adapters/home.adapter.dart';
 import 'package:education_helper/views/home/bloc/exams/exam.bloc.dart';
 import 'package:education_helper/views/home/bloc/exams/exam.state.dart';
 import 'package:education_helper/views/home/home.dart';
 import 'package:education_helper/views/home/widgets/header_collections.dart';
-import 'package:education_helper/views/widgets/button/custom_link_button.dart';
 import 'package:education_helper/views/widgets/list/list_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -71,26 +69,27 @@ class _ExamCollectionState extends State<ExamCollection> {
               },
               builder: (context, state) {
                 if (state is ExamLoadingState) {
-                  return Center(
-                      child: errorMessenger.isEmpty
-                          ? const CircularProgressIndicator()
-                          : Text(errorMessenger,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: kPlaceholderDarkColor,
-                                  fontSize: SPACING.LG.size)));
+                  return const Center(child: CircularProgressIndicator());
                 }
 
-                return ListBuilder(
+                if (state is ExamFailState) {
+                  return ExamCollectionEmpty(
+                    messneger: 'An error occurred loading data.'
+                        'please wait a few minutes and click refresh',
+                    title: 'Refresh',
+                    onStateHandle: refreshExam,
+                  );
+                }
+
+                return ListBuilder<Exam>(
                   scrollDirection: Axis.horizontal,
                   emptyList: ExamCollectionEmpty(
-                    gotoExams: gotoExams,
+                    onStateHandle: gotoExams,
                   ),
                   shirinkWrap: true,
                   scrollBehavior: NormalScollBehavior(),
                   datas: exams,
-                  itemBuilder: (index) {
-                    final exam = exams[index];
+                  itemBuilder: (exam) {
                     return GestureDetector(
                       onTap: () => goToDetail(exam),
                       child: ExamCollectionItem(exam: exam),
@@ -112,5 +111,9 @@ class _ExamCollectionState extends State<ExamCollection> {
 
   Future<void> goToDetail(Exam exam) async {
     Home.adapter.goToExamDetail(context, exam.id);
+  }
+
+  Future<void> refreshExam() async {
+    BlocProvider.of<ExamsBloc>(context).refresh();
   }
 }

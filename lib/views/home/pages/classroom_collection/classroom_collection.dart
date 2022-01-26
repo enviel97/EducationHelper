@@ -8,7 +8,6 @@ import 'package:education_helper/views/home/adapters/home.adapter.dart';
 import 'package:education_helper/views/home/bloc/classrooms/classroom.bloc.dart';
 import 'package:education_helper/views/home/bloc/classrooms/classroom.state.dart';
 import 'package:education_helper/views/home/widgets/header_collections.dart';
-import 'package:education_helper/views/widgets/button/custom_link_button.dart';
 import 'package:education_helper/views/widgets/list/list_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -73,29 +72,27 @@ class _ClassroomColectionState extends State<ClassroomColection> {
               },
               builder: (context, state) {
                 if (state is ClassroomLoadingState) {
-                  return Center(
-                    child: errorMessenger.isEmpty
-                        ? const CircularProgressIndicator()
-                        : Text(
-                            errorMessenger,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: kPlaceholderDarkColor,
-                              fontSize: SPACING.LG.size,
-                            ),
-                          ),
+                  return const Center(child: CircularProgressIndicator());
+                }
+
+                if (state is ClassroomFailState) {
+                  return ClassroomCollectionEmpty(
+                    onStateHandle: _refresh,
+                    messneger: 'An error occurred loading data.'
+                        'please wait a few minutes and click refresh',
+                    title: 'Refresh',
                   );
                 }
+
                 return ListBuilder(
                     scrollDirection: Axis.horizontal,
                     emptyList: ClassroomCollectionEmpty(
-                      goToClassrooms: goToClassRoomList,
+                      onStateHandle: () {},
                     ),
                     shirinkWrap: true,
                     scrollBehavior: NormalScollBehavior(),
                     datas: classrooms,
-                    itemBuilder: (index) {
-                      final classroom = classrooms[index];
+                    itemBuilder: (Classroom classroom) {
                       return GestureDetector(
                         onTap: () => goToDetail(classroom),
                         child: ClassroomCollectionItem(
@@ -125,5 +122,9 @@ class _ClassroomColectionState extends State<ClassroomColection> {
 
   void goToClassRoomList() {
     Home.adapter.goToClassroom(context);
+  }
+
+  void _refresh() {
+    BlocProvider.of<ClassroomsBloc>(context).refresh();
   }
 }

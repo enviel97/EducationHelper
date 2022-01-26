@@ -1,4 +1,5 @@
 import 'package:education_helper/constants/colors.dart';
+import 'package:education_helper/constants/constant.dart';
 import 'package:education_helper/constants/typing.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,7 @@ class EmptyClassroomList extends StatelessWidget {
         children: [
           Text(
             "You don't have any classrooms.\n"
-            'Click ➕ to add classroom',
+            'Click $plus to add classroom',
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: kPlaceholderDarkColor, fontSize: SPACING.LG.size),
