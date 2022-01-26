@@ -9,13 +9,19 @@ class KSearchText extends StatefulWidget {
   final String? initialValue;
   final Function(String value) onSearch;
   final Function(String value)? onChanged;
+  final Color shadowColor;
+  final double elevation;
+  final bool isLoading;
 
   const KSearchText({
     required this.hintText,
     required this.onSearch,
     Key? key,
+    this.shadowColor = kPrimaryColor,
+    this.elevation = 20.0,
     this.initialValue,
     this.onChanged,
+    this.isLoading = false,
   }) : super(key: key);
 
   @override
@@ -37,18 +43,18 @@ class _KSearchTextState extends State<KSearchText> {
     super.dispose();
   }
 
+  Color get color => isLightTheme ? kPrimaryDarkColor : kPrimaryColor;
+
   @override
   Widget build(BuildContext context) {
     return Material(
-      elevation: 20.0,
-      shadowColor: kPrimaryColor,
+      elevation: widget.elevation,
+      shadowColor: widget.shadowColor,
       shape: RoundedRectangleBorder(
         borderRadius: const BorderRadius.all(
           Radius.circular(40.0),
         ),
-        side: BorderSide(
-            color: isLightTheme ? kPrimaryDarkColor : kPrimaryColor,
-            width: 1.5),
+        side: BorderSide(color: color, width: 1.5),
       ),
       child: Row(
         children: [
@@ -92,7 +98,7 @@ class _KSearchTextState extends State<KSearchText> {
                   ),
                   focusColor: kBlackColor,
                   filled: true,
-                  fillColor: isLightTheme ? kPrimaryDarkColor : kPrimaryColor,
+                  fillColor: color,
                   errorMaxLines: 1,
                   suffixIcon: _buildClearButton(),
                 ),
@@ -132,14 +138,19 @@ class _KSearchTextState extends State<KSearchText> {
 
   Widget _buildSend() {
     return IconButton(
+      splashColor: kNone,
+      highlightColor: kNone,
+      disabledColor: color.withOpacity(.5),
       icon: const Icon(
         Ionicons.send_sharp,
         color: kPrimaryColor,
       ),
-      onPressed: () {
-        context.disableKeyBoard();
-        widget.onSearch(value);
-      },
+      onPressed: widget.isLoading
+          ? null
+          : () {
+              context.disableKeyBoard();
+              widget.onSearch(value);
+            },
     );
   }
 }
