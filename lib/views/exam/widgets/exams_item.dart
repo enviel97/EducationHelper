@@ -64,13 +64,13 @@ class ExamsItem extends StatelessWidget {
               width: width,
               decoration: BoxDecoration(
                   color: context.isLightTheme
-                      ? kPrimaryDarkColor
-                      : kSecondaryDarkColor,
+                      ? kSecondarySuperDarkColor
+                      : kPrimaryDarkColor,
                   borderRadius: const BorderRadius.all(Radius.circular(30.0)),
                   border: Border.all(
                     color: context.isLightTheme
-                        ? kPrimaryLightColor
-                        : kSecondaryLightColor,
+                        ? kSecondaryColor
+                        : kPrimaryLightColor,
                     width: 5.0,
                   )),
               padding: const EdgeInsets.only(left: 50.0, right: 15.0),

@@ -34,17 +34,21 @@ class ExamImage extends StatelessWidget {
     return SizedBox(
       height: 100.0,
       width: 100.0,
-      child: ClipRRect(
-        borderRadius: const BorderRadius.all(Radius.circular(30.0)),
-        child: Container(
-          color: color,
-          alignment: Alignment.center,
-          child: Text(
-            getExts,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: SPACING.XL.size,
-            ),
+      child: Container(
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            color: color,
+            borderRadius: const BorderRadius.all(Radius.circular(30.0)),
+            border: Border.all(
+              color: kWhiteColor,
+              width: .3,
+            )),
+        child: Text(
+          getExts,
+          style: TextStyle(
+            color: kWhiteColor,
+            fontWeight: FontWeight.bold,
+            fontSize: SPACING.XL.size,
           ),
         ),
       ),

@@ -40,7 +40,12 @@ class ExamAdapter extends IAdapter {
   }
 
   Future<void> goToCreateExam(BuildContext context) async {
-    await context.goTo(const ExamForm());
+    await context.goTo(
+      BlocProvider.value(
+        value: BlocProvider.of<ExamBloc>(context),
+        child: const ExamForm(),
+      ),
+    );
   }
 
   Future<void> goToEditExam(
@@ -49,10 +54,13 @@ class ExamAdapter extends IAdapter {
     required String subject,
     required File file,
   }) async {
-    await context.goTo(ExamForm(
-      id: id,
-      subject: subject,
-      file: file,
+    await context.goTo(BlocProvider.value(
+      value: BlocProvider.of<ExamBloc>(context),
+      child: ExamForm(
+        id: id,
+        subject: subject,
+        file: file,
+      ),
     ));
   }
 }
