@@ -17,7 +17,7 @@ const Color kDividerColor = Color(0xffc7c7c7);
 const Color kPlacehoderSuperDarkColor = Color(0xFF3a3a3a);
 
 // color origin
-const Color kBlackColor = Color(0xFF000000);
+const Color kBlackColor = Color(0xFF010101);
 const Color kWhiteColor = Color(0xFFFFFFFF);
 
 const Color kErrorColor = Color(0xFFF20000);

@@ -14,7 +14,7 @@ void deleteExam(
     context: builder,
     builder: (context) {
       final highlightColor =
-          context.isLightTheme ? kPrimaryColor : kSecondaryLightColor;
+          context.isLightTheme ? kPrimaryLightColor : kSecondaryLightColor;
       final textColor = context.isLightTheme ? kBlackColor : kWhiteColor;
       return BlocProvider.value(
         value: BlocProvider.of<ExamBloc>(builder),
@@ -50,7 +50,7 @@ void deleteExam(
               },
             ),
             IconButton(
-                icon: Icon(Icons.close, color: textColor),
+                icon: const Icon(Icons.close, color: kWhiteColor),
                 onPressed: Navigator.of(context).pop)
           ],
         ),
