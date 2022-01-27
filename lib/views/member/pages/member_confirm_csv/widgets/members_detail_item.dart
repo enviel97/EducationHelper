@@ -61,7 +61,9 @@ class MembersDetailItem extends StatelessWidget {
                     Expanded(
                         child: Text('${member.lastName} ${member.firstName}',
                             style: const TextStyle(
-                                fontSize: 18.0, fontWeight: FontWeight.bold))),
+                                color: kWhiteColor,
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold))),
                     Tooltip(
                         message: member.gender,
                         child: Icon(

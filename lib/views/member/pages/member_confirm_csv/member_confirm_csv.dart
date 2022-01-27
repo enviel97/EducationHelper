@@ -114,6 +114,7 @@ class _MemberConfirmCSVState extends State<MemberConfirmCSV> {
                     width: 150.0,
                     isOutline: true,
                     color: kWhiteColor,
+                    style: const TextStyle(color: kBlackColor),
                     onPressed: Navigator.of(context).pop,
                     text: 'Cancel',
                   )
