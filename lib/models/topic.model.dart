@@ -83,6 +83,16 @@ class Topic {
     );
   }
 
+  int get members => classroom.members.length;
+  int get success =>
+      answers.where((ans) => ans.status == StatusAnswer.submit).length;
+  int get missing =>
+      answers.where((ans) => ans.status == StatusAnswer.empty).length;
+  int get lated =>
+      answers.where((ans) => ans.status == StatusAnswer.lated).length;
+  String get type => exam.type;
+  String get name => exam.name;
+
   static Topic faker() {
     final faker = Faker();
     final classroom = Classroom.fake();

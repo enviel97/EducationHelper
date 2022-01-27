@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class ListBuilder extends StatelessWidget {
-  final List datas;
-  final Widget Function(int index) itemBuilder;
+class ListBuilder<T> extends StatelessWidget {
+  final List<T> datas;
+  final Widget Function(T data) itemBuilder;
   final Widget? emptyList;
   final EdgeInsets padding;
   final bool shirinkWrap;
@@ -53,6 +53,8 @@ class ListBuilder extends StatelessWidget {
     );
   }
 
-  Widget _itemBuilder(BuildContext context, int index) =>
-      Container(margin: margin, child: itemBuilder(index));
+  Widget _itemBuilder(BuildContext context, int index) => Container(
+        margin: margin,
+        child: itemBuilder(datas[index]),
+      );
 }

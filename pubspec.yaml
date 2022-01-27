@@ -69,6 +69,8 @@ dependencies:
   flutter_cached_pdfview: ^0.4.1
   dio: ^4.0.4
   mime: ^1.0.1
+  expandable: ^5.0.1
+  bordered_text: ^2.0.0
 
 dev_dependencies:
   flutter_test:

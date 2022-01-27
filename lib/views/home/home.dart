@@ -76,11 +76,11 @@ class _HomeState extends State<Home> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           SPACING.LG.vertical,
+                          const TopicCollection(),
+                          SPACING.LG.vertical,
                           const ClassroomColection(),
                           SPACING.LG.vertical,
                           const ExamCollection(),
-                          SPACING.LG.vertical,
-                          const TopicCollection(),
                           SPACING.LG.vertical,
                         ],
                       ),

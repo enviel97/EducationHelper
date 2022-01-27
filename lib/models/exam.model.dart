@@ -65,8 +65,13 @@ class Content {
     this.offset,
   });
 
-  bool get isImage => name.toUpperCase().contains('IMAGE');
-  bool get isPDF => name.toUpperCase().contains('PDF');
+  String get type {
+    final _type = name.split('/').first.toUpperCase();
+    if (_type == 'PNG' || _type == 'JPG' || _type == 'JPEG') {
+      return 'IMG';
+    }
+    return _type;
+  }
 
   static Content fromJson(dynamic json) {
     final offset = mapToList<Quest>(json['answer'], Quest.fromJson);
@@ -147,6 +152,8 @@ class Exam {
     return json;
   }
 
+  String get type => content.type;
+  String get name => content.originName;
   factory Exam.faker() {
     final faker = Faker();
     final subject = faker.sport.name();

@@ -6,6 +6,7 @@ import 'package:education_helper/models/topic.model.dart';
 import 'package:education_helper/views/home/home.dart';
 import 'package:education_helper/views/home/pages/topic_collection/widgets/topic_item.dart';
 import 'package:education_helper/views/home/widgets/header_collections.dart';
+import 'package:education_helper/views/widgets/button/custom_text_button.dart';
 import 'package:education_helper/views/widgets/list/list_builder.dart';
 import 'package:flutter/material.dart';
 
@@ -43,9 +44,10 @@ class _TopicCollectionState extends State<TopicCollection> {
           ),
           SPACING.SM.vertical,
           Expanded(
-            child: ListBuilder(
+            child: ListBuilder<Topic>(
               datas: topics,
               shirinkWrap: true,
+              emptyList: const TopicEmtpy(),
               scrollDirection: Axis.horizontal,
               scrollBehavior: NormalScollBehavior(),
               margin: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -61,8 +63,7 @@ class _TopicCollectionState extends State<TopicCollection> {
     Home.adapter.goToTopics(context);
   }
 
-  Widget _itemTopics(int index) {
-    final topic = topics[index];
+  Widget _itemTopics(Topic topic) {
     final ansSuccess =
         topic.answers.where((ans) => ans.status == StatusAnswer.submit).length;
     final ansMiss =
@@ -77,6 +78,32 @@ class _TopicCollectionState extends State<TopicCollection> {
       ansSuccess: ansSuccess,
       ansMiss: ansMiss,
       ansLate: ansLate,
+    );
+  }
+}
+
+class TopicEmtpy extends StatelessWidget {
+  const TopicEmtpy({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(32),
+          child: Text(
+            "Woohoo! Don't have topics this time",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: SPACING.LG.size),
+          ),
+        ),
+        KTextButton(
+          onPressed: () => Home.adapter.goToTopics(context),
+          text: 'Go to topics',
+        )
+      ],
     );
   }
 }

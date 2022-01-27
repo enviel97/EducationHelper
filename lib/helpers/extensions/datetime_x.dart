@@ -23,5 +23,10 @@ extension DateTimeX on DateTime {
 
   static String get ctime => DateTime.now().microsecondsSinceEpoch.toString();
 
-  bool isEqual(DateTime otherDate) => DateTimeX.compare(this, otherDate);
+  bool isEqual(DateTime? otherDate) =>
+      otherDate == null ? false : DateTimeX.compare(this, otherDate);
+
+  DateTime get startDay => DateTime(year, month, day, 0, 0, 0);
+
+  DateTime get endDay => DateTime(year, month, day, 23, 59, 59);
 }

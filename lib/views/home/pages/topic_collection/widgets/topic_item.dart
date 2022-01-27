@@ -67,6 +67,7 @@ class TopicItem extends StatelessWidget {
                     softWrap: false,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
+                      color: kWhiteColor,
                       fontSize: 24.0,
                       fontWeight: FontWeight.bold,
                     ),
@@ -76,6 +77,7 @@ class TopicItem extends StatelessWidget {
                     expiredDate.toStringFormat(format: 'dd/MM/yyyy'),
                     textAlign: TextAlign.right,
                     style: TextStyle(
+                      color: kWhiteColor,
                       fontSize: SPACING.M.size,
                       fontWeight: FontWeight.bold,
                     ),
@@ -84,6 +86,7 @@ class TopicItem extends StatelessWidget {
                     'Member: $members',
                     textAlign: TextAlign.right,
                     style: TextStyle(
+                      color: kWhiteColor,
                       fontSize: SPACING.M.size,
                       fontWeight: FontWeight.bold,
                     ),
@@ -92,6 +95,7 @@ class TopicItem extends StatelessWidget {
                     'Answer: $ansSuccess | $ansLate | $ansMiss',
                     textAlign: TextAlign.right,
                     style: TextStyle(
+                      color: kWhiteColor,
                       fontSize: SPACING.M.size,
                       fontWeight: FontWeight.bold,
                     ),

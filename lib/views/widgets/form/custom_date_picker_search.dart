@@ -1,19 +1,20 @@
 import 'package:education_helper/constants/colors.dart';
-import 'package:education_helper/constants/typing.dart';
+import 'package:education_helper/helpers/extensions/datetime_x.dart';
 import 'package:education_helper/helpers/extensions/state.x.dart';
-import 'package:education_helper/helpers/extensions/string_x.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class KDatePickerSearch extends StatefulWidget {
   final String hintText;
   final bool isClearButton;
-  final String? initDate;
+  final DateTime? initDate;
   final String formatDate;
   final Function(String date) onChange;
   final DateTime? minDate;
   final DateTime? maxDate;
   final KDatePickerSearchController? controller;
+  final double fontSize;
+  final double iconSize;
   const KDatePickerSearch({
     required this.hintText,
     required this.onChange,
@@ -24,6 +25,8 @@ class KDatePickerSearch extends StatefulWidget {
     this.minDate,
     this.maxDate,
     this.controller,
+    this.fontSize = 16.0,
+    this.iconSize = 32.0,
   }) : super(key: key);
 
   @override
@@ -32,13 +35,16 @@ class KDatePickerSearch extends StatefulWidget {
 
 class _KDatePickerSearchState extends State<KDatePickerSearch> {
   late String value;
-  DateTime? selectedDateTime;
+  DateTime? selected, first, last;
+  late String format;
   @override
   void initState() {
     super.initState();
-    value = widget.initDate?.toDateString() ?? '';
-    selectedDateTime =
-        value.isEmpty ? DateTime.now() : DateTime.tryParse(value);
+    value = widget.initDate?.toStringFormat(format: widget.formatDate) ?? '';
+    format = widget.formatDate;
+    selected = widget.initDate;
+    first = widget.minDate;
+    last = widget.maxDate;
     if (widget.controller != null) {
       widget.controller!._setState(this);
     }
@@ -59,11 +65,12 @@ class _KDatePickerSearchState extends State<KDatePickerSearch> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Icon(
                 Icons.date_range_outlined,
                 color: kWhiteColor,
+                size: widget.iconSize,
               ),
             ),
             Expanded(
@@ -71,7 +78,7 @@ class _KDatePickerSearchState extends State<KDatePickerSearch> {
                 value.isEmpty ? widget.hintText : value,
                 style: TextStyle(
                   color: kWhiteColor,
-                  fontSize: SPACING.M.size,
+                  fontSize: widget.fontSize,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -104,9 +111,9 @@ class _KDatePickerSearchState extends State<KDatePickerSearch> {
   Future<void> _selectedDatePicker() async {
     final picked = await showDatePicker(
         context: context,
-        initialDate: selectedDateTime ?? DateTime.now(),
-        firstDate: widget.minDate ?? DateTime(1700),
-        lastDate: widget.maxDate ?? DateTime(2500),
+        initialDate: selected ?? DateTime.now(),
+        firstDate: first ?? DateTime(1700),
+        lastDate: last ?? DateTime(2500),
         initialEntryMode: DatePickerEntryMode.calendar,
         helpText: widget.hintText,
         cancelText: 'Cancel',
@@ -125,22 +132,26 @@ class _KDatePickerSearchState extends State<KDatePickerSearch> {
           );
         });
 
-    if (picked != null && picked != selectedDateTime) {
-      setState(() {
-        selectedDateTime = picked;
-        value = DateFormat(widget.formatDate).format(picked);
-      });
-      widget.onChange(picked.toString());
-    }
+    if (picked != null && picked != selected) _setValue(picked);
+  }
+
+  void _setValue(DateTime value) {
+    if (!mounted) return;
+    setState(() {
+      selected = value;
+      this.value = DateFormat(widget.formatDate).format(value);
+    });
+    widget.onChange(value.toString());
   }
 
   void _clearValue() {
-    if (mounted) {
-      setState(() {
-        value = '';
-        selectedDateTime = null;
-      });
-    }
+    if (!mounted) return;
+    setState(() {
+      value = '';
+      selected = null;
+      first = null;
+      last = null;
+    });
   }
 }
 
@@ -149,6 +160,9 @@ class KDatePickerSearchController {
   void _setState(_KDatePickerSearchState state) {
     _state = state;
   }
+
+  DateTime? get date => _state!.selected;
+  String get format => _state!.format;
 
   void dispose() {
     if (_state != null) {
@@ -159,5 +173,12 @@ class KDatePickerSearchController {
   void clear() {
     if (_state == null) return;
     _state!._clearValue();
+  }
+
+  void set(DateTime date, {DateTime? start, DateTime? end}) {
+    if (_state == null) return;
+    _state!._setValue(date);
+    _state!.first = start ?? _state!.first;
+    _state!.last = end ?? _state!.last;
   }
 }
