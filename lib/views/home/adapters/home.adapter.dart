@@ -53,13 +53,7 @@ class HomeAdapter extends IAdapter {
     required String classname,
   }) async {
     final adapter = _classroomAdapter.cast<ClassroomAdapter>();
-    final isNeedChange = await adapter.goToMembers(
-      context,
-      uid: uid,
-      exams: exams,
-      members: members,
-      classname: classname,
-    );
+    final isNeedChange = await adapter.goToMembers(context, uid: uid);
     return isNeedChange;
   }
 

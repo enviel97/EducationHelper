@@ -8,14 +8,12 @@ import 'member_state.dart';
 class MemberBloc extends Cubit<MemberState> {
   final _restApi = RestApi();
   final String idClassrooms;
+  String _classname = 'Loading...';
+  int _totalExams = 0;
 
   List<Member> _members = [];
 
   MemberBloc(this.idClassrooms) : super(const MemberInitialState());
-
-  Future<void> refreshMembers() async {
-    await getMembers();
-  }
 
   Future<void> getMembers() async {
     emit(const MemberLoadingState());
@@ -31,6 +29,8 @@ class MemberBloc extends Cubit<MemberState> {
       final List<dynamic> members = result['members'] ?? [];
       _members.addAll(List<Member>.generate(
           members.length, (i) => Member.fromJson(members[i])));
+      _classname = result['classname'] ?? 'Loading ...';
+      _totalExams = result['totalExams'] ?? 0;
       notificationChanged();
     });
   }
@@ -109,7 +109,7 @@ class MemberBloc extends Cubit<MemberState> {
 
   // helper
   void notificationChanged() {
-    emit(MemberLoadedState(_members));
+    emit(MemberLoadedState(_members, _classname, _totalExams));
   }
 
   List<Member> mapJsonToList(dynamic result) {

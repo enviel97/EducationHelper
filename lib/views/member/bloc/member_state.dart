@@ -20,13 +20,17 @@ class MemberLoadingState extends MemberState {
 }
 
 class MemberLoadedState extends MemberState {
+  final String clasname;
+  final int totalExams;
   final List<Member> members;
   const MemberLoadedState(
     this.members,
+    this.clasname,
+    this.totalExams,
   );
 
   @override
-  List<Object?> get props => [members];
+  List<Object?> get props => [members, clasname, totalExams];
 }
 
 class MemberCreateState extends MemberState {

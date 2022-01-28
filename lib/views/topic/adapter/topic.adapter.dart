@@ -29,12 +29,10 @@ class TopicAdapter extends IAdapter {
   }
 
   Future<Exam?> selectedExam(BuildContext context) async {
-    final exam = await context.goTo<Exam>(
-      _examAdapter.layout(
-        params: {'goToDetail': () {}},
-      ),
+    final exam = await context.goTo(
+      _examAdapter.layout(),
     );
 
-    return exam;
+    return Exam.faker();
   }
 }

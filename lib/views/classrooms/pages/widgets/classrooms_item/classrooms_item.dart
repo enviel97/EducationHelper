@@ -63,10 +63,7 @@ class ClassroomItem extends StatelessWidget {
   Future<void> _goToMembers(BuildContext context) async {
     final isNeedChanges = await adapter.goToMembers(
       context,
-      classname: classroom.name,
       uid: classroom.id,
-      exams: classroom.exams.length,
-      members: classroom.members.length,
     );
     if (isNeedChanges) {
       BlocProvider.of<ClassroomBloc>(context).refreshClassroom();

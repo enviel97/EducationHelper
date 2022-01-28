@@ -21,13 +21,7 @@ import 'placeholders/p_member_header.dart';
 class Members extends StatefulWidget {
   static final adapter =
       Root.ins.adapter.getAdapter(memberAdapter).cast<MemberAdapter>();
-  final String classname;
-  final int totalExams;
-  final int totalMembers;
   const Members({
-    required this.classname,
-    required this.totalExams,
-    required this.totalMembers,
     Key? key,
   }) : super(key: key);
 
@@ -38,15 +32,12 @@ class Members extends StatefulWidget {
 class _MembersState extends State<Members> {
   late Classroom classroom;
   bool isNeedRefresh = false;
-  late String classname;
-  late int totalExams, totalMembers;
+  String classname = '';
+  int totalExams = 0, totalMembers = 0;
 
   @override
   void initState() {
     super.initState();
-    classname = widget.classname;
-    totalExams = widget.totalExams;
-    totalMembers = widget.totalMembers;
     BlocProvider.of<AppBloc>(context).getUser();
     BlocProvider.of<MemberBloc>(context).getMembers();
   }
@@ -125,8 +116,14 @@ class _MembersState extends State<Members> {
         if (state is MemberDeleteSuccessState ||
             state is MemberCreateState ||
             state is MemberEditSuccessState ||
-            state is MembersCreateState) {
-          setState(() => isNeedRefresh = true);
+            state is MembersCreateState) isNeedRefresh = true;
+
+        if (state is MemberLoadedState) {
+          setState(() {
+            classname = state.clasname;
+            totalExams = state.totalExams;
+            totalMembers = state.members.length;
+          });
         }
       },
       child: MembersBody(classname: classname),

@@ -30,16 +30,9 @@ class ClassroomAdapter extends IAdapter {
   Future<bool> goToMembers(
     BuildContext context, {
     required String uid,
-    required int exams,
-    required int members,
-    required String classname,
   }) async {
-    final isNeedChange = await context.goTo<bool>(adapterMember.layout(params: {
-      'id': uid,
-      'classname': classname,
-      'exams': exams,
-      'members': members,
-    }));
+    final isNeedChange =
+        await context.goTo<bool>(adapterMember.layout(params: {'id': uid}));
     return isNeedChange ?? false;
   }
 }
