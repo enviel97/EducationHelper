@@ -14,10 +14,11 @@ extension BuildContextX on BuildContext {
   TextTheme get getTextStyle => Theme.of(this).textTheme;
 
   // navigator
-  Route _route(Widget nextScreens) =>
+  Route<T> _route<T>(Widget nextScreens) =>
       MaterialPageRoute(builder: (_) => nextScreens);
 
-  goTo(Widget nextScreens) => Navigator.of(this).push(_route(nextScreens));
+  Future<T?> goTo<T>(Widget nextScreens) =>
+      Navigator.of(this).push<T>(_route(nextScreens));
 
   goBack() => Navigator.of(this, rootNavigator: true).pop();
 

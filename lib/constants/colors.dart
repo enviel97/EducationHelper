@@ -18,7 +18,7 @@ const Color kPlacehoderSuperDarkColor = Color(0xFF3a3a3a);
 
 // color origin
 const Color kBlackColor = Color(0xFF010101);
-const Color kWhiteColor = Color(0xFFFFFFFF);
+const Color kWhiteColor = Color(0xFFFAFAFA);
 
 const Color kErrorColor = Color(0xFFF20000);
 const Color kBlueColor = Color(0xFF00a8f3);

@@ -5,7 +5,6 @@ import 'package:education_helper/views/exam/adapter/exam.adapter.dart';
 import 'package:education_helper/views/exam/bloc/exam_bloc.dart';
 import 'package:education_helper/views/exam/bloc/exam_state.dart';
 import 'package:education_helper/views/exam/widgets/exams_empty.dart';
-import 'package:education_helper/views/home/bloc/exams/exam.bloc.dart';
 import 'package:education_helper/views/widgets/button/custom_go_back.dart';
 import 'package:education_helper/views/widgets/form/custom_search_field.dart';
 import 'package:education_helper/views/widgets/header/appbar_bottom.dart';
@@ -38,8 +37,8 @@ class _ExamsState extends State<Exams> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: KGoBack(
-          preGoBack: _preGoBack,
+        leading: KGoBack<bool>(
+          result: isNeedRefresh,
         ),
         title: const Text('EXAM'),
         bottom: const AppbarBottom(),
@@ -101,12 +100,6 @@ class _ExamsState extends State<Exams> {
 
   void _gotoExamDetail(String id) {
     Exams.adapter.gotoDetailExam(context, idExam: id);
-  }
-
-  void _preGoBack() {
-    if (isNeedRefresh) {
-      BlocProvider.of<ExamsBloc>(context).refresh();
-    }
   }
 
   void _search(String value) async {

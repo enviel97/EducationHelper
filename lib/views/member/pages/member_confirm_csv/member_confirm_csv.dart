@@ -27,7 +27,6 @@ class MemberConfirmCSV extends StatefulWidget {
 }
 
 class _MemberConfirmCSVState extends State<MemberConfirmCSV> {
-  bool isNeedRefresh = false;
   final members = [];
   @override
   void initState() {
@@ -51,6 +50,10 @@ class _MemberConfirmCSVState extends State<MemberConfirmCSV> {
           if (state is MemberFailureState) {
             BlocProvider.of<AppBloc>(context)
                 .showError(context, state.messenger);
+          }
+
+          if (state is MemberCreateState) {
+            Navigator.of(context).pop();
           }
         },
         child: Container(
@@ -129,8 +132,6 @@ class _MemberConfirmCSVState extends State<MemberConfirmCSV> {
   }
 
   void _storeValue() {
-    BlocProvider.of<MemberBloc>(context)
-        .addMembers(widget.members)
-        .then((_) => Navigator.of(context).pop());
+    BlocProvider.of<MemberBloc>(context).addMembers(widget.members);
   }
 }

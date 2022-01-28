@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-class KGoBack extends StatelessWidget {
+class KGoBack<T> extends StatelessWidget {
   final Function()? preGoBack;
-  const KGoBack({Key? key, this.preGoBack}) : super(key: key);
+  final T? result;
+  const KGoBack({Key? key, this.preGoBack, this.result}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class KGoBack extends StatelessWidget {
       if (preGoBack != null) {
         preGoBack!();
       }
-      navigation.pop();
+      navigation.pop<T>(result);
     }
   }
 }

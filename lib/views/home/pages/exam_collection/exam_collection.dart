@@ -106,7 +106,8 @@ class _ExamCollectionState extends State<ExamCollection> {
   }
 
   Future<void> gotoExams() async {
-    Home.adapter.goToExams(context);
+    final isNeedRefresh = await Home.adapter.goToExams(context);
+    if (isNeedRefresh) refreshExam();
   }
 
   Future<void> goToDetail(Exam exam) async {

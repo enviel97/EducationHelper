@@ -40,16 +40,12 @@ class HomeAdapter extends IAdapter {
     await context.replace(_authAdapter.layout());
   }
 
-  Future<void> goToClassroom(BuildContext context) async {
-    await context.goTo(
-      BlocProvider.value(
-        value: BlocProvider.of<ClassroomsBloc>(context),
-        child: _classroomAdapter.layout(),
-      ),
-    );
+  Future<bool> goToClassroom(BuildContext context) async {
+    final isNeedRefresh = await context.goTo(_classroomAdapter.layout());
+    return isNeedRefresh;
   }
 
-  Future<void> goToClassroomDetail(
+  Future<bool> goToClassroomDetail(
     BuildContext context, {
     required String uid,
     required int exams,
@@ -57,23 +53,19 @@ class HomeAdapter extends IAdapter {
     required String classname,
   }) async {
     final adapter = _classroomAdapter.cast<ClassroomAdapter>();
-    adapter.goToMembers(
+    final isNeedChange = await adapter.goToMembers(
       context,
       uid: uid,
       exams: exams,
       members: members,
       classname: classname,
-      refresh: BlocProvider.of<ClassroomsBloc>(context).refresh,
     );
+    return isNeedChange;
   }
 
-  Future<void> goToExams(BuildContext context) async {
-    context.goTo(
-      BlocProvider.value(
-        value: BlocProvider.of<ExamsBloc>(context),
-        child: _examAdapter.layout(),
-      ),
-    );
+  Future<bool> goToExams(BuildContext context) async {
+    final isNeedRefresh = await context.goTo(_examAdapter.layout());
+    return isNeedRefresh;
   }
 
   Future<void> goToExamDetail(BuildContext context, String idExam) async {

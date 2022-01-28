@@ -24,12 +24,10 @@ class Members extends StatefulWidget {
   final String classname;
   final int totalExams;
   final int totalMembers;
-  final Future<void> Function() refresh;
   const Members({
     required this.classname,
     required this.totalExams,
     required this.totalMembers,
-    required this.refresh,
     Key? key,
   }) : super(key: key);
 
@@ -142,11 +140,6 @@ class _MembersState extends State<Members> {
   }
 
   Future<void> _onGoBack() async {
-    if (isNeedRefresh) {
-      try {
-        widget.refresh();
-      } catch (_) {}
-    }
-    Navigator.of(context).pop();
+    Navigator.of(context).pop(isNeedRefresh);
   }
 }

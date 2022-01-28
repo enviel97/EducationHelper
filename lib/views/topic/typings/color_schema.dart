@@ -14,6 +14,14 @@ class ColorSchema {
   });
 
   factory ColorSchema.industry(String type) {
+    if (type.isEmpty) {
+      return const ColorSchema(
+        kPlaceholderDarkColor,
+        light: kPlaceholderLightColor,
+        dark: kPlacehoderSuperDarkColor,
+      );
+    }
+
     switch (type.toUpperCase()) {
       case 'PDF':
         return ColorSchema.pdf();

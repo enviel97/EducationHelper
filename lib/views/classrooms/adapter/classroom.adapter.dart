@@ -27,20 +27,19 @@ class ClassroomAdapter extends IAdapter {
     );
   }
 
-  Future<void> goToMembers(
+  Future<bool> goToMembers(
     BuildContext context, {
     required String uid,
     required int exams,
     required int members,
     required String classname,
-    required Future<void> Function() refresh,
   }) async {
-    await context.goTo(adapterMember.layout(params: {
+    final isNeedChange = await context.goTo<bool>(adapterMember.layout(params: {
       'id': uid,
       'classname': classname,
       'exams': exams,
       'members': members,
-      'refresh': refresh,
     }));
+    return isNeedChange ?? false;
   }
 }

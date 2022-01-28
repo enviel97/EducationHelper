@@ -111,17 +111,19 @@ class _ClassroomColectionState extends State<ClassroomColection> {
   }
 
   Future<void> goToDetail(Classroom classroom) async {
-    await adapter.goToClassroomDetail(
+    final isNeedChagne = await adapter.goToClassroomDetail(
       context,
       uid: classroom.id,
       classname: classroom.name,
       exams: classroom.exams.length,
       members: classroom.members.length,
     );
+    if (isNeedChagne) _refresh();
   }
 
-  void goToClassRoomList() {
-    Home.adapter.goToClassroom(context);
+  Future<void> goToClassRoomList() async {
+    final isNeedRefresh = await Home.adapter.goToClassroom(context);
+    if (isNeedRefresh) BlocProvider.of<ClassroomsBloc>(context).refresh();
   }
 
   void _refresh() {

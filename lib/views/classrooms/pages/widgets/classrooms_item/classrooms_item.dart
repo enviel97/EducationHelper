@@ -23,14 +23,7 @@ class ClassroomItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => adapter.goToMembers(
-        context,
-        classname: classroom.name,
-        uid: classroom.id,
-        exams: classroom.exams.length,
-        members: classroom.members.length,
-        refresh: BlocProvider.of<ClassroomBloc>(context).refreshClassroom,
-      ),
+      onTap: () => _goToMembers(context),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -65,5 +58,18 @@ class ClassroomItem extends StatelessWidget {
     final mebers = List<Map<String, dynamic>>.from(classroom.members);
 
     return ClassroomItemBody(members: mebers);
+  }
+
+  Future<void> _goToMembers(BuildContext context) async {
+    final isNeedChanges = await adapter.goToMembers(
+      context,
+      classname: classroom.name,
+      uid: classroom.id,
+      exams: classroom.exams.length,
+      members: classroom.members.length,
+    );
+    if (isNeedChanges) {
+      BlocProvider.of<ClassroomBloc>(context).refreshClassroom();
+    }
   }
 }

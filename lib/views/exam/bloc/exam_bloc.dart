@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:education_helper/constants/constant.dart';
+import 'package:education_helper/helpers/extensions/map_x.dart';
 import 'package:education_helper/helpers/ultils/funtions.dart';
 import 'package:education_helper/models/exam.model.dart';
 import 'package:education_helper/roots/miragate/http.dart';
@@ -23,7 +24,7 @@ class ExamBloc extends Cubit<ExamState> {
     return await _structure(() async {
       final sort = Helper(sorted: 'content.originName', direction: 'desc');
       final result = await _restApi
-          .get(_path, parametter: sort.toJson())
+          .get(_path, parametter: sort.toJson().filterNull())
           .catchError((err) {
         emit(ExamFailureState(Messenger(err['error'])));
         return null;

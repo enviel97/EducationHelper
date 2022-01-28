@@ -4,10 +4,12 @@ import 'package:education_helper/helpers/widgets/circle_animation.dart';
 import 'package:education_helper/helpers/widgets/scroller_grow_disable.dart';
 import 'package:education_helper/roots/app_root.dart';
 import 'package:education_helper/views/home/adapters/home.adapter.dart';
+import 'package:education_helper/views/home/bloc/classrooms/classroom.bloc.dart';
 import 'package:education_helper/views/home/pages/topic_collection/topic_collection.dart';
 import 'package:education_helper/views/home/widgets/circle_floating_action_button/menu_button.dart';
 import 'package:education_helper/views/widgets/header/appbar_bottom.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'pages/classroom_collection/classroom_collection.dart';
 import 'pages/exam_collection/exam_collection.dart';
@@ -105,8 +107,9 @@ class _HomeState extends State<Home> {
     );
   }
 
-  void gotoClassList() {
-    Home.adapter.goToClassroom(context);
+  Future<void> gotoClassList() async {
+    final isNeedRefresh = await Home.adapter.goToClassroom(context);
+    if (isNeedRefresh) BlocProvider.of<ClassroomsBloc>(context).refresh();
   }
 
   void gotoExams() {
