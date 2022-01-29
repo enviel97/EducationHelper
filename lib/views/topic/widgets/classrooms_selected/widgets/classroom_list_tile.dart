@@ -1,5 +1,6 @@
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/models/classroom.model.dart';
+import 'package:education_helper/views/topic/topics.dart';
 import 'package:education_helper/views/topic/typings/color_schema.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
@@ -52,6 +53,6 @@ class ClassroomListTile extends StatelessWidget {
   }
 
   void _goDetail(BuildContext context) {
-    // TODO: gotoDetail
+    Topics.adapter.goToClassroom(context, data.id);
   }
 }

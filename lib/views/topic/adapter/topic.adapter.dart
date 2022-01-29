@@ -1,6 +1,7 @@
 import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:education_helper/roots/app_root.dart';
 import 'package:education_helper/roots/parts/adapter.dart';
+import 'package:education_helper/views/classrooms/adapter/classroom.adapter.dart';
 import 'package:education_helper/views/exam/adapter/exam.adapter.dart';
 import 'package:education_helper/views/topic/pages/topic_form/topic_form.dart';
 import 'package:education_helper/views/topic/topics.dart';
@@ -53,5 +54,10 @@ class TopicAdapter extends IAdapter {
       debugPrint(_.toString());
       return false;
     }
+  }
+
+  Future<void> goToClassroom(BuildContext context, String idClassroom) async {
+    final adapter = _classroomAdapter.cast<ClassroomAdapter>();
+    await adapter.goToMembers(context, uid: idClassroom);
   }
 }

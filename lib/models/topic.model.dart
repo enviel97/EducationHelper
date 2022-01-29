@@ -1,3 +1,4 @@
+import 'package:education_helper/helpers/extensions/datetime_x.dart';
 import 'package:education_helper/helpers/ultils/funtions.dart';
 import 'package:education_helper/models/members.model.dart';
 import 'package:faker/faker.dart';
@@ -19,9 +20,11 @@ extension _StatusAnswer on StatusAnswer {
 class Answer {
   final String id;
   final StatusAnswer status;
+  final String memberId;
 
   const Answer({
     required this.status,
+    this.memberId = '',
     this.id = '',
   });
 
@@ -39,9 +42,10 @@ class Answer {
     );
   }
 
-  static Answer faker() {
+  static Answer faker({String? id}) {
     final faker = Faker();
     return Answer(
+      memberId: id ?? 'uuid-${DateTimeX.ctime}',
       status: StatusAnswer.values[faker.randomGenerator.integer(99) % 3],
     );
   }
@@ -99,7 +103,8 @@ class Topic {
     classroom.members.addAll(
       List<Member>.generate(45, (index) => Member.faker()),
     );
-    final answers = List<Answer>.generate(45, (index) => Answer.faker());
+    final answers = List<Answer>.generate(
+        45, (index) => Answer.faker(id: classroom.members[index].uid));
     final lorem = faker.randomGenerator.boolean()
         ? faker.lorem.sentences(faker.randomGenerator.integer(5)).join('\n')
         : null;
