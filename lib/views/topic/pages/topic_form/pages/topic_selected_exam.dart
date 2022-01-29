@@ -2,11 +2,16 @@ import 'dart:io';
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/helpers/extensions/state.x.dart';
-import 'package:education_helper/views/topic/pages/topic_form/topic_form.dart';
+import 'package:education_helper/models/exam.model.dart';
+import 'package:education_helper/models/topic.model.dart';
+import 'package:education_helper/views/exam/bloc/exam_bloc.dart';
 import 'package:education_helper/views/topic/pages/topic_form/widgets/custom_selected.dart';
 import 'package:education_helper/views/topic/pages/topic_form/widgets/custom_text.dart';
+import 'package:education_helper/views/topic/topics.dart';
 import 'package:education_helper/views/topic/typings/color_schema.dart';
+import 'package:education_helper/views/topic/widgets/exams_seleted/exams_selected.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TopicSeclectExams extends StatefulWidget {
   final void Function(String id) onSelectExam;
@@ -20,8 +25,8 @@ class TopicSeclectExams extends StatefulWidget {
 }
 
 class _TopicSeclectExamsState extends State<TopicSeclectExams> {
-  File? file;
-  String? id;
+  String? idFile;
+  String? idExam;
   String exam = 'Name of exam';
   String subject = 'Name of subject';
   String type = '';
@@ -58,7 +63,7 @@ class _TopicSeclectExamsState extends State<TopicSeclectExams> {
             children: [
               KSelected(
                 onSelected: _selectedExam,
-                value: id,
+                value: idFile?.split('/').last,
               ),
               SPACING.S.vertical,
               KText(
@@ -75,7 +80,7 @@ class _TopicSeclectExamsState extends State<TopicSeclectExams> {
         ),
         SPACING.S.vertical,
         GestureDetector(
-          onTap: _openFile,
+          onTap: _gotoDetail,
           child: Container(
             height: 200.0,
             width: double.infinity,
@@ -94,19 +99,27 @@ class _TopicSeclectExamsState extends State<TopicSeclectExams> {
   }
 
   Future<void> _selectedExam() async {
-    final exam = await TopicForm.adapter.selectedExam(context);
+    final exam = await showDialog<Exam?>(
+        context: context,
+        builder: (_) {
+          return BlocProvider(
+            create: (_) => ExamBloc(),
+            child: ExamSelected(id: idExam),
+          );
+        });
     if (exam == null) return;
     setState(() {
-      id = exam.id;
+      idExam = exam.id;
+      idFile = exam.content.name;
       this.exam = exam.name;
       subject = exam.subject;
       type = exam.type;
     });
   }
 
-  void _openFile() {
-    if (file == null) return;
-    try {} catch (e) {}
+  void _gotoDetail() {
+    if (idExam?.isEmpty ?? true) return;
+    Topics.adapter.gotoExam(context, idExam!);
   }
 
   Widget _buildFile() {

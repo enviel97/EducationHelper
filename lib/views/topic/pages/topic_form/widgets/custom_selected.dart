@@ -40,6 +40,9 @@ class KSelected extends StatelessWidget {
             Expanded(
                 child: Text(
               value?.isEmpty ?? true ? 'Selected exam' : value!,
+              maxLines: 1,
+              softWrap: false,
+              overflow: TextOverflow.fade,
               style: TextStyle(
                 color: color,
                 fontSize: SPACING.M.size,

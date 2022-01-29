@@ -15,6 +15,7 @@ class ExamContent extends StatelessWidget {
 
   String get filePath => file.path.split('/').last.toLowerCase();
   bool get isImage =>
+      filePath.contains('img') ||
       filePath.contains('image') ||
       filePath.contains('jpg') ||
       filePath.contains('jpeg') ||
@@ -29,33 +30,39 @@ class ExamContent extends StatelessWidget {
     if (isPDF) {
       return ExamPdf(file: file);
     }
-    return Stack(
-      children: [
-        Center(
-          child: Image.asset(
-            ImageFromLocal.asPng('rar-icon'),
-            fit: BoxFit.cover,
+    return DecoratedBox(
+      decoration: BoxDecoration(
+          color: Theme.of(context).backgroundColor,
+          borderRadius: BorderRadius.circular(25),
+          border: Border.all(color: Theme.of(context).hintColor)),
+      child: Stack(
+        children: [
+          Center(
+            child: Image.asset(
+              ImageFromLocal.asPng('rar-icon'),
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        Center(
-          child: Wrap(children: [
-            Container(
-              padding: const EdgeInsets.all(10.0),
-              decoration: BoxDecoration(
-                  color: kWhiteColor,
-                  borderRadius: BorderRadius.circular(20.0)),
-              child: Text(
-                '.${filePath.split('-').first}',
-                style: const TextStyle(
-                  fontSize: 60.0,
-                  color: kBlackColor,
-                  fontWeight: FontWeight.bold,
+          Center(
+            child: Wrap(children: [
+              Container(
+                padding: const EdgeInsets.all(10.0),
+                decoration: BoxDecoration(
+                    color: kWhiteColor,
+                    borderRadius: BorderRadius.circular(20.0)),
+                child: Text(
+                  '.${filePath.split('.').last}',
+                  style: const TextStyle(
+                    fontSize: 60.0,
+                    color: kBlackColor,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-            ),
-          ]),
-        )
-      ],
+            ]),
+          )
+        ],
+      ),
     );
   }
 }

@@ -26,7 +26,7 @@ class ExamContents extends StatelessWidget {
             IconButton(
               onPressed: controller.filePicker,
               icon: const Icon(Icons.edit),
-              color: kWhiteColor,
+              color: Theme.of(context).hintColor,
             ),
             IconButton(
               onPressed: controller.remove,
