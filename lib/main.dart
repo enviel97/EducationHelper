@@ -12,9 +12,6 @@ Future<void> main() async {
   runZonedGuarded(() async {
     return runApp(MultiBlocProvider(providers: [
       BlocProvider(create: (context) => AppBloc()),
-      // BlocProvider(create: (context) => HomeBloc()),
-      // BlocProvider(create: (context) => ClassroomBloc()),
-      // BlocProvider(create: (context) => ExamBloc())
     ], child: const Routes()));
   }, (error, trace) {
     // Splash in time

@@ -9,7 +9,7 @@ class KDatePickerSearch extends StatefulWidget {
   final bool isClearButton;
   final DateTime? initDate;
   final String formatDate;
-  final Function(String date) onChange;
+  final Function(String date)? onChange;
   final DateTime? minDate;
   final DateTime? maxDate;
   final KDatePickerSearchController? controller;
@@ -17,7 +17,7 @@ class KDatePickerSearch extends StatefulWidget {
   final double iconSize;
   const KDatePickerSearch({
     required this.hintText,
-    required this.onChange,
+    this.onChange,
     Key? key,
     this.isClearButton = true,
     this.initDate,
@@ -141,7 +141,9 @@ class _KDatePickerSearchState extends State<KDatePickerSearch> {
       selected = value;
       this.value = DateFormat(widget.formatDate).format(value);
     });
-    widget.onChange(value.toString());
+    if (widget.onChange != null) {
+      widget.onChange!(value.toString());
+    }
   }
 
   void _clearValue() {

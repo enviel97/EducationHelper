@@ -4,8 +4,6 @@ import 'package:education_helper/helpers/extensions/state.x.dart';
 import 'package:education_helper/models/exam.model.dart';
 import 'package:education_helper/views/exam/bloc/exam_bloc.dart';
 import 'package:education_helper/views/exam/bloc/exam_state.dart';
-import 'package:education_helper/views/topic/widgets/exams_seleted/widgets/exam_list_error.dart';
-import 'package:education_helper/views/topic/widgets/exams_seleted/widgets/exam_list_tile.dart';
 import 'package:education_helper/views/widgets/button/custom_text_button.dart';
 import 'package:education_helper/views/widgets/form/custom_search_field.dart';
 import 'package:education_helper/views/widgets/list/list_builder.dart';
@@ -13,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../topics.dart';
+import 'widgets/exam_list_error.dart';
+import 'widgets/exam_list_tile.dart';
 
 class ExamSelected extends StatefulWidget {
   final String? id;

@@ -71,6 +71,7 @@ dependencies:
   mime: ^1.0.1
   expandable: ^5.0.1
   bordered_text: ^2.0.0
+  pin_code_fields: ^7.3.0
 
 dev_dependencies:
   flutter_test:

@@ -23,6 +23,7 @@ class KText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: mainAxisAlignment,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           '$label:',
@@ -32,11 +33,12 @@ class KText extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
+        SPACING.S.horizontal,
         Expanded(
           child: GestureDetector(
             onTap: onTap,
             child: Text(
-              text,
+              text.isEmpty ? '...' : text,
               maxLines: 2,
               textAlign: TextAlign.right,
               overflow: TextOverflow.ellipsis,

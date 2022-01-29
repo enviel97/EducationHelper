@@ -1,23 +1,23 @@
-import 'dart:io';
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/helpers/extensions/state.x.dart';
 import 'package:education_helper/models/exam.model.dart';
-import 'package:education_helper/models/topic.model.dart';
 import 'package:education_helper/views/exam/bloc/exam_bloc.dart';
 import 'package:education_helper/views/topic/pages/topic_form/widgets/custom_selected.dart';
 import 'package:education_helper/views/topic/pages/topic_form/widgets/custom_text.dart';
 import 'package:education_helper/views/topic/topics.dart';
 import 'package:education_helper/views/topic/typings/color_schema.dart';
-import 'package:education_helper/views/topic/widgets/exams_seleted/exams_selected.dart';
+import 'package:education_helper/views/topic/widgets/exams_seleted/exam_selected.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TopicSeclectExams extends StatefulWidget {
   final void Function(String id) onSelectExam;
+  final Exam? exam;
   const TopicSeclectExams({
     required this.onSelectExam,
     Key? key,
+    this.exam,
   }) : super(key: key);
 
   @override
@@ -27,13 +27,24 @@ class TopicSeclectExams extends StatefulWidget {
 class _TopicSeclectExamsState extends State<TopicSeclectExams> {
   String? idFile;
   String? idExam;
-  String exam = 'Name of exam';
-  String subject = 'Name of subject';
+  String exam = '';
+  String subject = '';
   String type = '';
 
   Color get cardColor => isLightTheme ? kBlackColor : kWhiteColor;
 
   ColorSchema get colorScheme => ColorSchema.industry(type);
+  @override
+  void initState() {
+    super.initState();
+    if (widget.exam != null) {
+      idExam = widget.exam!.id;
+      idFile = widget.exam!.content.name;
+      exam = widget.exam!.name;
+      subject = widget.exam!.subject;
+      type = widget.exam!.type;
+    }
+  }
 
   BoxShadow get shadow {
     return BoxShadow(
@@ -115,6 +126,7 @@ class _TopicSeclectExamsState extends State<TopicSeclectExams> {
       subject = exam.subject;
       type = exam.type;
     });
+    widget.onSelectExam(exam.id);
   }
 
   void _gotoDetail() {

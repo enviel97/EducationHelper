@@ -5,11 +5,15 @@ import 'package:flutter/material.dart';
 
 class KSelected extends StatelessWidget {
   final Function() onSelected;
+  final String hintText;
   final String? value;
+  final IconData icon;
   const KSelected({
     required this.onSelected,
-    this.value,
     Key? key,
+    this.value,
+    this.hintText = 'Select',
+    this.icon = Icons.document_scanner,
   }) : super(key: key);
 
   @override
@@ -32,14 +36,14 @@ class KSelected extends StatelessWidget {
         child: Row(
           children: [
             Icon(
-              Icons.document_scanner,
+              icon,
               color: color,
               size: SPACING.LG.size,
             ),
             SPACING.LG.horizontal,
             Expanded(
                 child: Text(
-              value?.isEmpty ?? true ? 'Selected exam' : value!,
+              value?.isEmpty ?? true ? hintText : value!,
               maxLines: 1,
               softWrap: false,
               overflow: TextOverflow.fade,

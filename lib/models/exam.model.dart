@@ -67,7 +67,10 @@ class Content {
 
   String get type {
     final _type = name.split('/').first.toUpperCase();
-    if (_type == 'PNG' || _type == 'JPG' || _type == 'JPEG') {
+    if (_type == 'PNG' ||
+        _type == 'JPG' ||
+        _type == 'JPEG' ||
+        _type == 'IMAGE') {
       return 'IMG';
     }
     return _type;
