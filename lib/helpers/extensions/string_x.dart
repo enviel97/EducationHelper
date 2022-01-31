@@ -22,8 +22,20 @@ extension StringX on String {
   }
 
   String toDateString({String format = 'dd/MM/yyyy'}) {
-    if (isEmpty) return format;
-    final date = DateTimeX.cast(this, format: format);
-    return date.toStringFormat(format: format);
+    if (isEmpty) return '';
+    try {
+      final date = DateTimeX.cast(this, format: format);
+      return date.toStringFormat(format: format);
+    } catch (_) {
+      return '';
+    }
+  }
+
+  String toUperCaseFirst() {
+    final sentences = split(' ').map((word) {
+      final first = word[0].toUpperCase();
+      return first + word.substring(1);
+    }).join(' ');
+    return sentences;
   }
 }

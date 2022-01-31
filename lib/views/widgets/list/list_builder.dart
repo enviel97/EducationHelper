@@ -10,6 +10,7 @@ class ListBuilder<T> extends StatelessWidget {
   final Axis scrollDirection;
   final ScrollController? controller;
   final ScrollBehavior? scrollBehavior;
+  final Future<void> Function()? onRefresh;
   final EdgeInsets margin;
 
   const ListBuilder({
@@ -24,6 +25,7 @@ class ListBuilder<T> extends StatelessWidget {
     this.controller,
     this.scrollBehavior,
     this.margin = const EdgeInsets.all(0.0),
+    this.onRefresh,
   }) : super(key: key);
 
   @override
@@ -41,6 +43,19 @@ class ListBuilder<T> extends StatelessWidget {
   }
 
   Widget get listViewBuilder {
+    if (onRefresh != null) {
+      return RefreshIndicator(
+        triggerMode: RefreshIndicatorTriggerMode.onEdge,
+        onRefresh: () async {
+          await onRefresh!();
+        },
+        child: _listView,
+      );
+    }
+    return _listView;
+  }
+
+  Widget get _listView {
     return ListView.builder(
       controller: controller,
       physics: physics,

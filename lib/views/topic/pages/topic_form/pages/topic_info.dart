@@ -74,25 +74,28 @@ class _TopicInfoState extends State<TopicInfo> {
           ),
           SPACING.S.vertical,
           Flexible(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'Time: ',
-                  style: TextStyle(
-                    color: kPrimaryColor,
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
+            child: IntrinsicHeight(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const Text(
+                    'Time: ',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: kPrimaryColor,
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                KTimeField(
-                  intiMinute: widget.minutes.str,
-                  initHour: widget.hours.str,
-                  onChangeHours: widget.onChangeHours,
-                  onChangeMinutes: widget.onChangeMinutes,
-                ),
-              ],
+                  KTimeField(
+                    intiMinute: widget.minutes.str,
+                    initHour: widget.hours.str,
+                    onChangeHours: widget.onChangeHours,
+                    onChangeMinutes: widget.onChangeMinutes,
+                  ),
+                ],
+              ),
             ),
           ),
           Flexible(

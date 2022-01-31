@@ -60,9 +60,7 @@ class _ClassroomSelectedState extends State<ClassroomSelected> {
               child: BlocConsumer<ClassroomBloc, ClassroomState>(
                 listener: (context, state) {
                   if (state is ClassroomGetAllSuccessState) {
-                    setState(() {
-                      classrooms = state.classrooms;
-                    });
+                    setState(() => classrooms = state.classrooms);
                   }
                 },
                 builder: (context, state) {
@@ -98,7 +96,7 @@ class _ClassroomSelectedState extends State<ClassroomSelected> {
                   width: 150.0,
                   isOutline: true,
                   backgroudColor: kWhiteColor,
-                  onPressed: () => Navigator.maybePop(context),
+                  onPressed: _onCancel,
                   text: 'Cancel',
                 )
               ],
@@ -118,5 +116,15 @@ class _ClassroomSelectedState extends State<ClassroomSelected> {
     if (isNeedReload) {
       BlocProvider.of<ClassroomBloc>(context).refreshClassroom();
     }
+  }
+
+  void _onCancel() {
+    if (isNeedReload && (widget.id?.isNotEmpty ?? false)) {
+      final index = classrooms.indexWhere((cls) => cls.id == widget.id);
+      final classroom = index < 0 ? null : classrooms[index];
+      Navigator.maybePop(context, classroom);
+      return;
+    }
+    Navigator.maybePop(context);
   }
 }

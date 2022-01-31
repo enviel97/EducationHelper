@@ -20,11 +20,13 @@ extension _StatusAnswer on StatusAnswer {
 class Answer {
   final String id;
   final StatusAnswer status;
+  final double grade;
   final String memberId;
 
   const Answer({
     required this.status,
     this.memberId = '',
+    this.grade = 0.0,
     this.id = '',
   });
 
@@ -39,6 +41,7 @@ class Answer {
     return Answer(
       id: json['id'] ?? json['_id'] ?? '',
       status: _StatusAnswer.value(json['json']),
+      grade: json['grade'] ?? 0.0,
     );
   }
 
@@ -47,6 +50,7 @@ class Answer {
     return Answer(
       memberId: id ?? 'uuid-${DateTimeX.ctime}',
       status: StatusAnswer.values[faker.randomGenerator.integer(99) % 3],
+      grade: faker.randomGenerator.integer(100) / 10,
     );
   }
 }
@@ -56,6 +60,7 @@ class Topic {
   final Classroom classroom;
   final Exam exam;
   final DateTime expiredDate;
+  final DateTime createDate;
   final List<Answer> answers;
   final String? note;
 
@@ -63,6 +68,7 @@ class Topic {
     required this.classroom,
     required this.exam,
     required this.expiredDate,
+    required this.createDate,
     required this.answers,
     this.id = '',
     this.note,
@@ -83,6 +89,7 @@ class Topic {
       classroom: Classroom.fromJson(json['classroom']),
       exam: Exam.fromJson(json['exam']),
       expiredDate: json['expiredDate'],
+      createDate: json['createdAt'],
       answers: answers,
     );
   }
@@ -94,6 +101,7 @@ class Topic {
       answers.where((ans) => ans.status == StatusAnswer.empty).length;
   int get lated =>
       answers.where((ans) => ans.status == StatusAnswer.lated).length;
+
   String get type => exam.type;
   String get name => exam.name;
 
@@ -111,6 +119,7 @@ class Topic {
     return Topic(
       classroom: classroom,
       exam: Exam.faker(),
+      createDate: DateTime.now(),
       expiredDate:
           DateTime.now().add(Duration(days: faker.randomGenerator.integer(10))),
       answers: answers,

@@ -1,4 +1,3 @@
-import 'package:education_helper/helpers/extensions/datetime_x.dart';
 import 'package:faker/faker.dart';
 
 class Member {
@@ -22,16 +21,16 @@ class Member {
     this.birth,
   });
 
-  factory Member.fromJson(Map<String, dynamic> json) {
+  static Member fromJson(dynamic json) {
     return Member(
       uid: json['id'] ?? json['_id'] ?? '',
       firstName: json['firstName'],
       lastName: json['lastName'],
       gender: json['gender'],
-      avatar: json['avatar'],
-      mail: json['mail'],
-      phoneNumber: json['phoneNumber'] ?? json['phone'],
-      birth: json['birth'] ?? json['datebirth'],
+      avatar: json['avatar'] ?? '',
+      mail: json['mail'] ?? '',
+      phoneNumber: json['phoneNumber'] ?? json['phone'] ?? '',
+      birth: json['birth'] ?? json['datebirth'] ?? '',
     );
   }
 
@@ -60,9 +59,7 @@ class Member {
         gender: gender == 'Mr.' || gender == 'Dr' ? 'male' : 'female',
         mail: faker.internet.email(),
         phoneNumber: faker.randomGenerator.fromPattern(['077#######']),
-        birth: faker.date
-            .dateTime(minYear: 1990, maxYear: 2020)
-            .toStringFormat(format: 'dd/MM/yyyy'),
+        birth: faker.date.dateTime(minYear: 1990, maxYear: 2020).toString(),
         avatar: faker.image.image(width: 500, height: 500, random: true));
   }
 }

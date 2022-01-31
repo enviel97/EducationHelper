@@ -88,16 +88,16 @@ class TopicListItem extends StatelessWidget {
                             children: [
                           AnswerStatus(
                             number: topic.success,
-                            type: AnswerType.submited,
+                            type: StatusAnswer.submit,
                             tooltip: 'Submitted',
                           ),
                           AnswerStatus(
                               number: topic.lated,
-                              type: AnswerType.lated,
+                              type: StatusAnswer.lated,
                               tooltip: 'Lated'),
                           AnswerStatus(
                               number: topic.missing,
-                              type: AnswerType.missed,
+                              type: StatusAnswer.empty,
                               tooltip: 'Missing')
                         ]))
                   ]))),

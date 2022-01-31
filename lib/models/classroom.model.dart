@@ -17,7 +17,7 @@ class Classroom {
 
   Map<String, dynamic> toJson() => {'name': name};
 
-  factory Classroom.fromJson(Map<String, dynamic> json) {
+  static Classroom fromJson(dynamic json) {
     final exams = List<String>.from(json['exams'] ?? []);
     final members = List<dynamic>.from(json['members'] ?? []);
 

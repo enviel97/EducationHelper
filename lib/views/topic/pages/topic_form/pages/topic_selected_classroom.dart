@@ -62,7 +62,20 @@ class _TopicSelecetedClassroomState extends State<TopicSelecetedClassroom> {
           boxShadow: [shadow]),
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const Padding(
+            padding: EdgeInsets.only(left: 15.0),
+            child: Text(
+              'Classroom',
+              style: TextStyle(
+                color: kBlackColor,
+                fontWeight: FontWeight.bold,
+                fontSize: 20.0,
+              ),
+            ),
+          ),
+          SPACING.S.vertical,
           KSelected(
             icon: MaterialCommunityIcons.google_classroom,
             onSelected: _selectedClassroom,
@@ -104,12 +117,11 @@ class _TopicSelecetedClassroomState extends State<TopicSelecetedClassroom> {
             child: ClassroomSelected(id: idClassroom),
           );
         });
-    if (classroom == null) return;
     setState(() {
-      idClassroom = classroom.id;
-      name = classroom.name;
-      members = classroom.members.length;
+      idClassroom = classroom?.id ?? '';
+      name = classroom?.name ?? '';
+      members = classroom?.members.length ?? 0;
     });
-    widget.onSelectedClassroom(classroom.id);
+    widget.onSelectedClassroom(classroom?.id ?? '');
   }
 }

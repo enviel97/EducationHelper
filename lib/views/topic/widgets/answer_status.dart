@@ -1,14 +1,14 @@
 import 'package:bordered_text/bordered_text.dart';
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/helpers/extensions/int_x.dart';
+import 'package:education_helper/models/topic.model.dart';
+import 'package:education_helper/views/topic/typings/color_status.dart';
 import 'package:flutter/material.dart';
-
-enum AnswerType { submited, lated, missed }
 
 class AnswerStatus extends StatelessWidget {
   final double size;
   final int number;
-  final AnswerType type;
+  final StatusAnswer type;
   final String? tooltip;
   final Color colorShadow;
   const AnswerStatus({
@@ -20,17 +20,6 @@ class AnswerStatus extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  Color get color {
-    switch (type) {
-      case AnswerType.submited:
-        return kSuccessColor;
-      case AnswerType.lated:
-        return kWarningColor;
-      case AnswerType.missed:
-        return kErrorColor;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Tooltip(
@@ -38,7 +27,7 @@ class AnswerStatus extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(10.0),
         decoration: BoxDecoration(
-          color: color,
+          color: getStatusColor(type),
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(

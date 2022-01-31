@@ -3,6 +3,7 @@ import 'package:education_helper/roots/app_root.dart';
 import 'package:education_helper/roots/parts/adapter.dart';
 import 'package:education_helper/views/classrooms/adapter/classroom.adapter.dart';
 import 'package:education_helper/views/exam/adapter/exam.adapter.dart';
+import 'package:education_helper/views/topic/pages/topic_detail/topic_detail.dart';
 import 'package:education_helper/views/topic/pages/topic_form/topic_form.dart';
 import 'package:education_helper/views/topic/topics.dart';
 import 'package:flutter/material.dart';
@@ -56,8 +57,18 @@ class TopicAdapter extends IAdapter {
     }
   }
 
-  Future<void> goToClassroom(BuildContext context, String idClassroom) async {
+  Future<bool> goToClassroom(BuildContext context, String idClassroom) async {
     final adapter = _classroomAdapter.cast<ClassroomAdapter>();
-    await adapter.goToMembers(context, uid: idClassroom);
+    final isNeedRefresh = await adapter.goToMembers(context, uid: idClassroom);
+    return isNeedRefresh;
+  }
+
+  Future<bool> goToTopicDetail(
+    BuildContext context,
+    String idTopic,
+  ) async {
+    final isNeedRefresh = await context.goTo<bool?>(TopicDetail(id: idTopic));
+
+    return isNeedRefresh ?? false;
   }
 }

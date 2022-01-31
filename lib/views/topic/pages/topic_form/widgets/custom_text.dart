@@ -8,6 +8,8 @@ class KText extends StatelessWidget {
   final String text;
   final Color colorText;
   final MainAxisAlignment mainAxisAlignment;
+  final double? sizeText;
+  final double? sizeLabel;
   final Function()? onTap;
   const KText({
     required this.label,
@@ -17,6 +19,8 @@ class KText extends StatelessWidget {
     this.onTap,
     this.colorLabel = kBlackColor,
     this.colorText = kPrimaryDarkColor,
+    this.sizeText,
+    this.sizeLabel,
   }) : super(key: key);
 
   @override
@@ -29,7 +33,7 @@ class KText extends StatelessWidget {
           '$label:',
           style: TextStyle(
             color: colorLabel,
-            fontSize: SPACING.M.size * 1.2,
+            fontSize: sizeLabel ?? (SPACING.M.size * 1.2),
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -45,7 +49,7 @@ class KText extends StatelessWidget {
               softWrap: false,
               style: TextStyle(
                 color: colorText,
-                fontSize: SPACING.M.size * 1.2,
+                fontSize: sizeText ?? (SPACING.M.size * 1.2),
               ),
             ),
           ),

@@ -1,7 +1,9 @@
+import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:education_helper/models/topic.model.dart';
 import 'package:education_helper/views/widgets/list/list_builder.dart';
 import 'package:flutter/material.dart';
 
+import '../../topics.dart';
 import 'widgets/topic_list_empty.dart';
 import 'widgets/topic_list_item.dart';
 
@@ -40,6 +42,16 @@ class _TopicListState extends State<TopicList> {
   }
 
   Widget _itemBuilder(Topic data) {
-    return TopicListItem(topic: data);
+    return GestureDetector(
+      onTap: () async {
+        context.disableKeyBoard();
+        final isNeedRefresh =
+            await Topics.adapter.goToTopicDetail(context, data.id);
+        if (isNeedRefresh) {
+          // TODO: Bloc refersh
+        }
+      },
+      child: TopicListItem(topic: data),
+    );
   }
 }
