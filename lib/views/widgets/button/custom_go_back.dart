@@ -3,12 +3,21 @@ import 'package:flutter/material.dart';
 class KGoBack<T> extends StatelessWidget {
   final Function()? preGoBack;
   final T? result;
-  const KGoBack({Key? key, this.preGoBack, this.result}) : super(key: key);
+  final Color? color;
+  const KGoBack({
+    Key? key,
+    this.preGoBack,
+    this.result,
+    this.color,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: const Icon(Icons.arrow_back_ios_new),
+      icon: Icon(
+        Icons.arrow_back_ios_new,
+        color: color,
+      ),
       onPressed: () => _onPressed(context),
     );
   }
