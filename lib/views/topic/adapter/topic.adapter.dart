@@ -22,6 +22,7 @@ class TopicAdapter extends IAdapter {
   IAdapter get _examAdapter => Root.ins.adapter.getAdapter(examAdapter);
   IAdapter get _classroomAdapter =>
       Root.ins.adapter.getAdapter(classroomAdpater);
+  IAdapter get _answerAdapter => Root.ins.adapter.getAdapter(answerAdapter);
 
   @override
   Widget layout({Map<String, dynamic>? params}) {
@@ -70,5 +71,17 @@ class TopicAdapter extends IAdapter {
     final isNeedRefresh = await context.goTo<bool?>(TopicDetail(id: idTopic));
 
     return isNeedRefresh ?? false;
+  }
+
+  Future<bool> goToAnswer(BuildContext context, String id) async {
+    try {
+      final isNeedRefresh = await context.goTo<bool>(
+        _answerAdapter.layout(params: {'id': id}),
+      );
+      return isNeedRefresh ?? false;
+    } catch (_) {
+      debugPrint(_.toString());
+      return false;
+    }
   }
 }

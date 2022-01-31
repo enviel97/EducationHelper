@@ -4,6 +4,7 @@ import 'package:education_helper/helpers/extensions/string_x.dart';
 import 'package:education_helper/models/members.model.dart';
 import 'package:education_helper/models/topic.model.dart';
 import 'package:education_helper/views/topic/pages/topic_detail/widgets/answer_grade.dart';
+import 'package:education_helper/views/topic/topics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
@@ -11,8 +12,10 @@ class TopicAnswerItem extends StatelessWidget {
   final Member member;
   final StatusAnswer? status;
   final double grade;
+  final String idAnswer;
   const TopicAnswerItem({
     required this.member,
+    required this.idAnswer,
     this.status,
     this.grade = 0.0,
     Key? key,
@@ -35,9 +38,7 @@ class TopicAnswerItem extends StatelessWidget {
       child: ListTile(
         onTap: status == StatusAnswer.empty
             ? null
-            : () {
-                print(1234);
-              },
+            : () => Topics.adapter.goToAnswer(context, idAnswer),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16.0,
           vertical: 10.0,

@@ -29,19 +29,24 @@ class TopicAnswerList extends StatefulWidget {
 }
 
 class _TopicAnswerListState extends State<TopicAnswerList> {
-  late Map<String, StatusAnswer> status;
-  late Map<String, double> grade;
   late List<Member> members = [];
   late GroupByStatus _controller;
   StatusAnswer? selected;
 
+  late Map<String, dynamic> answerGroup;
   @override
   void initState() {
     super.initState();
-    status = {for (final ans in widget.answers) ans.memberId: ans.status};
-    grade = {for (final ans in widget.answers) ans.memberId: ans.grade};
+    answerGroup = {
+      for (final ans in widget.answers)
+        ans.memberId: {
+          'id': ans.id,
+          'status': ans.status,
+          'grade': ans.grade,
+        }
+    };
     members.addAll(widget.members);
-    _controller = GroupByStatus(members, status);
+    _controller = GroupByStatus(members, answerGroup);
   }
 
   Widget get _buildStatusTotal {
@@ -137,8 +142,9 @@ class _TopicAnswerListState extends State<TopicAnswerList> {
   Widget _itemBuilder(Member data) {
     return TopicAnswerItem(
       member: data,
-      status: status[data.uid],
-      grade: grade[data.uid] ?? 0.0,
+      status: answerGroup[data.uid]['status'],
+      grade: answerGroup[data.uid]['grade'] ?? 0.0,
+      idAnswer: answerGroup[data.uid]['id'],
     );
   }
 

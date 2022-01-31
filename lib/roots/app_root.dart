@@ -1,6 +1,7 @@
 import 'package:education_helper/constants/constant.dart' as c;
 import 'package:education_helper/roots/miragate/http.dart';
 import 'package:education_helper/roots/parts/adapter.dart';
+import 'package:education_helper/views/answer/adapters/answers.adapter.dart';
 import 'package:education_helper/views/auth/adapter/auth.adapter.dart';
 import 'package:education_helper/views/classrooms/adapter/classroom.adapter.dart';
 import 'package:education_helper/views/exam/adapter/exam.adapter.dart';
@@ -67,6 +68,7 @@ class Root {
     MemberAdapter();
     ExamAdapter();
     TopicAdapter();
+    AnswerAdapter();
     return 'Done';
   }
 }

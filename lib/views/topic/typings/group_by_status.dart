@@ -13,12 +13,12 @@ class _Query {
 
 class GroupByStatus {
   static List<Member> _members = [];
-  static Map<String, StatusAnswer> _answers = {};
+  static Map<String, dynamic> _answerGroup = {};
   static final _query = _Query();
 
-  GroupByStatus(List<Member> _members, Map<String, StatusAnswer> _answers) {
+  GroupByStatus(List<Member> _members, Map<String, dynamic> _answerGroup) {
     GroupByStatus._members = _members;
-    GroupByStatus._answers = _answers;
+    GroupByStatus._answerGroup = _answerGroup;
   }
 
   void dispose() {
@@ -42,8 +42,10 @@ class GroupByStatus {
 
         if (data.status != null) {
           members = [
-            ...members.where((mem) => _answers[mem.uid] == data.status),
-            ...members.where((mem) => _answers[mem.uid] != data.status),
+            ...members
+                .where((mem) => _answerGroup[mem.uid]['status'] == data.status),
+            ...members
+                .where((mem) => _answerGroup[mem.uid]['status'] != data.status),
           ];
         }
 
