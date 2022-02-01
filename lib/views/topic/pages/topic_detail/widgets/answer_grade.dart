@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 class AnswerGrade extends StatelessWidget {
   final StatusAnswer status;
-  final double grade;
+  final double? grade;
   const AnswerGrade({
     required this.status,
     required this.grade,
@@ -21,7 +21,7 @@ class AnswerGrade extends StatelessWidget {
         strokeColor: kBlackColor,
         strokeWidth: 3.2,
         child: Text(
-          '$grade',
+          '${grade ?? ''}',
           style: const TextStyle(
             color: kWhiteColor,
             fontWeight: FontWeight.bold,

@@ -1,15 +1,19 @@
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/helpers/extensions/state.x.dart';
+import 'package:education_helper/helpers/ultils/funtions.dart';
 import 'package:education_helper/models/members.model.dart';
 import 'package:education_helper/models/topic.model.dart';
+import 'package:education_helper/views/topic/pages/topic_detail/widgets/answer_list_empty.dart';
+import 'package:education_helper/views/topic/pages/topic_detail/widgets/answer_list_error.dart';
 import 'package:education_helper/views/topic/pages/topic_detail/widgets/topic_answer_item.dart';
-import 'package:education_helper/views/topic/typings/group_by_status.dart';
+import 'package:education_helper/views/topic/streams/group_by_status.dart';
 import 'package:education_helper/views/widgets/form/custom_search_field.dart';
 import 'package:education_helper/views/widgets/list/list_builder.dart';
 import 'package:flutter/material.dart';
 import '../widgets/answers_status_chip.dart';
 
 class TopicAnswerList extends StatefulWidget {
+  final String idClassroom;
   final List<Member> members;
   final List<Answer> answers;
   final int submited;
@@ -21,6 +25,7 @@ class TopicAnswerList extends StatefulWidget {
     required this.submited,
     required this.lated,
     required this.missing,
+    required this.idClassroom,
     Key? key,
   }) : super(key: key);
 
@@ -31,6 +36,7 @@ class TopicAnswerList extends StatefulWidget {
 class _TopicAnswerListState extends State<TopicAnswerList> {
   late List<Member> members = [];
   late GroupByStatus _controller;
+  bool isGrade = false;
   StatusAnswer? selected;
 
   late Map<String, dynamic> answerGroup;
@@ -84,9 +90,9 @@ class _TopicAnswerListState extends State<TopicAnswerList> {
             topRight: Radius.circular(25.0), bottomLeft: Radius.circular(25.0)),
         boxShadow: [
           BoxShadow(
-            color: isLightTheme ? kBlueColor : kPrimaryLightColor,
+            color: isLightTheme ? kPrimaryDarkColor : kPrimaryLightColor,
             offset: const Offset(4.0, 4.0),
-            blurRadius: 4.0,
+            blurRadius: 10.0,
           )
         ],
       ),
@@ -94,9 +100,28 @@ class _TopicAnswerListState extends State<TopicAnswerList> {
         children: [
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: KSearchText(
-              hintText: 'Search with name',
-              onSearch: _controller.search,
+            child: Row(
+              children: [
+                Flexible(
+                  child: KSearchText(
+                    hintText: 'Search with name',
+                    onSearch: _controller.search,
+                  ),
+                ),
+                Switch(
+                  value: isGrade,
+                  onChanged: (_) {
+                    setState(() {
+                      isGrade = !isGrade;
+                      _controller.grade(isGrade);
+                    });
+                  },
+                  activeColor: kPrimaryColor,
+                  activeThumbImage: AssetImage(
+                    ImageFromLocal.asPng('grade'),
+                  ),
+                ),
+              ],
             ),
           ),
           Flexible(
@@ -109,16 +134,15 @@ class _TopicAnswerListState extends State<TopicAnswerList> {
                     datas: snapshot.data ?? [],
                     margin: const EdgeInsets.all(8.0),
                     padding: const EdgeInsets.symmetric(vertical: 5.0),
+                    emptyList: AnswerListEmpty(id: widget.idClassroom),
                     shirinkWrap: false,
                     itemBuilder: _itemBuilder,
                     onRefresh: () async {
-                      // TODO: Refresh
+                      // TODO: refresh bloc
                     },
                   );
                 }
-                return const Center(
-                  child: Text('error'),
-                );
+                return const AnswerListError();
               },
             ),
           ),
@@ -143,7 +167,7 @@ class _TopicAnswerListState extends State<TopicAnswerList> {
     return TopicAnswerItem(
       member: data,
       status: answerGroup[data.uid]['status'],
-      grade: answerGroup[data.uid]['grade'] ?? 0.0,
+      grade: answerGroup[data.uid]['grade'],
       idAnswer: answerGroup[data.uid]['id'],
     );
   }

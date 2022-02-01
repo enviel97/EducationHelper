@@ -7,8 +7,9 @@ import 'package:flutter/material.dart';
 class _Query {
   String text;
   StatusAnswer? status;
+  bool isGrade;
 
-  _Query({this.text = '', this.status});
+  _Query({this.text = '', this.status, this.isGrade = false});
 }
 
 class GroupByStatus {
@@ -49,6 +50,18 @@ class GroupByStatus {
           ];
         }
 
+        if (data.isGrade) {
+          members = [
+            ...members.where((mem) => _answerGroup[mem.uid]['grade'] != null),
+            ...members.where((mem) => _answerGroup[mem.uid]['grade'] == null),
+          ];
+        } else {
+          members = [
+            ...members.where((mem) => _answerGroup[mem.uid]['grade'] == null),
+            ...members.where((mem) => _answerGroup[mem.uid]['grade'] != null),
+          ];
+        }
+
         sink.add(members);
       } catch (e) {
         debugPrint(e.toString());
@@ -64,6 +77,11 @@ class GroupByStatus {
 
   void search(String text) {
     GroupByStatus._query.text = text;
+    _controller.sink.add(GroupByStatus._query);
+  }
+
+  void grade(bool isGrade) {
+    GroupByStatus._query.isGrade = isGrade;
     _controller.sink.add(GroupByStatus._query);
   }
 }

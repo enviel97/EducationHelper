@@ -21,10 +21,9 @@ class _AnswersShowFileState extends State<AnswersShowFile> {
   @override
   void initState() {
     super.initState();
+    // content = 'Image/Image-7b999011-139d-4376-b501-4609a158fe68-01-2022';
+    // content = 'PDF/PDF-4b749a9b-bccb-4ee3-980e-83b6f529f60d-01-2022';
     content = 'RAR/RAR-1e4a027d-d9bc-4633-9844-b0de3f81a3f5-01-2022';
-    // 'Image/Image-7b999011-139d-4376-b501-4609a158fe68-01-2022'
-    // 'PDF/PDF-4b749a9b-bccb-4ee3-980e-83b6f529f60d-01-2022'
-    // 'RAR/RAR-1e4a027d-d9bc-4633-9844-b0de3f81a3f5-01-2022'
   }
 
   String get exts => content.split('/').first.toLowerCase();

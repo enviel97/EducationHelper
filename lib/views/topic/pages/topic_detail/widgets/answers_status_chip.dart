@@ -1,5 +1,6 @@
 import 'package:bordered_text/bordered_text.dart';
 import 'package:education_helper/constants/colors.dart';
+import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:education_helper/helpers/extensions/string_x.dart';
 import 'package:education_helper/models/topic.model.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +50,11 @@ class AnswerStatusChip extends StatelessWidget {
         ),
       ),
       side: isSelected
-          ? const BorderSide(color: kPlaceholderDarkColor, width: 3.0)
+          ? BorderSide(
+              color: context.isLightTheme
+                  ? kSecondarySuperDarkColor
+                  : kSecondaryColor,
+              width: 3.0)
           : null,
       shadowColor: kPrimaryColor,
       backgroundColor: kPrimaryColor,

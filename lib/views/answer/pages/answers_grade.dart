@@ -40,9 +40,15 @@ class _AnswersGradeState extends State<AnswersGrade> {
       margin: const EdgeInsets.all(10.0),
       padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 20.0),
       decoration: const BoxDecoration(
-        color: kWhiteColor,
-        borderRadius: BorderRadius.all(Radius.circular(25.0)),
-      ),
+          color: kWhiteColor,
+          borderRadius: BorderRadius.all(Radius.circular(25.0)),
+          boxShadow: [
+            BoxShadow(
+              offset: Offset(0.0, -4.0),
+              color: kPrimaryColor,
+              blurRadius: 4.0,
+            )
+          ]),
       child: Wrap(
         children: [
           ExpandablePanel(

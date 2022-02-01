@@ -26,7 +26,7 @@ class _AnswersState extends State<Answers> {
       body: GestureDetector(
         onTap: context.disableKeyBoard,
         child: Container(
-          color: Theme.of(context).backgroundColor,
+          color: kBlackColor,
           child: Stack(
             children: [
               const Align(
@@ -38,7 +38,7 @@ class _AnswersState extends State<Answers> {
                   iconSize: 32.0,
                   padding: const EdgeInsets.only(left: 20.0),
                   icon: Icon(
-                    Ionicons.ios_chevron_back_circle_outline,
+                    Ionicons.ios_chevron_back_circle,
                     color: isLightTheme ? kPrimaryDarkColor : kPrimaryColor,
                   ),
                   onPressed: _goBack,

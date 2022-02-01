@@ -11,19 +11,19 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 class TopicAnswerItem extends StatelessWidget {
   final Member member;
   final StatusAnswer? status;
-  final double grade;
+  final double? grade;
   final String idAnswer;
   const TopicAnswerItem({
     required this.member,
     required this.idAnswer,
     this.status,
-    this.grade = 0.0,
+    this.grade,
     Key? key,
   }) : super(key: key);
 
   Widget _nullableText(String value) {
     if (value.isEmpty) return const SizedBox(height: 0.0, width: 0.0);
-    return Text(value);
+    return Text(value, style: const TextStyle(color: kWhiteColor));
   }
 
   @override

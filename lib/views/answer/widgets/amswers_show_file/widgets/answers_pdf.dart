@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/helpers/extensions/state.x.dart';
 import 'package:education_helper/views/widgets/deorate/box_decorate_separate_number.dart';
 import 'package:flutter/material.dart';

@@ -20,13 +20,13 @@ extension _StatusAnswer on StatusAnswer {
 class Answer {
   final String id;
   final StatusAnswer status;
-  final double grade;
+  final double? grade;
   final String memberId;
 
   const Answer({
     required this.status,
     this.memberId = '',
-    this.grade = 0.0,
+    this.grade,
     this.id = '',
   });
 
@@ -47,10 +47,15 @@ class Answer {
 
   static Answer faker({String? id}) {
     final faker = Faker();
+    final status = StatusAnswer.values[faker.randomGenerator.integer(99) % 3];
     return Answer(
       memberId: id ?? 'uuid-${DateTimeX.ctime}',
-      status: StatusAnswer.values[faker.randomGenerator.integer(99) % 3],
-      grade: faker.randomGenerator.integer(100) / 10,
+      status: status,
+      grade: status == StatusAnswer.empty
+          ? 0.0
+          : faker.randomGenerator.boolean()
+              ? faker.randomGenerator.integer(100) / 10
+              : null,
     );
   }
 }

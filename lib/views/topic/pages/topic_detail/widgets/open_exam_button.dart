@@ -1,3 +1,4 @@
+import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/views/topic/typings/color_schema.dart';
 import 'package:flutter/material.dart';
 
@@ -35,6 +36,7 @@ class OpenExamButton extends StatelessWidget {
             Text(
               '.$type',
               style: TextStyle(
+                color: kWhiteColor,
                 fontSize: size * .3,
                 fontWeight: FontWeight.bold,
               ),

@@ -23,6 +23,8 @@ class TopicExamInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final highlightColor =
+        context.isLightTheme ? kSecondaryDarkColor : kSecondaryLightColor;
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 20.0,
@@ -44,7 +46,7 @@ class TopicExamInfo extends StatelessWidget {
                         exam.name,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: kSecondaryLightColor,
+                          color: highlightColor,
                           fontSize: SPACING.LG.size,
                           fontWeight: FontWeight.bold,
                         ),
@@ -69,7 +71,7 @@ class TopicExamInfo extends StatelessWidget {
           SPACING.S.vertical,
           KText(
             text: dateToString(createDate),
-            colorText: kSecondaryLightColor,
+            colorText: highlightColor,
             label: 'Create date',
             colorLabel: context.isLightTheme ? kBlackColor : kWhiteColor,
             sizeLabel: SPACING.M.size,
@@ -77,7 +79,7 @@ class TopicExamInfo extends StatelessWidget {
           SPACING.S.vertical,
           KText(
             text: dateToString(expiredDate),
-            colorText: kSecondaryLightColor,
+            colorText: highlightColor,
             label: 'Expired date',
             colorLabel: context.isLightTheme ? kBlackColor : kWhiteColor,
             sizeLabel: SPACING.M.size,

@@ -50,7 +50,7 @@ class _TopicDetailState extends State<TopicDetail> {
                 members: List<Member>.from(topic.classroom.members),
                 lated: topic.lated,
                 missing: topic.missing,
-                submited: topic.success,
+                submited: topic.success, idClassroom: topic.classroom.id,
               ),
             )
           ],
