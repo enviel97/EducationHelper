@@ -102,7 +102,7 @@ class AppTheme {
       backgroundColor: kBlackColor,
       hintColor: kPlaceholderColor,
       dividerColor: kDividerColor,
-      iconTheme: Theme.of(context).iconTheme.copyWith(color: kBlackColor),
+      iconTheme: Theme.of(context).iconTheme.copyWith(color: kWhiteColor),
       textTheme: defaultFonts(context).apply(
         bodyColor: kWhiteColor,
         displayColor: kWhiteColor,

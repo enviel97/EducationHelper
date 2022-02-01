@@ -11,10 +11,14 @@ import 'package:path_provider/path_provider.dart';
 class DownloadButton extends StatefulWidget {
   final String name;
   final String download;
+  final double iconSize;
+  final Color? iconColor;
   const DownloadButton({
     required this.name,
     required this.download,
     Key? key,
+    this.iconSize = 32.0,
+    this.iconColor,
   }) : super(key: key);
 
   @override
@@ -50,18 +54,19 @@ class _DownloadButtonState extends State<DownloadButton> {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      alignment: Alignment.topCenter,
       children: [
         IconButton(
-          iconSize: 32.0,
+          iconSize: widget.iconSize,
           padding: const EdgeInsets.all(0.0),
           onPressed: _onHandleFile,
-          color: isLightTheme ? kWhiteColor : kBlackColor,
+          color: widget.iconColor ?? (isLightTheme ? kWhiteColor : kBlackColor),
           icon: Icon(icon),
         ),
         Container(
           child: isDownloading
               ? SizedBox(
-                  width: 50.0,
+                  width: widget.iconSize * 1.2,
                   child: LinearProgressIndicator(
                     value: process,
                     minHeight: 4.0,
@@ -91,27 +96,32 @@ class _DownloadButtonState extends State<DownloadButton> {
   }
 
   Future<void> _download() async {
+    if (widget.name.isEmpty || widget.download.isEmpty) return;
     setState(() => isDownloading = true);
-    await Flowder.download(
-      widget.download,
-      DownloaderUtils(
-        progressCallback: (current, total) {
-          setState(() => process = current / total);
-        },
-        file: file,
-        progress: ProgressImplementation(),
-        onDone: () async {
-          setState(() => icon = Icons.download_done_rounded);
-          await Future.delayed(
-            const Duration(milliseconds: 500),
-            () => setState(() {
-              icon = Icons.open_in_browser;
-              isDownloading = false;
-            }),
-          );
-        },
-        deleteOnCancel: true,
-      ),
-    );
+    try {
+      await Flowder.download(
+        widget.download,
+        DownloaderUtils(
+          progressCallback: (current, total) {
+            setState(() => process = current / total);
+          },
+          file: file,
+          progress: ProgressImplementation(),
+          onDone: () async {
+            setState(() => icon = Icons.download_done_rounded);
+            await Future.delayed(
+              const Duration(milliseconds: 500),
+              () => setState(() {
+                icon = Icons.open_in_browser;
+                isDownloading = false;
+              }),
+            );
+          },
+          deleteOnCancel: true,
+        ),
+      );
+    } catch (e) {
+      setState(() => isDownloading = false);
+    }
   }
 }

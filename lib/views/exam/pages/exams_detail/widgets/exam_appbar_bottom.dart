@@ -1,7 +1,8 @@
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/helpers/extensions/build_context_x.dart';
-import 'package:education_helper/views/exam/pages/exams_detail/widgets/download_button.dart';
+import 'package:education_helper/views/widgets/button/download_button.dart';
+import 'package:education_helper/views/widgets/button/share_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:share/share.dart';
@@ -52,24 +53,14 @@ class ExamAppbarBottom extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               DownloadButton(name: name, download: downloadLink),
-              IconButton(
-                padding: const EdgeInsets.all(0.0),
-                onPressed: _shareFile,
-                color: kBlueColor,
-                icon: const Icon(Fontisto.share_a),
+              ShareButton(
+                publicLink: publicLink,
+                subject: 'Click link to get homework',
               ),
             ],
           )
         ],
       ),
     );
-  }
-
-  Future<void> _shareFile() async {
-    try {
-      await Share.share(publicLink, subject: 'This is link file');
-    } catch (e) {
-      debugPrint(e.toString());
-    }
   }
 }

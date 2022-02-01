@@ -1,4 +1,11 @@
+import 'package:education_helper/constants/colors.dart';
+import 'package:education_helper/helpers/extensions/build_context_x.dart';
+import 'package:education_helper/helpers/extensions/state.x.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+
+import 'pages/answers_grade.dart';
+import 'pages/answers_content.dart';
 
 class Answers extends StatefulWidget {
   final String id;
@@ -16,15 +23,39 @@ class _AnswersState extends State<Answers> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Theme.of(context).backgroundColor,
-        child: Column(
-          children: [
-            Expanded(flex: 7, child: Container()),
-            Expanded(flex: 3, child: Container()),
-          ],
+      body: GestureDetector(
+        onTap: context.disableKeyBoard,
+        child: Container(
+          color: Theme.of(context).backgroundColor,
+          child: Stack(
+            children: [
+              const Align(
+                heightFactor: .8,
+                child: AnswersContent(),
+              ),
+              SafeArea(
+                child: IconButton(
+                  iconSize: 32.0,
+                  padding: const EdgeInsets.only(left: 20.0),
+                  icon: Icon(
+                    Ionicons.ios_chevron_back_circle_outline,
+                    color: isLightTheme ? kPrimaryDarkColor : kPrimaryColor,
+                  ),
+                  onPressed: _goBack,
+                ),
+              ),
+              const Align(
+                alignment: Alignment.bottomCenter,
+                child: AnswersGrade(),
+              ),
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  _goBack() {
+    Navigator.maybePop(context);
   }
 }
