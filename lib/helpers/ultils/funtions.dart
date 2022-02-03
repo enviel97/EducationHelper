@@ -22,6 +22,7 @@ List<T> mapToList<T>(dynamic json, T Function(dynamic json) create) {
   if (json == null || json.isEmpty) {
     return [];
   }
-  final jsons = json as List<dynamic>;
+  final jsons = json as List;
+
   return List<T>.generate(jsons.length, (index) => create(jsons[index]));
 }

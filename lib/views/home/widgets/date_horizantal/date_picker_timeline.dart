@@ -71,9 +71,9 @@ class _DatePickerTimeLineState extends State<DatePickerTimeLine> {
           final _date = widget.startDate.add(Duration(days: index));
           final date = DateTime(_date.year, _date.month, _date.day);
           final isSelected = date.isEqual(_selectedDate);
-          final isOutline =
-              widget.note.where((note) => note.isEqual(date)).isNotEmpty;
-
+          final notes = widget.note.where((note) => note.isEqual(date));
+          final isOutline = notes.isNotEmpty;
+          final numberJob = notes.length;
           return DatePickerHorizantalItem(
             isSelected: isSelected,
             date: date,
@@ -81,11 +81,10 @@ class _DatePickerTimeLineState extends State<DatePickerTimeLine> {
             selectionColor: isLightTheme ? kPrimaryLightColor : kPrimaryColor,
             height: widget.height,
             width: widget.width,
+            numberJob: numberJob,
             onDateSelected: (selectedDate) {
               widget.onDateChange(selectedDate);
-              setState(() {
-                _selectedDate = selectedDate;
-              });
+              setState(() => _selectedDate = selectedDate);
             },
           );
         },

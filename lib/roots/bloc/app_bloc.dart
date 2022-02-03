@@ -81,6 +81,11 @@ class AppBloc extends Cubit<AppState> {
     );
   }
 
+  void refreshUser() async {
+    _currentUser = null;
+    getUser();
+  }
+
   void getUser() async {
     if (_currentUser != null) {
       emit(UserStateSuccess(_currentUser!));

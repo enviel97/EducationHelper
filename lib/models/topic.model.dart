@@ -90,11 +90,15 @@ class Topic {
 
   static Topic fromJson(dynamic json) {
     final answers = mapToList<Answer>(json['answers'], Answer.fromJson);
+
+    final expiredDate = DateTime.tryParse(json['expiredDate']);
+    final createAt = DateTime.tryParse(json['createdAt']);
+
     return Topic(
       classroom: Classroom.fromJson(json['classroom']),
       exam: Exam.fromJson(json['exam']),
-      expiredDate: json['expiredDate'],
-      createDate: json['createdAt'],
+      expiredDate: expiredDate ?? DateTimeX.empty,
+      createDate: createAt ?? DateTimeX.empty,
       answers: answers,
     );
   }

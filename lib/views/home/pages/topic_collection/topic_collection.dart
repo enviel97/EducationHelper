@@ -3,12 +3,17 @@ import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/helpers/extensions/state.x.dart';
 import 'package:education_helper/helpers/widgets/scroller_grow_disable.dart';
 import 'package:education_helper/models/topic.model.dart';
+import 'package:education_helper/roots/bloc/app_bloc.dart';
+import 'package:education_helper/views/home/bloc/topics/topic.bloc.dart';
+import 'package:education_helper/views/home/bloc/topics/topic.state.dart';
 import 'package:education_helper/views/home/home.dart';
-import 'package:education_helper/views/home/pages/topic_collection/widgets/topic_item.dart';
 import 'package:education_helper/views/home/widgets/header_collections.dart';
-import 'package:education_helper/views/widgets/button/custom_text_button.dart';
 import 'package:education_helper/views/widgets/list/list_builder.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'widgets/topic_item.dart';
+import 'widgets/topic_empty.dart';
 
 class TopicCollection extends StatefulWidget {
   const TopicCollection({Key? key}) : super(key: key);
@@ -18,23 +23,23 @@ class TopicCollection extends StatefulWidget {
 }
 
 class _TopicCollectionState extends State<TopicCollection> {
-  List<Topic> topics = [];
+  late List<Topic> topics;
+
   @override
   void initState() {
     super.initState();
-    topics = List<Topic>.generate(2, (index) => Topic.faker());
+    BlocProvider.of<TopicBloc>(context).getTopicCollection();
+    topics = [];
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 320.0,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(55.0),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
+        height: 320.0,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(55.0),
+        ),
+        child: Column(mainAxisSize: MainAxisSize.min, children: [
           HeaderCollection(
             title: 'Topics',
             qunatity: topics.length,
@@ -44,23 +49,52 @@ class _TopicCollectionState extends State<TopicCollection> {
           ),
           SPACING.SM.vertical,
           Expanded(
-            child: ListBuilder<Topic>(
-              datas: topics,
-              shirinkWrap: true,
-              emptyList: const TopicEmtpy(),
-              scrollDirection: Axis.horizontal,
-              scrollBehavior: NormalScollBehavior(),
-              margin: const EdgeInsets.symmetric(horizontal: 10.0),
-              itemBuilder: _itemTopics,
-            ),
-          ),
-        ],
-      ),
-    );
+              child: BlocConsumer<TopicBloc, TopicState>(
+                  listener: (context, state) {
+            if (state is TopicFailState) {
+              BlocProvider.of<AppBloc>(context)
+                  .showError(context, state.messenger.mess);
+            }
+            if (state is TopicLoadedState) {
+              setState(() => topics = state.topics);
+            }
+          }, builder: (context, state) {
+            if (state is TopicLoadingState) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (state is TopicFailState) {
+              return TopicEmpty(
+                onPressed: _refresh,
+                messenger: 'Has occus when loading topic',
+                buttonText: 'Refresh',
+              );
+            }
+
+            return ListBuilder<Topic>(
+                datas: topics,
+                shirinkWrap: true,
+                emptyList: TopicEmpty(onPressed: _morePressed),
+                scrollDirection: Axis.horizontal,
+                scrollBehavior: NormalScollBehavior(),
+                margin: const EdgeInsets.symmetric(horizontal: 10.0),
+                itemBuilder: _itemTopics,
+                endOfList: GestureDetector(
+                    onTap: _morePressed,
+                    child: Container(
+                        height: 300,
+                        color: kPlacehoderSuperDarkColor.withOpacity(.6),
+                        padding: const EdgeInsets.symmetric(horizontal: 55.5),
+                        child: const CircleAvatar(
+                            radius: 32.0,
+                            backgroundColor: kPrimaryColor,
+                            child: Icon(Icons.more_horiz_rounded)))));
+          }))
+        ]));
   }
 
   Future<void> _morePressed() async {
-    Home.adapter.goToTopics(context);
+    final isNeedRefresh = await Home.adapter.goToTopics(context);
+    if (isNeedRefresh) _refresh();
   }
 
   Widget _itemTopics(Topic topic) {
@@ -80,30 +114,8 @@ class _TopicCollectionState extends State<TopicCollection> {
       ansLate: ansLate,
     );
   }
-}
 
-class TopicEmtpy extends StatelessWidget {
-  const TopicEmtpy({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(32),
-          child: Text(
-            "Woohoo! Don't have topics this time",
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: SPACING.LG.size),
-          ),
-        ),
-        KTextButton(
-          onPressed: () => Home.adapter.goToTopics(context),
-          text: 'Go to topics',
-        )
-      ],
-    );
+  Future<void> _refresh() async {
+    BlocProvider.of<TopicBloc>(context).refresh();
   }
 }

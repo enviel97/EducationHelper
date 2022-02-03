@@ -5,6 +5,7 @@ import 'package:education_helper/views/classrooms/adapter/classroom.adapter.dart
 import 'package:education_helper/views/exam/adapter/exam.adapter.dart';
 import 'package:education_helper/views/home/bloc/classrooms/classroom.bloc.dart';
 import 'package:education_helper/views/home/bloc/exams/exam.bloc.dart';
+import 'package:education_helper/views/home/bloc/topics/topic.bloc.dart';
 import 'package:education_helper/views/topic/adapter/topic.adapter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,6 +33,7 @@ class HomeAdapter extends IAdapter {
         providers: [
           BlocProvider(create: (context) => ExamsBloc()),
           BlocProvider(create: (context) => ClassroomsBloc()),
+          BlocProvider(create: (context) => TopicBloc()),
         ],
         child: const Home(),
       );
@@ -67,8 +69,9 @@ class HomeAdapter extends IAdapter {
     adapter.gotoDetailExam(context, idExam: idExam);
   }
 
-  Future<void> goToTopics(BuildContext context) async {
+  Future<bool> goToTopics(BuildContext context) async {
     final adapter = _topicAdapter.cast<TopicAdapter>();
-    context.goTo(adapter.layout());
+    final isNeedRefresh = await context.goTo<bool>(adapter.layout());
+    return isNeedRefresh ?? false;
   }
 }

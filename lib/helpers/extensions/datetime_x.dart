@@ -21,6 +21,8 @@ extension DateTimeX on DateTime {
         date.year == otherDate.year;
   }
 
+  static DateTime get empty => DateTime(-1);
+
   static String get ctime => DateTime.now().microsecondsSinceEpoch.toString();
 
   bool isEqual(DateTime? otherDate) =>
@@ -29,4 +31,6 @@ extension DateTimeX on DateTime {
   DateTime get startDay => DateTime(year, month, day, 0, 0, 0);
 
   DateTime get endDay => DateTime(year, month, day, 23, 59, 59);
+
+  bool get isEmpty => isEqual(DateTimeX.empty);
 }

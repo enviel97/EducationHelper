@@ -13,6 +13,7 @@ class DatePickerHorizantalItem extends StatelessWidget {
   final String? locale;
   final double height;
   final double width;
+  final int numberJob;
 
   const DatePickerHorizantalItem({
     required this.date,
@@ -24,6 +25,7 @@ class DatePickerHorizantalItem extends StatelessWidget {
     this.locale,
     this.isSelected = false,
     this.isOutline = false,
+    this.numberJob = 0,
   }) : super(key: key);
 
   @override
@@ -35,44 +37,66 @@ class DatePickerHorizantalItem extends StatelessWidget {
     return InkWell(
       onTap: () => onDateSelected(date),
       borderRadius: shape,
-      child: Container(
-        width: width,
-        height: height,
-        margin: const EdgeInsets.all(5.0),
-        decoration: BoxDecoration(
-          color: isSelected ? selectionColor : Colors.transparent,
-          borderRadius: shape,
-          border: Border.all(
-            color: isOutline ? selectionColor : Colors.transparent,
-            width: 5.0,
+      child: Stack(
+        children: [
+          Container(
+            width: width,
+            height: height,
+            margin: const EdgeInsets.all(5.0),
+            decoration: BoxDecoration(
+              color: isSelected ? selectionColor : Colors.transparent,
+              borderRadius: shape,
+              border: Border.all(
+                color: isOutline ? selectionColor : Colors.transparent,
+                width: 5.0,
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text(month,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: SPACING.M.size,
+                      )),
+                  Text(day,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: SPACING.XL.size,
+                          color: context.isLightTheme
+                              ? (isSelected ? kWhiteColor : kPrimaryLightColor)
+                              : (isSelected
+                                  ? kWhiteColor
+                                  : kSecondaryLightColor))),
+                  Text(dayInWeeks,
+                      style: TextStyle(
+                        fontSize: SPACING.M.size,
+                        fontWeight: FontWeight.bold,
+                      ))
+                ],
+              ),
+            ),
           ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Text(month,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: SPACING.M.size,
-                  )),
-              Text(day,
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: SPACING.XL.size,
-                      color: context.isLightTheme
-                          ? (isSelected ? kWhiteColor : kPrimaryLightColor)
-                          : (isSelected ? kWhiteColor : kSecondaryLightColor))),
-              Text(dayInWeeks,
-                  style: TextStyle(
-                    fontSize: SPACING.M.size,
-                    fontWeight: FontWeight.bold,
-                  ))
-            ],
-          ),
-        ),
+          numberJob != 0
+              ? Align(
+                  alignment: Alignment.topRight,
+                  child: CircleAvatar(
+                    radius: 12,
+                    backgroundColor: kErrorColor,
+                    child: Text(
+                      '$numberJob',
+                      style: const TextStyle(
+                        color: kWhiteColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                )
+              : const SizedBox(),
+        ],
       ),
     );
   }

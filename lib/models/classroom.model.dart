@@ -23,8 +23,8 @@ class Classroom {
 
     return Classroom(
       name: json['name'],
-      creatorId: json['creatorId'],
-      id: json['id'] ?? json['_id'],
+      creatorId: json['creatorId'] ?? '',
+      id: json['id'] ?? json['_id'] ?? '',
       exams: exams,
       members: members,
     );

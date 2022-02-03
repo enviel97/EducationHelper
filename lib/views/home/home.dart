@@ -2,11 +2,19 @@ import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/helpers/extensions/state.x.dart';
 import 'package:education_helper/helpers/widgets/circle_animation.dart';
 import 'package:education_helper/helpers/widgets/scroller_grow_disable.dart';
+import 'package:education_helper/models/user.model.dart';
 import 'package:education_helper/roots/app_root.dart';
+import 'package:education_helper/roots/bloc/app_bloc.dart';
+import 'package:education_helper/roots/bloc/app_state.dart';
+import 'package:education_helper/views/exam/bloc/exam_bloc.dart';
 import 'package:education_helper/views/home/adapters/home.adapter.dart';
 import 'package:education_helper/views/home/bloc/classrooms/classroom.bloc.dart';
+import 'package:education_helper/views/home/bloc/topics/topic.bloc.dart';
 import 'package:education_helper/views/home/pages/topic_collection/topic_collection.dart';
 import 'package:education_helper/views/home/widgets/circle_floating_action_button/menu_button.dart';
+import 'package:education_helper/views/topic/pages/topic_form/pages/topic_selected_classroom.dart';
+import 'package:education_helper/views/widgets/button/custom_icon_button.dart';
+import 'package:education_helper/views/widgets/button/custom_text_button.dart';
 import 'package:education_helper/views/widgets/header/appbar_bottom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,17 +33,14 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  late List<DateTime> expirDate;
   final dtControll = DatePickerTimelineControler();
   final mnController = MenuController();
+  late User user;
 
   @override
   void initState() {
     super.initState();
-    expirDate = [
-      DateTime.now().add(const Duration(days: 7)),
-      DateTime.now().add(const Duration(days: 22))
-    ];
+    BlocProvider.of<AppBloc>(context).getUser();
   }
 
   @override
@@ -53,14 +58,8 @@ class _HomeState extends State<Home> {
             title: const Text('HOME'),
             elevation: 0.0,
             bottom: AppbarBottom(
-              height: 165.0,
-              child: DatePickerTimeLine(
-                controler: dtControll,
-                onDateChange: dtControll.animateToDate,
-                note: expirDate,
-                initialSelectedDate: DateTime.now(),
-                startDate: DateTime.now().subtract(const Duration(days: 7)),
-              ),
+              height: 210.0,
+              child: _buildAppBarChild,
             )),
         body: SafeArea(
           child: SizedBox(
@@ -107,16 +106,49 @@ class _HomeState extends State<Home> {
     );
   }
 
+  Widget get _buildAppBarChild {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        SizedBox(
+            height: 50.0,
+            width: 85.0,
+            child: Wrap(children: [
+              KIconButton(
+                  icon: const Icon(Icons.calendar_today, size: 20.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  onPressed: () => dtControll.animateToDate(DateTime.now()),
+                  text: 'Now')
+            ])),
+        Expanded(
+            child: BlocBuilder<AppBloc, AppState>(builder: (context, state) {
+          List<DateTime> expiredDate = [];
+          if (state is UserStateSuccess) {
+            expiredDate = state.user.exams.map((e) => e.expiredDate).toList();
+          }
+          return DatePickerTimeLine(
+              controler: dtControll,
+              onDateChange: dtControll.animateToDate,
+              note: expiredDate,
+              initialSelectedDate: DateTime.now(),
+              startDate: DateTime.now().subtract(const Duration(days: 7)));
+        }))
+      ],
+    );
+  }
+
   Future<void> gotoClassList() async {
     final isNeedRefresh = await Home.adapter.goToClassroom(context);
     if (isNeedRefresh) BlocProvider.of<ClassroomsBloc>(context).refresh();
   }
 
-  void gotoExams() {
-    Home.adapter.goToExams(context);
+  Future<void> gotoExams() async {
+    final isNeedRefresh = await Home.adapter.goToExams(context);
+    if (isNeedRefresh) BlocProvider.of<ExamBloc>(context).refresh();
   }
 
-  void goTopic() {
-    Home.adapter.goToTopics(context);
+  Future<void> goTopic() async {
+    final isNeedRefresh = await Home.adapter.goToTopics(context);
+    if (isNeedRefresh) BlocProvider.of<TopicBloc>(context).refresh();
   }
 }
