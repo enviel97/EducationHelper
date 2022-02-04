@@ -32,10 +32,6 @@ class _TopicListState extends State<TopicList> {
     return Expanded(
       child: BlocConsumer<TopicBloc, TopicState>(
         listener: (context, state) {
-          if (state is TopicFailure) {
-            BlocProvider.of<AppBloc>(context)
-                .showError(context, state.error.mess);
-          }
           if (state is TopicsLoaded) {
             setState(() => topics = state.topics);
           }

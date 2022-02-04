@@ -12,7 +12,6 @@ class ListBuilder<T> extends StatelessWidget {
   final ScrollBehavior? scrollBehavior;
   final Future<void> Function()? onRefresh;
   final EdgeInsets margin;
-  final Widget? endOfList;
 
   const ListBuilder({
     required this.datas,
@@ -27,7 +26,6 @@ class ListBuilder<T> extends StatelessWidget {
     this.scrollBehavior,
     this.margin = const EdgeInsets.all(0.0),
     this.onRefresh,
-    this.endOfList,
   }) : super(key: key);
 
   @override
@@ -51,24 +49,10 @@ class ListBuilder<T> extends StatelessWidget {
         onRefresh: () async {
           await onRefresh!();
         },
-        child: _listViewMoreButton,
+        child: _listView,
       );
     }
-    return _listViewMoreButton;
-  }
-
-  Widget get _listViewMoreButton {
-    // if (endOfList != null) {
-    if (endOfList != null) {
-      switch (scrollDirection) {
-        case Axis.horizontal:
-          return Row(children: [Flexible(child: _listView), endOfList!]);
-        case Axis.vertical:
-          return Column(children: [Flexible(child: _listView), endOfList!]);
-      }
-    }
     return _listView;
-    // }
   }
 
   Widget get _listView {

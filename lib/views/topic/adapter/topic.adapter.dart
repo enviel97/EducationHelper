@@ -36,7 +36,12 @@ class TopicAdapter extends IAdapter {
   }
 
   void gotoAddForm(BuildContext context) {
-    context.goTo(const TopicForm());
+    context.goTo(
+      BlocProvider.value(
+        value: BlocProvider.of<TopicBloc>(context),
+        child: const TopicForm(),
+      ),
+    );
   }
 
   Future<bool> gotoExams(BuildContext context) async {

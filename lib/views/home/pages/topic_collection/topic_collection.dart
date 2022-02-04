@@ -71,23 +71,14 @@ class _TopicCollectionState extends State<TopicCollection> {
             }
 
             return ListBuilder<Topic>(
-                datas: topics,
-                shirinkWrap: true,
-                emptyList: TopicEmpty(onPressed: _morePressed),
-                scrollDirection: Axis.horizontal,
-                scrollBehavior: NormalScollBehavior(),
-                margin: const EdgeInsets.symmetric(horizontal: 10.0),
-                itemBuilder: _itemTopics,
-                endOfList: GestureDetector(
-                    onTap: _morePressed,
-                    child: Container(
-                        height: 300,
-                        color: kPlacehoderSuperDarkColor.withOpacity(.6),
-                        padding: const EdgeInsets.symmetric(horizontal: 55.5),
-                        child: const CircleAvatar(
-                            radius: 32.0,
-                            backgroundColor: kPrimaryColor,
-                            child: Icon(Icons.more_horiz_rounded)))));
+              datas: topics,
+              shirinkWrap: true,
+              emptyList: TopicEmpty(onPressed: _morePressed),
+              scrollDirection: Axis.horizontal,
+              scrollBehavior: NormalScollBehavior(),
+              margin: const EdgeInsets.symmetric(horizontal: 10.0),
+              itemBuilder: _itemTopics,
+            );
           }))
         ]));
   }
@@ -98,16 +89,14 @@ class _TopicCollectionState extends State<TopicCollection> {
   }
 
   Widget _itemTopics(Topic topic) {
-    final ansSuccess =
-        topic.answers.where((ans) => ans.status == StatusAnswer.submit).length;
-    final ansMiss =
-        topic.answers.where((ans) => ans.status == StatusAnswer.lated).length;
-    final ansLate = topic.answers.length - ansSuccess - ansMiss;
+    final ansSuccess = topic.success;
+    final ansLate = topic.lated;
+    final ansMiss = topic.missing;
     final type = topic.exam.content.name.split('/').first;
     return TopicItem(
       type: type.split('-').first,
-      examsName: topic.exam.content.originName,
-      members: topic.classroom.members.length,
+      examsName: topic.name,
+      members: topic.totalMembers,
       expiredDate: topic.expiredDate,
       ansSuccess: ansSuccess,
       ansMiss: ansMiss,

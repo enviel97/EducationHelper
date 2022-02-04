@@ -1,3 +1,5 @@
+import 'package:equatable/equatable.dart';
+
 const token = 'token';
 const plus = '➕';
 
@@ -20,7 +22,7 @@ class Helper {
       };
 }
 
-class Messenger {
+class Messenger extends Equatable {
   final String mess;
   const Messenger(this.mess);
 
@@ -28,4 +30,7 @@ class Messenger {
   String toString() {
     return mess;
   }
+
+  @override
+  List<Object?> get props => [mess];
 }

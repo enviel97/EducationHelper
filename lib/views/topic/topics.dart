@@ -49,7 +49,7 @@ class _TopicsState extends State<Topics> {
               );
             }
             if (state is TopicChanged) {
-              isNeedRefresh = true;
+              setState(() => isNeedRefresh = true);
             }
           },
           child: Column(
