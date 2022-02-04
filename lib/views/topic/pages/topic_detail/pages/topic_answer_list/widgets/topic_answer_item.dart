@@ -3,22 +3,25 @@ import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:education_helper/helpers/extensions/string_x.dart';
 import 'package:education_helper/models/members.model.dart';
 import 'package:education_helper/models/topic.model.dart';
-import 'package:education_helper/views/topic/pages/topic_detail/widgets/answer_grade.dart';
 import 'package:education_helper/views/topic/topics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+
+import 'answer_grade.dart';
 
 class TopicAnswerItem extends StatelessWidget {
   final Member member;
   final StatusAnswer? status;
   final double? grade;
   final String idAnswer;
+  final bool isDisable;
   const TopicAnswerItem({
     required this.member,
     required this.idAnswer,
     this.status,
     this.grade,
     Key? key,
+    this.isDisable = false,
   }) : super(key: key);
 
   Widget _nullableText(String value) {
@@ -28,17 +31,21 @@ class TopicAnswerItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final color =
+        context.isLightTheme ? kSecondarySuperDarkColor : kSecondaryDarkColor;
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: context.isLightTheme
-            ? kSecondarySuperDarkColor
-            : kSecondaryDarkColor,
-        borderRadius: const BorderRadius.all(Radius.circular(25.0)),
-      ),
+          color: color,
+          borderRadius: const BorderRadius.all(Radius.circular(25.0)),
+          boxShadow: [
+            const BoxShadow(
+              color: kPrimaryColor,
+              offset: Offset(0.0, 4.0),
+              blurRadius: 5.0,
+            ),
+          ]),
       child: ListTile(
-        onTap: status == StatusAnswer.empty
-            ? null
-            : () => Topics.adapter.goToAnswer(context, idAnswer),
+        onTap: isDisable ? null : () => _goToGraded(context),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16.0,
           vertical: 10.0,
@@ -82,5 +89,10 @@ class TopicAnswerItem extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _goToGraded(BuildContext context) async {
+    final isNeedRefresh = await Topics.adapter.goToAnswer(context, idAnswer);
+    if (isNeedRefresh) {}
   }
 }

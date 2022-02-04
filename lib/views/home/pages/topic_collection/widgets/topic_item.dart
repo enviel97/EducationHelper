@@ -1,7 +1,6 @@
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/helpers/extensions/datetime_x.dart';
-import 'package:education_helper/views/home/home.dart';
 import 'package:education_helper/views/topic/typings/color_schema.dart';
 import 'package:flutter/material.dart';
 

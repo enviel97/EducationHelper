@@ -22,13 +22,13 @@ extension _StatusAnswer on StatusAnswer {
 class Answer extends Equatable {
   final String id;
   final StatusAnswer status;
-  final double? grade;
+  final double grade;
   final String memberId;
 
   const Answer({
     required this.status,
     this.memberId = '',
-    this.grade,
+    this.grade = 0.0,
     this.id = '',
   });
 
@@ -42,7 +42,7 @@ class Answer extends Equatable {
   static Answer fromJson(dynamic json) {
     return Answer(
       id: json['id'] ?? json['_id'] ?? '',
-      status: _StatusAnswer.value(json['json']),
+      status: _StatusAnswer.value(json['status'] ?? 'empty'),
       grade: json['grade'] ?? 0.0,
     );
   }
@@ -51,14 +51,16 @@ class Answer extends Equatable {
     final faker = Faker();
     final status = StatusAnswer.values[faker.randomGenerator.integer(99) % 3];
     return Answer(
-      memberId: id ?? 'uuid-${DateTimeX.ctime}',
-      status: status,
-      grade: status == StatusAnswer.empty
-          ? 0.0
-          : faker.randomGenerator.boolean()
-              ? faker.randomGenerator.integer(100) / 10
-              : null,
-    );
+        memberId: id ?? 'uuid-${DateTimeX.ctime}',
+        status: status,
+        grade: status == StatusAnswer.empty
+            ? 0.0
+            : faker.randomGenerator.integer(100) / 10);
+  }
+
+  @override
+  String toString() {
+    return '[$status, $grade, $memberId]\n';
   }
 
   @override

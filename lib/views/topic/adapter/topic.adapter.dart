@@ -3,10 +3,13 @@ import 'package:education_helper/roots/app_root.dart';
 import 'package:education_helper/roots/parts/adapter.dart';
 import 'package:education_helper/views/classrooms/adapter/classroom.adapter.dart';
 import 'package:education_helper/views/exam/adapter/exam.adapter.dart';
+import 'package:education_helper/views/topic/blocs/member/topic_members_bloc.dart';
+import 'package:education_helper/views/topic/blocs/topic/topic_bloc.dart';
 import 'package:education_helper/views/topic/pages/topic_detail/topic_detail.dart';
 import 'package:education_helper/views/topic/pages/topic_form/topic_form.dart';
 import 'package:education_helper/views/topic/topics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TopicAdapter extends IAdapter {
   static final TopicAdapter _ins = TopicAdapter._internal();
@@ -26,7 +29,10 @@ class TopicAdapter extends IAdapter {
 
   @override
   Widget layout({Map<String, dynamic>? params}) {
-    return const Topics();
+    return BlocProvider(
+      create: (context) => TopicBloc(),
+      child: const Topics(),
+    );
   }
 
   void gotoAddForm(BuildContext context) {
@@ -68,7 +74,15 @@ class TopicAdapter extends IAdapter {
     BuildContext context,
     String idTopic,
   ) async {
-    final isNeedRefresh = await context.goTo<bool?>(TopicDetail(id: idTopic));
+    final isNeedRefresh = await context.goTo<bool?>(
+      MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => TopicBloc()),
+          BlocProvider(create: (context) => TopicMembersBloc()),
+        ],
+        child: TopicDetail(id: idTopic),
+      ),
+    );
 
     return isNeedRefresh ?? false;
   }

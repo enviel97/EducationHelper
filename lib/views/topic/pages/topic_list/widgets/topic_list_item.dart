@@ -55,7 +55,7 @@ class TopicListItem extends StatelessWidget {
                           fontSize: SPACING.M.size),
                       children: [
                         TextSpan(
-                            text: '${topic.members}',
+                            text: '${topic.totalMembers}',
                             style:
                                 const TextStyle(fontWeight: FontWeight.normal))
                       ])))

@@ -7,9 +7,8 @@ import 'package:flutter/material.dart';
 class _Query {
   String text;
   StatusAnswer? status;
-  bool isGrade;
 
-  _Query({this.text = '', this.status, this.isGrade = false});
+  _Query({this.text = '', this.status});
 }
 
 class GroupByStatus {
@@ -17,9 +16,33 @@ class GroupByStatus {
   static Map<String, dynamic> _answerGroup = {};
   static final _query = _Query();
 
-  GroupByStatus(List<Member> _members, Map<String, dynamic> _answerGroup) {
-    GroupByStatus._members = _members;
-    GroupByStatus._answerGroup = _answerGroup;
+  GroupByStatus(List<Member> members, List<Answer> answers) {
+    _members = members;
+    _groupAnswer(members, answers);
+    //  GroupByStatus._answerGroup = _answerGroup;
+  }
+
+  void _groupAnswer(List<Member> members, List<Answer> answers) {
+    _answerGroup = {
+      for (final member in members)
+        member.uid: {'status': StatusAnswer.empty, 'grade': 0.0, 'id': ''}
+    };
+    if (answers.isEmpty) return;
+    _answerGroup = _answerGroup.map((key, value) {
+      final iAns = answers.indexWhere((ans) => ans.id == key);
+      if (iAns > -1) {
+        final anss = answers[iAns];
+        return MapEntry(
+          key,
+          {
+            'status': anss.status,
+            'grade': anss.grade,
+            'id': anss.id,
+          },
+        );
+      }
+      return MapEntry(key, value);
+    });
   }
 
   void dispose() {
@@ -29,49 +52,16 @@ class GroupByStatus {
   final _controller = StreamController<_Query>.broadcast();
   Stream<List<Member>> get stream => _controller.stream.transform(_searchText);
   final _searchText = StreamTransformer<_Query, List<Member>>.fromHandlers(
-    handleData: (data, sink) {
-      try {
-        List<Member> members = _members;
-
-        if (data.text.isNotEmpty) {
-          members = [
-            ...members.where((mem) => '${mem.lastName} ${mem.firstName}'
-                .toLowerCase()
-                .contains(data.text.toLowerCase()))
-          ];
-        }
-
-        if (data.status != null) {
-          members = [
-            ...members
-                .where((mem) => _answerGroup[mem.uid]['status'] == data.status),
-            ...members
-                .where((mem) => _answerGroup[mem.uid]['status'] != data.status),
-          ];
-        }
-
-        if (data.isGrade) {
-          members = [
-            ...members.where((mem) => _answerGroup[mem.uid]['grade'] != null),
-            ...members.where((mem) => _answerGroup[mem.uid]['grade'] == null),
-          ];
-        } else {
-          members = [
-            ...members.where((mem) => _answerGroup[mem.uid]['grade'] == null),
-            ...members.where((mem) => _answerGroup[mem.uid]['grade'] != null),
-          ];
-        }
-
-        sink.add(members);
-      } catch (e) {
-        debugPrint(e.toString());
-        sink.addError('Sorted Error');
-      }
-    },
+    handleData: _transDate,
   );
 
   void sorted(StatusAnswer? status) {
     GroupByStatus._query.status = status;
+    _controller.sink.add(GroupByStatus._query);
+  }
+
+  void gradeing(String idMember, double grade) {
+    _answerGroup[idMember]['grade'] = grade;
     _controller.sink.add(GroupByStatus._query);
   }
 
@@ -80,8 +70,40 @@ class GroupByStatus {
     _controller.sink.add(GroupByStatus._query);
   }
 
-  void grade(bool isGrade) {
-    GroupByStatus._query.isGrade = isGrade;
-    _controller.sink.add(GroupByStatus._query);
+  static _buildMembers(List<Member> members, bool Function(Member) test) {
+    return members.where(test).toList()
+      ..sort((a, b) {
+        final rule1 = a.firstName.compareTo(b.firstName);
+        if (rule1 == 0) {
+          return a.lastName.compareTo(b.lastName);
+        }
+        return rule1;
+      });
+  }
+
+  static void _transDate(_Query data, EventSink<List<Member>> sink) {
+    try {
+      List<Member> members = _members;
+
+      if (data.text.isNotEmpty) {
+        members = [
+          ...members.where((mem) => '${mem.lastName} ${mem.firstName}'
+              .toLowerCase()
+              .contains(data.text.toLowerCase()))
+        ];
+      }
+
+      members = [
+        ..._buildMembers(
+            members, (mem) => _answerGroup[mem.uid]['status'] == data.status),
+        ..._buildMembers(
+            members, (mem) => _answerGroup[mem.uid]['status'] != data.status)
+      ];
+
+      sink.add(members);
+    } catch (e) {
+      debugPrint(e.toString());
+      sink.addError('Sorted Error');
+    }
   }
 }

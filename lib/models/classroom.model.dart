@@ -21,7 +21,7 @@ class Classroom extends Equatable {
     final members = List<dynamic>.from(json['members'] ?? []);
 
     return Classroom(
-      name: json['name'],
+      name: json['name'] ?? '',
       creatorId: json['creatorId'] ?? '',
       id: json['id'] ?? json['_id'] ?? '',
       exams: exams,

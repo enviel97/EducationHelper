@@ -9,11 +9,11 @@ class AnswerStatusChip extends StatelessWidget {
   final StatusAnswer type;
   final int quantiy;
   final bool isSelected;
-  final void Function(StatusAnswer type) onSorted;
+  final void Function(StatusAnswer type)? onSorted;
   const AnswerStatusChip({
     required this.type,
     required this.quantiy,
-    required this.onSorted,
+    this.onSorted,
     Key? key,
     this.isSelected = false,
   }) : super(key: key);
@@ -33,7 +33,7 @@ class AnswerStatusChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return ActionChip(
       tooltip: type.name,
-      onPressed: () => onSorted(type),
+      onPressed: () => onSorted == null ? null : onSorted!(type),
       labelPadding: const EdgeInsets.all(5.0),
       avatar: CircleAvatar(
         backgroundColor: color,
