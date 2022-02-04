@@ -60,7 +60,7 @@ class ExamListTile extends StatelessWidget {
           ),
         ),
         title: Text(
-          data.name.split('.').first,
+          data.name,
           style: TextStyle(
             color: isSelected ? kSecondaryLightColor : kPrimaryColor,
             fontWeight: FontWeight.bold,

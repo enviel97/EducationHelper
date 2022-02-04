@@ -1,6 +1,8 @@
 import 'package:education_helper/helpers/extensions/datetime_x.dart';
+import 'package:education_helper/helpers/extensions/map_x.dart';
 import 'package:education_helper/helpers/ultils/funtions.dart';
 import 'package:education_helper/models/members.model.dart';
+import 'package:equatable/equatable.dart';
 import 'package:faker/faker.dart';
 
 import 'exam.model.dart';
@@ -17,7 +19,7 @@ extension _StatusAnswer on StatusAnswer {
   }
 }
 
-class Answer {
+class Answer extends Equatable {
   final String id;
   final StatusAnswer status;
   final double? grade;
@@ -58,9 +60,12 @@ class Answer {
               : null,
     );
   }
+
+  @override
+  List<Object?> get props => [status, memberId, grade, id];
 }
 
-class Topic {
+class Topic extends Equatable {
   final String id;
   final Classroom classroom;
   final Exam exam;
@@ -79,22 +84,27 @@ class Topic {
     this.note,
   });
 
-  Map<String, dynamic> get toJson {
-    return {
-      'classId': classroom.id,
-      'examId': exam.id,
-      'expiredDate': expiredDate.toIso8601String(),
-      'answers': answers,
-    };
-  }
+  static Map<String, dynamic> toRequest({
+    DateTime? expiredDate,
+    String? note,
+    String classroomId = '',
+    String examId = '',
+  }) =>
+      {
+        'classroomId': classroomId,
+        'examId': examId,
+        'expiredDate': expiredDate?.toIso8601String(),
+        'note': note ?? '',
+        'answers': []
+      }.filterNull();
 
   static Topic fromJson(dynamic json) {
-    final answers = mapToList<Answer>(json['answers'], Answer.fromJson);
-
     final expiredDate = DateTime.tryParse(json['expiredDate']);
     final createAt = DateTime.tryParse(json['createdAt']);
-
+    final answers = mapToList<Answer>(json['answers'], Answer.fromJson);
     return Topic(
+      id: json['id'] ?? json['_id'] ?? '',
+      note: json['note'] ?? '',
       classroom: Classroom.fromJson(json['classroom']),
       exam: Exam.fromJson(json['exam']),
       expiredDate: expiredDate ?? DateTimeX.empty,
@@ -103,13 +113,13 @@ class Topic {
     );
   }
 
-  int get members => classroom.members.length;
+// List<Member> get members => mapToList(classroom.members, Member.fromJson)
+  int get totalMembers => classroom.members.length;
   int get success =>
       answers.where((ans) => ans.status == StatusAnswer.submit).length;
-  int get missing =>
-      answers.where((ans) => ans.status == StatusAnswer.empty).length;
   int get lated =>
       answers.where((ans) => ans.status == StatusAnswer.lated).length;
+  int get missing => totalMembers - success - lated;
 
   String get type => exam.type;
   String get name => exam.name;
@@ -135,4 +145,8 @@ class Topic {
       note: lorem,
     );
   }
+
+  @override
+  List<Object?> get props =>
+      [classroom, exam, expiredDate, createDate, answers];
 }

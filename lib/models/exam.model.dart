@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:education_helper/helpers/extensions/datetime_x.dart';
 import 'package:education_helper/helpers/extensions/map_x.dart';
-import 'package:education_helper/helpers/ultils/funtions.dart';
+import 'package:equatable/equatable.dart';
 import 'package:faker/faker.dart';
 
 enum ExamType { quiz, essay }
@@ -15,47 +15,48 @@ extension _ExamType on ExamType {
         .first;
   }
 }
+// Update: allow read pdf type quiz
+// class Point {
+//   final double x;
+//   final double y;
 
-class Point {
-  final double x;
-  final double y;
+//   Point(this.x, this.y);
 
-  Point(this.x, this.y);
+//   static Point fromJson(dynamic json) {
+//     return Point(json['x'] ?? 0.0, json['y'] ?? 0.0);
+//   }
 
-  static Point fromJson(dynamic json) {
-    return Point(json['x'] ?? 0.0, json['y'] ?? 0.0);
-  }
+//   Map<String, dynamic> toJson() => {
+//         'x': x,
+//         'y': y,
+//       };
+// }
 
-  Map<String, dynamic> toJson() => {
-        'x': x,
-        'y': y,
-      };
-}
+// Update: allow read pdf type quiz
+// class Quest {
+//   final Point ask;
+//   final List<Point> answer;
 
-class Quest {
-  final Point ask;
-  final List<Point> answer;
+//   Quest(this.ask, this.answer);
 
-  Quest(this.ask, this.answer);
+//   static Quest fromJson(dynamic json) {
+//     final answer = mapToList<Point>(json['answer'], Point.fromJson);
 
-  static Quest fromJson(dynamic json) {
-    final answer = mapToList<Point>(json['answer'], Point.fromJson);
+//     return Quest(Point.fromJson(json['ask']), answer);
+//   }
 
-    return Quest(Point.fromJson(json['ask']), answer);
-  }
+//   Map<String, dynamic> toJson() => {
+//         'ask': ask,
+//         'answer': answer,
+//       };
+// }
 
-  Map<String, dynamic> toJson() => {
-        'ask': ask,
-        'answer': answer,
-      };
-}
-
-class Content {
+class Content extends Equatable {
   final String name;
   final String originName;
   final String download;
   final String public;
-  final List<Quest>? offset;
+  final List<dynamic>? offset;
 
   const Content({
     required this.name,
@@ -77,7 +78,7 @@ class Content {
   }
 
   static Content fromJson(dynamic json) {
-    final offset = mapToList<Quest>(json['answer'], Quest.fromJson);
+    final offset = [];
     return Content(
       name: json['name'] ?? '',
       originName: json['originName'] ?? '',
@@ -86,14 +87,6 @@ class Content {
       offset: offset,
     );
   }
-
-  Map<String, dynamic> toJson() => {
-        'name': name,
-        'originName': originName,
-        'download': download,
-        'public': public,
-        'offset': offset,
-      };
 
   static Content faker(String subject) {
     final faker = Faker();
@@ -115,9 +108,12 @@ class Content {
       public: content,
     );
   }
+
+  @override
+  List<Object?> get props => [name, originName, download, public, offset];
 }
 
-class Exam {
+class Exam extends Equatable {
   final String id;
   final String creatorId;
   final String subject;
@@ -156,7 +152,7 @@ class Exam {
   }
 
   String get type => content.type;
-  String get name => content.originName;
+  String get name => content.originName.split('.').first;
   factory Exam.faker() {
     final faker = Faker();
     final subject = faker.sport.name();
@@ -166,4 +162,7 @@ class Exam {
       content: Content.faker(subject),
     );
   }
+
+  @override
+  List<Object?> get props => [subject, content, examType, creatorId, id];
 }

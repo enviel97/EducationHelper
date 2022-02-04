@@ -34,7 +34,7 @@ class Member {
     );
   }
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> get toJson => {
         'firstName': firstName,
         'lastName': lastName,
         'gender': gender,

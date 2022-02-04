@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:faker/faker.dart';
 
-class Classroom {
+class Classroom extends Equatable {
   final String id;
   final String creatorId;
   final String name;
@@ -14,8 +15,6 @@ class Classroom {
     this.creatorId = '',
     this.id = '',
   });
-
-  Map<String, dynamic> toJson() => {'name': name};
 
   static Classroom fromJson(dynamic json) {
     final exams = List<String>.from(json['exams'] ?? []);
@@ -35,4 +34,7 @@ class Classroom {
 
     return Classroom(name: faker.job.title(), members: [], exams: []);
   }
+
+  @override
+  List<Object?> get props => [name, members, exams, creatorId, id];
 }

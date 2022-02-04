@@ -11,13 +11,6 @@ class _Exams {
     required this.expiredDate,
   });
 
-  Map<String, dynamic> get toJson {
-    return {
-      'id': id,
-      'expiredDate': expiredDate,
-    };
-  }
-
   static _Exams fronJson(dynamic json) {
     final expiredDate = DateTime.tryParse(json['expiredDate']);
     if (expiredDate == null) {

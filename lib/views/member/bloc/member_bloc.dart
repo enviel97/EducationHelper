@@ -55,7 +55,7 @@ class MemberBloc extends Cubit<MemberState> {
   Future<void> addMember(Member vMember) async {
     return await _structure(() async {
       final result = await _restApi
-          .put('/members/create/$idClassrooms', vMember.toJson().filterNull())
+          .put('/members/create/$idClassrooms', vMember.toJson.filterNull())
           .catchError((err) {
         emit(MemberFailureState(err['error']));
         return null;
@@ -71,7 +71,7 @@ class MemberBloc extends Cubit<MemberState> {
   Future<void> editMember(Member member) async {
     return await _structure(() async {
       final result = await _restApi
-          .put('/members/update/${member.uid}', member.toJson().filterNull())
+          .put('/members/update/${member.uid}', member.toJson.filterNull())
           .catchError((err) {
         emit(MemberFailureState(err['error']));
         return null;
