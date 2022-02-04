@@ -6,9 +6,9 @@ import 'package:education_helper/models/user.model.dart';
 import 'package:education_helper/roots/app_root.dart';
 import 'package:education_helper/roots/bloc/app_bloc.dart';
 import 'package:education_helper/roots/bloc/app_state.dart';
-import 'package:education_helper/views/exam/bloc/exam_bloc.dart';
 import 'package:education_helper/views/home/adapters/home.adapter.dart';
 import 'package:education_helper/views/home/bloc/classrooms/classroom.bloc.dart';
+import 'package:education_helper/views/home/bloc/exams/exam.bloc.dart';
 import 'package:education_helper/views/home/bloc/topics/topic.bloc.dart';
 import 'package:education_helper/views/home/pages/topic_collection/topic_collection.dart';
 import 'package:education_helper/views/home/widgets/circle_floating_action_button/menu_button.dart';
@@ -142,11 +142,17 @@ class _HomeState extends State<Home> {
 
   Future<void> gotoExams() async {
     final isNeedRefresh = await Home.adapter.goToExams(context);
-    if (isNeedRefresh) BlocProvider.of<ExamBloc>(context).refresh();
+    if (isNeedRefresh) BlocProvider.of<ExamsBloc>(context).refresh();
   }
 
   Future<void> goTopic() async {
     final isNeedRefresh = await Home.adapter.goToTopics(context);
-    if (isNeedRefresh) BlocProvider.of<TopicBloc>(context).refresh();
+    if (isNeedRefresh) {
+      Future.wait([
+        BlocProvider.of<TopicBloc>(context).refresh(),
+        BlocProvider.of<AppBloc>(context).refreshUser(),
+        BlocProvider.of<ClassroomsBloc>(context).refresh()
+      ]);
+    }
   }
 }

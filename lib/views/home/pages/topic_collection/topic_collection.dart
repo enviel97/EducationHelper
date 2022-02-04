@@ -92,9 +92,8 @@ class _TopicCollectionState extends State<TopicCollection> {
     final ansSuccess = topic.success;
     final ansLate = topic.lated;
     final ansMiss = topic.missing;
-    final type = topic.exam.content.name.split('/').first;
     return TopicItem(
-      type: type.split('-').first,
+      type: topic.type,
       examsName: topic.name,
       members: topic.totalMembers,
       expiredDate: topic.expiredDate,

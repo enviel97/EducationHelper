@@ -51,7 +51,7 @@ class ExamContent extends StatelessWidget {
                     color: kWhiteColor,
                     borderRadius: BorderRadius.circular(20.0)),
                 child: Text(
-                  '.${filePath.split('-').first}',
+                  '.${filePath.split('.').last}',
                   style: const TextStyle(
                     fontSize: 60.0,
                     color: kBlackColor,
