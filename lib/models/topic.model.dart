@@ -107,8 +107,11 @@ class Topic extends Equatable {
     return Topic(
       id: json['id'] ?? json['_id'] ?? '',
       note: json['note'] ?? '',
-      classroom: Classroom.fromJson(json['classroom']),
-      exam: Exam.fromJson(json['exam']),
+      classroom: Classroom.fromJson(json['classroom'] is String
+          ? {'id': json['classroom']}
+          : json['classroom']),
+      exam: Exam.fromJson(
+          json['exam'] is String ? {'id': json['exam']} : json['exam']),
       expiredDate: expiredDate ?? DateTimeX.empty,
       createDate: createAt ?? DateTimeX.empty,
       answers: answers,

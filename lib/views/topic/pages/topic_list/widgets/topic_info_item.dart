@@ -42,17 +42,23 @@ class TopicInfoItem extends StatelessWidget {
 
   Widget _buildInfoRow(String label, String value) {
     return Align(
-        alignment: Alignment.centerRight,
-        child: Text.rich(TextSpan(
-            text: label,
-            style: TextStyle(
-                color: kWhiteColor,
-                fontWeight: FontWeight.bold,
-                fontSize: SPACING.M.size),
-            children: [
-              TextSpan(
-                  text: value,
-                  style: const TextStyle(fontWeight: FontWeight.normal))
-            ])));
+      alignment: Alignment.centerRight,
+      child: Text.rich(
+        TextSpan(
+          text: label,
+          style: TextStyle(
+            color: kWhiteColor,
+            fontWeight: FontWeight.bold,
+            fontSize: SPACING.M.size,
+          ),
+          children: [
+            TextSpan(
+              text: value,
+              style: const TextStyle(fontWeight: FontWeight.normal),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

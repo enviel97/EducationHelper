@@ -1,4 +1,3 @@
-import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:education_helper/models/topic.model.dart';
 import 'package:education_helper/views/topic/blocs/topic/topic_bloc.dart';
 import 'package:education_helper/views/topic/blocs/topic/topic_state.dart';
@@ -6,7 +5,6 @@ import 'package:education_helper/views/widgets/list/list_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../topics.dart';
 import 'pages/topic_list_empty.dart';
 import 'pages/topic_list_item.dart';
 
@@ -36,7 +34,7 @@ class _TopicListState extends State<TopicList> {
           }
         },
         builder: (context, state) {
-          if (state is TopicLoading) {
+          if (state is TopicLoading && topics.isEmpty) {
             return const Center(child: CircularProgressIndicator());
           }
           return ListBuilder<Topic>(
@@ -49,24 +47,10 @@ class _TopicListState extends State<TopicList> {
             datas: topics,
             shirinkWrap: true,
             emptyList: const TopicListEmpty(),
-            itemBuilder: _itemBuilder,
+            itemBuilder: (data) => TopicListItem(topic: data),
           );
         },
       ),
-    );
-  }
-
-  Widget _itemBuilder(Topic data) {
-    return GestureDetector(
-      onTap: () async {
-        context.disableKeyBoard();
-        final isNeedRefresh =
-            await Topics.adapter.goToTopicDetail(context, data.id);
-        if (isNeedRefresh) {
-          BlocProvider.of<TopicBloc>(context).refresh();
-        }
-      },
-      child: TopicListItem(topic: data),
     );
   }
 }

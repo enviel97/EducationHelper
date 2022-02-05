@@ -1,7 +1,6 @@
 import 'package:education_helper/constants/constant.dart';
 import 'package:education_helper/helpers/ultils/funtions.dart';
 import 'package:education_helper/models/classroom.model.dart';
-import 'package:education_helper/models/members.model.dart';
 import 'package:education_helper/models/topic.model.dart';
 import 'package:education_helper/roots/miragate/http.dart';
 import 'package:education_helper/views/topic/blocs/member/topic_members_state.dart';

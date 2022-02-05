@@ -4,6 +4,7 @@ import 'package:education_helper/helpers/extensions/state.x.dart';
 import 'package:education_helper/helpers/widgets/scroller_grow_disable.dart';
 import 'package:education_helper/models/topic.model.dart';
 import 'package:education_helper/roots/bloc/app_bloc.dart';
+import 'package:education_helper/views/home/bloc/classrooms/classroom.bloc.dart';
 import 'package:education_helper/views/home/bloc/topics/topic.bloc.dart';
 import 'package:education_helper/views/home/bloc/topics/topic.state.dart';
 import 'package:education_helper/views/home/home.dart';
@@ -104,6 +105,10 @@ class _TopicCollectionState extends State<TopicCollection> {
   }
 
   Future<void> _refresh() async {
-    BlocProvider.of<TopicBloc>(context).refresh();
+    Future.wait([
+      BlocProvider.of<TopicBloc>(context).refresh(),
+      BlocProvider.of<AppBloc>(context).refreshUser(),
+      BlocProvider.of<ClassroomsBloc>(context).refresh()
+    ]);
   }
 }

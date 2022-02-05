@@ -66,7 +66,7 @@ class TopicBloc extends Cubit<TopicState> {
       });
       if (result == null) return;
       final _topic = Topic.fromJson(result);
-      _topics.push(_topic);
+      _topics.add(_topic);
       emit(TopicChanged(_topic));
       notificationChange();
     });
@@ -95,8 +95,12 @@ class TopicBloc extends Cubit<TopicState> {
       if (expiredDate == null && note == null) return;
       loading();
       final result = await _restApi
-          .post('$_path/update/$id',
-              Topic.toRequest(expiredDate: expiredDate, note: note))
+          .post(
+              '$_path/update/$id',
+              Topic.toRequest(
+                expiredDate: expiredDate,
+                note: note,
+              ))
           .catchError((err) {
         emit(TopicFailure(Messenger(err['error'])));
         return null;

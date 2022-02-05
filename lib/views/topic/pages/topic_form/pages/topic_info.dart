@@ -14,6 +14,7 @@ class TopicInfo extends StatefulWidget {
   final int hours;
   final int minutes;
   final DateTime? date;
+  final String note;
 
   const TopicInfo({
     required this.onChangeNote,
@@ -24,6 +25,7 @@ class TopicInfo extends StatefulWidget {
     this.hours = 12,
     this.minutes = 0,
     this.date,
+    this.note = '',
   }) : super(key: key);
 
   @override
@@ -68,6 +70,7 @@ class _TopicInfoState extends State<TopicInfo> {
           KDatePickerSearch(
             controller: _controller,
             minDate: DateTime.now(),
+            initDate: widget.date,
             hintText: 'Expired',
             formatDate: 'dd/MM/yyyy',
             onChange: _onDatePicker,
@@ -101,6 +104,7 @@ class _TopicInfoState extends State<TopicInfo> {
           Flexible(
             child: KMultiTextField(
               labelText: 'Note: ',
+              initValue: widget.note,
               onChange: widget.onChangeNote,
             ),
           )
