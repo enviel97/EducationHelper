@@ -133,8 +133,8 @@ class Exam extends Equatable {
       id: json['id'] ?? json['_id'] ?? '',
       creatorId: json['creatorId'] ?? '',
       subject: json['subject'] ?? '',
-      examType: _ExamType.value(json['examType']),
-      content: Content.fromJson(json['content']),
+      examType: _ExamType.value(json['examType'] ?? 'essay'),
+      content: Content.fromJson(json['content'] ?? {}),
     );
   }
 

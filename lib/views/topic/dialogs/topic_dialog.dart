@@ -12,6 +12,7 @@ const _raidus = BorderRadius.only(
 
 void editBottomSheet(
   BuildContext builder, {
+  required String id,
   required DateTime expired,
   String? note,
 }) {
@@ -32,12 +33,12 @@ void editBottomSheet(
     },
   ).then((value) {
     if (value is Map<String, dynamic>) {
-      final _expired =
-          expired == value['expiredDate'] ? null : value['expiredDate'];
       BlocProvider.of<TopicBloc>(builder).edit(
-        value['id'],
-        expiredDate: _expired,
-        note: value['note'],
+        id,
+        expiredDate: value['expiredDate'] == null
+            ? null
+            : DateTime.utc(value['expiredDate']),
+        note: value['note'] ?? '',
       );
     }
   });

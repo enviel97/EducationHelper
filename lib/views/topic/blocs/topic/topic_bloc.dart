@@ -1,5 +1,4 @@
 import 'package:education_helper/constants/constant.dart';
-import 'package:education_helper/helpers/extensions/list_x.dart';
 import 'package:education_helper/helpers/extensions/map_x.dart';
 import 'package:education_helper/helpers/ultils/funtions.dart';
 import 'package:education_helper/models/topic.model.dart';
@@ -79,7 +78,7 @@ class TopicBloc extends Cubit<TopicState> {
         return null;
       });
       if (result == null) return;
-      final _topic = Topic.fromJson(result);
+      final _topic = _topics.firstWhere((c) => c.id == id);
       _topics = _topics.where((c) => c.id != id).toList();
       emit(TopicChanged(_topic));
       notificationChange();
@@ -92,7 +91,6 @@ class TopicBloc extends Cubit<TopicState> {
     String? note,
   }) async {
     return await _structure(() async {
-      if (expiredDate == null && note == null) return;
       loading();
       final result = await _restApi
           .post(
@@ -106,17 +104,20 @@ class TopicBloc extends Cubit<TopicState> {
         return null;
       });
       if (result == null) return;
-      final _topic = Topic.fromJson(result);
-      emit(TopicChanged(_topic));
-      final index = _topics.indexWhere((c) => c.id == _topic.id);
+      final index = _topics.indexWhere((c) => c.id == id);
+
       if (index >= 0) {
+        final _topic = _topics[index];
+        emit(TopicChanged(_topic));
         _topics[index] = Topic(
-            classroom: _topic.classroom,
-            exam: _topic.exam,
-            expiredDate: expiredDate ?? _topic.expiredDate,
-            createDate: _topic.createDate,
-            note: note,
-            answers: _topic.answers);
+          id: _topic.id,
+          classroom: _topic.classroom,
+          exam: _topic.exam,
+          expiredDate: expiredDate ?? _topic.expiredDate,
+          createDate: _topic.createDate,
+          note: note,
+          answers: _topic.answers,
+        );
       }
       notificationChange();
     });

@@ -47,5 +47,5 @@ class TopicFailure extends TopicState {
   const TopicFailure(this.error);
 
   @override
-  List<Object?> get props => [error];
+  List<Object?> get props => [error.mess];
 }

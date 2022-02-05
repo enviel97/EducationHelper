@@ -48,46 +48,42 @@ class _TopicEditFormState extends State<TopicEditForm> {
       child: Container(
         height: context.mediaSize.height * 0.4,
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 25.0),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Text(
-            'Edit: ',
-            style: TextStyle(
-              color: kBlackColor,
-              fontSize: 20.0,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          SPACING.S.vertical,
-          _topicInfo(),
-          SPACING.S.vertical,
-          Row(
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              KTextButton(
-                width: 150.0,
-                onPressed: _confirm,
-                text: 'Edit',
+              const Text(
+                'Edit: ',
+                style: TextStyle(
+                  color: kBlackColor,
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-              KTextButton(
-                width: 150.0,
-                onPressed: Navigator.of(context).pop,
-                text: 'Cancel',
-                backgroudColor: kWhiteColor,
-                isOutline: true,
-              )
-            ],
-          ),
-        ]),
+              _topicInfo,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  KTextButton(
+                    width: 150.0,
+                    onPressed: _confirm,
+                    text: 'Edit',
+                  ),
+                  KTextButton(
+                    width: 150.0,
+                    onPressed: Navigator.of(context).pop,
+                    text: 'Cancel',
+                    backgroudColor: kWhiteColor,
+                    isOutline: true,
+                  )
+                ],
+              ),
+            ]),
       ),
     );
   }
 
-  void _onDatePicker(String date) {
-    final expired = DateTime.tryParse(date);
-    if (expired != null) this.expired = expired;
-  }
-
-  Widget _topicInfo() {
+  Widget get _topicInfo {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -135,16 +131,22 @@ class _TopicEditFormState extends State<TopicEditForm> {
     );
   }
 
+  void _onDatePicker(String date) {
+    final expired = DateTime.tryParse(date);
+    if (expired != null) this.expired = expired;
+  }
+
   void _confirm() {
-    final date = DateTime(
+    final date = DateTime.utc(
       expired.year,
       expired.month,
       expired.day,
       int.tryParse(hours) ?? expired.hour,
       int.tryParse(minutes) ?? expired.minute,
     );
+
     Navigator.of(context).pop({
-      'expiredDate': date,
+      'expiredDate': date.isAtSameMomentAs(widget.expired) ? null : date,
       'note': note,
     });
   }

@@ -12,6 +12,8 @@ class ListBuilder<T> extends StatelessWidget {
   final ScrollBehavior? scrollBehavior;
   final Future<void> Function()? onRefresh;
   final EdgeInsets margin;
+  final bool addAutomaticKeepAlives;
+  final bool addRepaintBoundaries;
 
   const ListBuilder({
     required this.datas,
@@ -26,6 +28,8 @@ class ListBuilder<T> extends StatelessWidget {
     this.scrollBehavior,
     this.margin = const EdgeInsets.all(0.0),
     this.onRefresh,
+    this.addAutomaticKeepAlives = false,
+    this.addRepaintBoundaries = false,
   }) : super(key: key);
 
   @override
@@ -64,6 +68,8 @@ class ListBuilder<T> extends StatelessWidget {
       padding: padding,
       shrinkWrap: shirinkWrap,
       scrollDirection: scrollDirection,
+      addAutomaticKeepAlives: addAutomaticKeepAlives,
+      addRepaintBoundaries: addRepaintBoundaries,
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
     );
   }

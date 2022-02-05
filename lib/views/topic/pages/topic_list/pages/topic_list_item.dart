@@ -35,8 +35,12 @@ class _TopicListItemState extends State<TopicListItem> {
     topic = widget.topic;
   }
 
-  void goToAction() {
-    _controller.toggleCard();
+  @override
+  void didUpdateWidget(TopicListItem oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.topic != widget.topic) {
+      topic = widget.topic;
+    }
   }
 
   ColorSchema get colorSchema => ColorSchema.industry(topic.type);

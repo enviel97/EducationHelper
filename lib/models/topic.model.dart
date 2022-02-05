@@ -153,5 +153,5 @@ class Topic extends Equatable {
 
   @override
   List<Object?> get props =>
-      [classroom, exam, expiredDate, createDate, answers];
+      [classroom, exam, expiredDate, createDate, answers, note, id];
 }

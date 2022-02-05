@@ -47,6 +47,8 @@ class _TopicListState extends State<TopicList> {
             datas: topics,
             shirinkWrap: true,
             emptyList: const TopicListEmpty(),
+            addAutomaticKeepAlives: true,
+            addRepaintBoundaries: true,
             itemBuilder: (data) => TopicListItem(topic: data),
           );
         },

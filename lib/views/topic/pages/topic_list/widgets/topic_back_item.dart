@@ -1,7 +1,7 @@
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/helpers/extensions/datetime_x.dart';
 import 'package:education_helper/models/topic.model.dart';
-import 'package:education_helper/views/topic/pages/topic_list/dialogs/topic_dialog.dart';
+import 'package:education_helper/views/topic/dialogs/topic_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
@@ -66,8 +66,12 @@ class TopicBackItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 IconButton(
-                  onPressed: () =>
-                      editBottomSheet(context, expired: topic.expiredDate),
+                  onPressed: () => editBottomSheet(
+                    context,
+                    id: topic.id,
+                    expired: topic.expiredDate,
+                    note: topic.note,
+                  ),
                   color: kWhiteColor,
                   icon: const Icon(Feather.edit),
                 ),
