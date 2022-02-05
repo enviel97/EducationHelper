@@ -74,4 +74,10 @@ class HomeAdapter extends IAdapter {
     final isNeedRefresh = await context.goTo<bool>(adapter.layout());
     return isNeedRefresh ?? false;
   }
+
+  Future<bool> goToTopic(BuildContext context, {required String id}) async {
+    final adapter = _topicAdapter.cast<TopicAdapter>();
+    final isNeedRefresh = await adapter.goToTopicDetail(context, id);
+    return isNeedRefresh;
+  }
 }

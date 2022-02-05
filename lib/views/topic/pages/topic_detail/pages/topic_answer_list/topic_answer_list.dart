@@ -36,11 +36,32 @@ class _TopicAnswerListState extends State<TopicAnswerList> {
   @override
   void initState() {
     super.initState();
+    _init();
+  }
+
+  void _init() {
     classroom = widget.classroom;
     members = mapToList(classroom.members, Member.fromJson);
     answers = widget.answers;
-
     _controller = GroupByStatus(members, answers);
+
+    if (mounted) {
+      setState(() {
+        submited =
+            answers.where((ans) => ans.status == StatusAnswer.submit).length;
+        lated = answers.where((ans) => ans.status == StatusAnswer.lated).length;
+        missing = members.length - submited - lated;
+      });
+    }
+  }
+
+  @override
+  void didUpdateWidget(TopicAnswerList oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.classroom.members != widget.classroom.members ||
+        widget.answers != oldWidget.answers) {
+      _init();
+    }
   }
 
   @override

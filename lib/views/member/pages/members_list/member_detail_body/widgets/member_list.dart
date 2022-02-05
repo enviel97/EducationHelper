@@ -4,6 +4,8 @@ import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:education_helper/helpers/extensions/string_x.dart';
 import 'package:education_helper/helpers/ultils/funtions.dart';
 import 'package:education_helper/models/members.model.dart';
+import 'package:education_helper/views/member/pages/members_list/member_detail_body/widgets/members_empty.dart';
+import 'package:education_helper/views/widgets/list/list_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'members_detail.dart';
@@ -17,11 +19,12 @@ class MemberList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return ListBuilder<Member>(
       padding: const EdgeInsets.only(bottom: 20.0),
-      itemCount: members.length,
-      itemBuilder: (context, index) {
-        final member = members[index];
+      datas: members,
+      emptyList: const MembersEmpty(),
+      itemBuilder: (data) {
+        final member = data;
         return Container(
           margin: const EdgeInsets.symmetric(vertical: 10.0),
           padding: const EdgeInsets.symmetric(
@@ -41,7 +44,7 @@ class MemberList extends StatelessWidget {
                     blurRadius: 4.0)
               ]),
           child: MemberDetail(
-            member: member,
+            member: data,
             content: _staticContent(member),
           ),
         );

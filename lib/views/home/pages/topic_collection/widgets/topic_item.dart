@@ -1,10 +1,12 @@
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/helpers/extensions/datetime_x.dart';
+import 'package:education_helper/views/home/home.dart';
 import 'package:education_helper/views/topic/typings/color_schema.dart';
 import 'package:flutter/material.dart';
 
 class TopicItem extends StatelessWidget {
+  final String id;
   final String examsName;
   final String type;
   final DateTime expiredDate;
@@ -12,8 +14,10 @@ class TopicItem extends StatelessWidget {
   final int ansSuccess;
   final int ansMiss;
   final int ansLate;
+  final Future<void> Function() refresh;
 
   const TopicItem({
+    required this.id,
     required this.type,
     required this.examsName,
     required this.members,
@@ -21,6 +25,7 @@ class TopicItem extends StatelessWidget {
     required this.ansMiss,
     required this.ansLate,
     required this.expiredDate,
+    required this.refresh,
     Key? key,
   }) : super(key: key);
 
@@ -98,5 +103,10 @@ class TopicItem extends StatelessWidget {
     );
   }
 
-  void _onTap(BuildContext context) {}
+  Future<void> _onTap(BuildContext context) async {
+    final isNeedRefresh = await Home.adapter.goToTopic(context, id: id);
+    if (isNeedRefresh) {
+      refresh();
+    }
+  }
 }

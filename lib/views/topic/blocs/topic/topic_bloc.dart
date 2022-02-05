@@ -132,7 +132,7 @@ class TopicBloc extends Cubit<TopicState> {
   }
 
   Future<void> search(String? query, DateTime? from, DateTime? to) async {
-    if (query?.isEmpty ?? true && from == null && to == null) {
+    if ((query?.isEmpty ?? true) && from == null && to == null) {
       return await getAll();
     }
     loading();

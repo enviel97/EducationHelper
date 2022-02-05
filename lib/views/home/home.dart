@@ -135,6 +135,14 @@ class _HomeState extends State<Home> {
     );
   }
 
+  Future<void> homeRefresh() async {
+    Future.wait([
+      BlocProvider.of<TopicBloc>(context).refresh(),
+      BlocProvider.of<AppBloc>(context).refreshUser(),
+      BlocProvider.of<ClassroomsBloc>(context).refresh()
+    ]);
+  }
+
   Future<void> gotoClassList() async {
     final isNeedRefresh = await Home.adapter.goToClassroom(context);
     if (isNeedRefresh) BlocProvider.of<ClassroomsBloc>(context).refresh();
@@ -147,12 +155,6 @@ class _HomeState extends State<Home> {
 
   Future<void> goTopic() async {
     final isNeedRefresh = await Home.adapter.goToTopics(context);
-    if (isNeedRefresh) {
-      Future.wait([
-        BlocProvider.of<TopicBloc>(context).refresh(),
-        BlocProvider.of<AppBloc>(context).refreshUser(),
-        BlocProvider.of<ClassroomsBloc>(context).refresh()
-      ]);
-    }
+    if (isNeedRefresh) homeRefresh();
   }
 }

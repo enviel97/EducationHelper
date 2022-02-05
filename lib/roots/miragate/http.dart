@@ -10,14 +10,16 @@ enum Method { post, get, put }
 class RestApi {
   static final RestApi _ins = RestApi._internal();
   late Dio _client;
-  final Map<String, String> _header = {
-    'Content-Type': 'application/json',
-    'api-key': '270897'
-  };
+  final Map<String, String> _header = {'api-key': '270897'};
 
   RestApi._internal() {
     _client = Dio();
   }
+
+  Options options({String contentType = Headers.jsonContentType}) => Options(
+        headers: _header,
+        contentType: contentType,
+      );
 
   factory RestApi() => _ins;
 
@@ -53,7 +55,7 @@ class RestApi {
     try {
       final response = await _client.post(
         url,
-        options: Options(headers: _header),
+        options: options(),
         data: jsonEncode(body),
       );
       return _result(response);
@@ -70,7 +72,7 @@ class RestApi {
     try {
       final response = await _client.put(
         url,
-        options: Options(headers: _header),
+        options: options(),
         data: jsonEncode(body),
       );
       return _result(response);
@@ -84,9 +86,7 @@ class RestApi {
     try {
       final response = await _client.delete(
         url,
-        options: Options(
-          headers: _header,
-        ),
+        options: options(),
       );
       return _result(response);
     } on DioError catch (error) {
@@ -99,9 +99,7 @@ class RestApi {
     try {
       final response = await _client.get(
         url,
-        options: Options(
-          headers: _header,
-        ),
+        options: options(),
       );
       return _result(response);
     } on DioError catch (error) {
@@ -118,7 +116,6 @@ class RestApi {
 
     final Map<String, String> header = {};
     header.addAll(_header);
-    header.remove('Content-Type');
 
     final Map<String, dynamic> data = {};
 

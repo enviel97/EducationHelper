@@ -7,6 +7,8 @@ import 'package:education_helper/roots/bloc/app_bloc.dart';
 import 'package:education_helper/views/home/adapters/home.adapter.dart';
 import 'package:education_helper/views/home/bloc/classrooms/classroom.bloc.dart';
 import 'package:education_helper/views/home/bloc/classrooms/classroom.state.dart';
+import 'package:education_helper/views/home/bloc/exams/exam.bloc.dart';
+import 'package:education_helper/views/home/bloc/topics/topic.bloc.dart';
 import 'package:education_helper/views/home/widgets/header_collections.dart';
 import 'package:education_helper/views/widgets/list/list_builder.dart';
 import 'package:flutter/material.dart';
@@ -123,10 +125,15 @@ class _ClassroomColectionState extends State<ClassroomColection> {
 
   Future<void> goToClassRoomList() async {
     final isNeedRefresh = await Home.adapter.goToClassroom(context);
-    if (isNeedRefresh) BlocProvider.of<ClassroomsBloc>(context).refresh();
+    if (isNeedRefresh) _refresh();
   }
 
-  void _refresh() {
-    BlocProvider.of<ClassroomsBloc>(context).refresh();
+  void _refresh() async {
+    Future.wait([
+      BlocProvider.of<TopicBloc>(context).refresh(),
+      BlocProvider.of<AppBloc>(context).refreshUser(),
+      BlocProvider.of<ClassroomsBloc>(context).refresh(),
+      BlocProvider.of<ExamsBloc>(context).refresh(),
+    ]);
   }
 }

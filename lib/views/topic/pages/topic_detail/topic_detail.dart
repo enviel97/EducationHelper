@@ -1,5 +1,6 @@
 import 'package:education_helper/models/exam.model.dart';
 import 'package:education_helper/models/topic.model.dart';
+import 'package:education_helper/roots/bloc/app_bloc.dart';
 import 'package:education_helper/views/topic/blocs/member/topic_members_bloc.dart';
 import 'package:education_helper/views/topic/blocs/member/topic_members_state.dart';
 import 'package:education_helper/views/topic/blocs/topic/topic_bloc.dart';
@@ -30,6 +31,7 @@ class _TopicDetailState extends State<TopicDetail> {
   DateTime? createDate;
   DateTime? expiredDate;
   String classname = '';
+  bool isNeedRefresh = false;
 
   @override
   void initState() {
@@ -44,7 +46,7 @@ class _TopicDetailState extends State<TopicDetail> {
       appBar: AppBar(
         title: const Text('Topic Detail'),
         bottom: const AppbarBottom(),
-        leading: const KGoBack(),
+        leading: KGoBack(result: isNeedRefresh),
       ),
       body: Container(
         color: Theme.of(context).backgroundColor,
@@ -73,7 +75,17 @@ class _TopicDetailState extends State<TopicDetail> {
                 classname: classname,
               ),
             ),
-            Expanded(child: BlocBuilder<TopicMembersBloc, TopicMembersState>(
+            Expanded(
+                child: BlocConsumer<TopicMembersBloc, TopicMembersState>(
+              listener: (context, state) {
+                if (state is TopicMembersFailure) {
+                  BlocProvider.of<AppBloc>(context)
+                      .showError(context, state.error.mess);
+                }
+                if (state is TopicMembersChanged) {
+                  setState(() => isNeedRefresh = true);
+                }
+              },
               builder: (context, state) {
                 if (state is TopicMembersLoaded) {
                   return TopicAnswerList(

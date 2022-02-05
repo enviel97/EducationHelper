@@ -39,9 +39,24 @@ class ExamPickerContent extends StatelessWidget {
   }
 
   Widget _streamBuilder(BuildContext context, AsyncSnapshot<File?> snapshot) {
-    if (snapshot.hasData && snapshot.data != null) {
-      final file = snapshot.data!;
-      return ExamContent(file: file);
+    if (snapshot.hasData) {
+      if (snapshot.data == null) {
+        return DecoratedBox(
+          decoration: BoxDecoration(
+            color: Theme.of(context).backgroundColor,
+            borderRadius: const BorderRadius.all(
+              Radius.circular(25),
+            ),
+          ),
+          child: const Center(
+              child: CircularProgressIndicator(
+            backgroundColor: kNone,
+          )),
+        );
+      } else {
+        final file = snapshot.data!;
+        return ExamContent(file: file);
+      }
     }
 
     return IconButton(

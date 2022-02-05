@@ -20,6 +20,7 @@ class FilePickerStream {
     try {
       final filePlatform = await _controller.getFilePicker();
       if (filePlatform == null) return;
+      _streamBroadcast.sink.add(null);
       final file = File(filePlatform.path ?? '');
       if (file.existsSync()) {
         _streamBroadcast.sink.add(file);

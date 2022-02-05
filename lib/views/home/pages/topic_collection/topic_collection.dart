@@ -5,6 +5,7 @@ import 'package:education_helper/helpers/widgets/scroller_grow_disable.dart';
 import 'package:education_helper/models/topic.model.dart';
 import 'package:education_helper/roots/bloc/app_bloc.dart';
 import 'package:education_helper/views/home/bloc/classrooms/classroom.bloc.dart';
+import 'package:education_helper/views/home/bloc/exams/exam.bloc.dart';
 import 'package:education_helper/views/home/bloc/topics/topic.bloc.dart';
 import 'package:education_helper/views/home/bloc/topics/topic.state.dart';
 import 'package:education_helper/views/home/home.dart';
@@ -79,6 +80,7 @@ class _TopicCollectionState extends State<TopicCollection> {
               scrollBehavior: NormalScollBehavior(),
               margin: const EdgeInsets.symmetric(horizontal: 10.0),
               itemBuilder: _itemTopics,
+              onRefresh: _refresh,
             );
           }))
         ]));
@@ -94,21 +96,23 @@ class _TopicCollectionState extends State<TopicCollection> {
     final ansLate = topic.lated;
     final ansMiss = topic.missing;
     return TopicItem(
-      type: topic.type,
-      examsName: topic.name,
-      members: topic.totalMembers,
-      expiredDate: topic.expiredDate,
-      ansSuccess: ansSuccess,
-      ansMiss: ansMiss,
-      ansLate: ansLate,
-    );
+        type: topic.type,
+        examsName: topic.name,
+        members: topic.totalMembers,
+        expiredDate: topic.expiredDate,
+        ansSuccess: ansSuccess,
+        ansMiss: ansMiss,
+        ansLate: ansLate,
+        id: topic.id,
+        refresh: _refresh);
   }
 
   Future<void> _refresh() async {
     Future.wait([
       BlocProvider.of<TopicBloc>(context).refresh(),
       BlocProvider.of<AppBloc>(context).refreshUser(),
-      BlocProvider.of<ClassroomsBloc>(context).refresh()
+      BlocProvider.of<ClassroomsBloc>(context).refresh(),
+      BlocProvider.of<ExamsBloc>(context).refresh(),
     ]);
   }
 }

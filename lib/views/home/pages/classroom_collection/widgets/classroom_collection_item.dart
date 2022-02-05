@@ -56,7 +56,7 @@ class ClassroomCollectionItem extends StatelessWidget {
                 ),
               ),
               Text(
-                quantity(exams, 'exam'),
+                quantity(exams, 'topic'),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: SPACING.M.size,

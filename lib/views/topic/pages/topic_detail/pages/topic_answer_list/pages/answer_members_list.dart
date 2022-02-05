@@ -76,7 +76,6 @@ class AnswerMembersList extends StatelessWidget {
   }
 
   Widget _itemBuilder(Member data) {
-    // build
     return TopicAnswerItem(
       member: data,
       isDisable: expiredDate?.isBefore(DateTime.now()) ?? false,

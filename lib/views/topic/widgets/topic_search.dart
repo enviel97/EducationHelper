@@ -1,12 +1,14 @@
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/helpers/extensions/datetime_x.dart';
 import 'package:education_helper/helpers/extensions/state.x.dart';
+import 'package:education_helper/views/topic/blocs/topic/topic_bloc.dart';
 import 'package:education_helper/views/widgets/button/custom_animate_icon_button.dart';
 import 'package:education_helper/views/widgets/deorate/horizantal_divider.dart';
 import 'package:education_helper/views/widgets/form/custom_date_picker_search.dart';
 import 'package:education_helper/views/widgets/form/custom_search_field.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 class TopicSearch extends StatefulWidget {
@@ -164,5 +166,10 @@ class _TopicSearchState extends State<TopicSearch>
       parameters['from'] = from!.startDay;
       parameters['to'] = to?.endDay;
     }
+    BlocProvider.of<TopicBloc>(context).search(
+      parameters['text'],
+      parameters['from'],
+      parameters['to'],
+    );
   }
 }

@@ -4,8 +4,10 @@ import 'package:education_helper/helpers/extensions/state.x.dart';
 import 'package:education_helper/helpers/widgets/scroller_grow_disable.dart';
 import 'package:education_helper/models/exam.model.dart';
 import 'package:education_helper/roots/bloc/app_bloc.dart';
+import 'package:education_helper/views/home/bloc/classrooms/classroom.bloc.dart';
 import 'package:education_helper/views/home/bloc/exams/exam.bloc.dart';
 import 'package:education_helper/views/home/bloc/exams/exam.state.dart';
+import 'package:education_helper/views/home/bloc/topics/topic.bloc.dart';
 import 'package:education_helper/views/home/home.dart';
 import 'package:education_helper/views/home/widgets/header_collections.dart';
 import 'package:education_helper/views/widgets/list/list_builder.dart';
@@ -115,6 +117,11 @@ class _ExamCollectionState extends State<ExamCollection> {
   }
 
   Future<void> refreshExam() async {
-    BlocProvider.of<ExamsBloc>(context).refresh();
+    Future.wait([
+      BlocProvider.of<TopicBloc>(context).refresh(),
+      BlocProvider.of<AppBloc>(context).refreshUser(),
+      BlocProvider.of<ClassroomsBloc>(context).refresh(),
+      BlocProvider.of<ExamsBloc>(context).refresh(),
+    ]);
   }
 }

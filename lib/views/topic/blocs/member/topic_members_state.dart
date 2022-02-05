@@ -18,16 +18,14 @@ class TopicMembersLoading extends TopicMembersState {
 }
 
 class TopicMembersChanged extends TopicMembersState {
-  final Classroom classroom;
-  final List<dynamic> answers;
+  final String id;
 
   const TopicMembersChanged(
-    this.classroom,
-    this.answers,
+    this.id,
   );
 
   @override
-  List<Object?> get props => [classroom, answers];
+  List<Object?> get props => [id];
 }
 
 class TopicMembersLoaded extends TopicMembersState {

@@ -10,17 +10,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class TopicMembersBloc extends Cubit<TopicMembersState> {
   late RestApi _restApi;
   final String _path = 'topics';
+  String id = '';
 
   TopicMembersBloc() : super(TopicMembersInitial()) {
     _restApi = RestApi();
   }
 
-  Future<void> refreshMembers(String id) async {
+  Future<void> refreshMembers() async {
+    emit(TopicMembersChanged(id));
     return getMembers(id);
   }
 
   Future<void> getMembers(String id) async {
     emit(TopicMembersLoading());
+    if (this.id.isEmpty) {
+      this.id = id;
+    }
     return await _structure(() async {
       final result = await _restApi.get('$_path/$id/members').catchError((err) {
         emit(TopicMembersFailure(Messenger(err['error'])));
