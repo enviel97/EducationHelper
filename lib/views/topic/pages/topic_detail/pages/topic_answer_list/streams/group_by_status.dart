@@ -1,7 +1,7 @@
 import 'dart:async';
 
+import 'package:education_helper/models/answer.model.dart';
 import 'package:education_helper/models/members.model.dart';
-import 'package:education_helper/models/topic.model.dart';
 import 'package:flutter/material.dart';
 
 class _Query {
@@ -21,6 +21,7 @@ class GroupByStatus {
     _groupAnswer(members, answers);
     //  GroupByStatus._answerGroup = _answerGroup;
   }
+  Map<String, dynamic> get answerGroup => _answerGroup;
 
   void _groupAnswer(List<Member> members, List<Answer> answers) {
     _answerGroup = {
@@ -29,7 +30,7 @@ class GroupByStatus {
     };
     if (answers.isEmpty) return;
     _answerGroup = _answerGroup.map((key, value) {
-      final iAns = answers.indexWhere((ans) => ans.id == key);
+      final iAns = answers.indexWhere((ans) => ans.member == key);
       if (iAns > -1) {
         final anss = answers[iAns];
         return MapEntry(

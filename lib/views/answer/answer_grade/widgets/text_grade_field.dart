@@ -1,6 +1,6 @@
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
-import 'package:education_helper/views/answer/typings/hint_grade.dart';
+import 'package:education_helper/views/answer/answer_grade/typings/hint_grade.dart';
 import 'package:flutter/material.dart';
 
 class TextGradeField extends StatefulWidget {

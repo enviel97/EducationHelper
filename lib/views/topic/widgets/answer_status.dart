@@ -1,7 +1,7 @@
 import 'package:bordered_text/bordered_text.dart';
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/helpers/extensions/int_x.dart';
-import 'package:education_helper/models/topic.model.dart';
+import 'package:education_helper/models/answer.model.dart';
 import 'package:education_helper/views/topic/typings/color_status.dart';
 import 'package:flutter/material.dart';
 

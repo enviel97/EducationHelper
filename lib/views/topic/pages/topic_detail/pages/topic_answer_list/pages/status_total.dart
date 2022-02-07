@@ -1,4 +1,4 @@
-import 'package:education_helper/models/topic.model.dart';
+import 'package:education_helper/models/answer.model.dart';
 import 'package:education_helper/views/topic/pages/topic_detail/pages/topic_answer_list/widgets/answers_status_chip.dart';
 import 'package:flutter/material.dart';
 

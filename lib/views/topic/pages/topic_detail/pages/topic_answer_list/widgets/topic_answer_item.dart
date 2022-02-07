@@ -1,10 +1,13 @@
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:education_helper/helpers/extensions/string_x.dart';
+import 'package:education_helper/models/answer.model.dart';
 import 'package:education_helper/models/members.model.dart';
 import 'package:education_helper/models/topic.model.dart';
+import 'package:education_helper/roots/bloc/app_bloc.dart';
 import 'package:education_helper/views/topic/topics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 import 'answer_grade.dart';
@@ -15,9 +18,11 @@ class TopicAnswerItem extends StatelessWidget {
   final double? grade;
   final String idAnswer;
   final bool isDisable;
+  final String idTopic;
   const TopicAnswerItem({
     required this.member,
     required this.idAnswer,
+    required this.idTopic,
     this.status,
     this.grade,
     Key? key,
@@ -45,7 +50,7 @@ class TopicAnswerItem extends StatelessWidget {
             ),
           ]),
       child: ListTile(
-        onTap: isDisable ? null : () => _goToGraded(context),
+        onTap: isDisable ? null : () => _goToAnswers(context),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16.0,
           vertical: 10.0,
@@ -91,8 +96,18 @@ class TopicAnswerItem extends StatelessWidget {
     );
   }
 
-  _goToGraded(BuildContext context) async {
-    final isNeedRefresh = await Topics.adapter.goToAnswer(context, idAnswer);
+  void _goToAnswers(BuildContext context) async {
+    final auth = BlocProvider.of<AppBloc>(context).getToken();
+
+    // TODO: Navigate to answer create or grade
+    final bool
+        // isNeedRefresh;
+        // if (auth.isEmpty) {
+        isNeedRefresh = await Topics.adapter
+            .goToAnswerCreate(context, member: member, idTopic: idTopic);
+    // } else {
+    //   isNeedRefresh = await Topics.adapter.goToAnswerGrade(context, idAnswer);
+    // }
     if (isNeedRefresh) {}
   }
 }

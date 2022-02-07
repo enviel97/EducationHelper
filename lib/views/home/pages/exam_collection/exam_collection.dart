@@ -27,7 +27,6 @@ class ExamCollection extends StatefulWidget {
 }
 
 class _ExamCollectionState extends State<ExamCollection> {
-  String errorMessenger = '';
   List<Exam> exams = [];
 
   @override
@@ -63,14 +62,14 @@ class _ExamCollectionState extends State<ExamCollection> {
                 if (state is ExamFailState) {
                   BlocProvider.of<AppBloc>(context)
                       .showError(context, '${state.messenger}');
-                  setState(() => errorMessenger = 'Exam loading error!');
+                  setState(() => exams = []);
                 }
                 if (state is ExamLoadedState) {
                   setState(() => exams = state.exams);
                 }
               },
               builder: (context, state) {
-                if (state is ExamLoadingState) {
+                if (state is ExamLoadingState && exams.isEmpty) {
                   return const Center(child: CircularProgressIndicator());
                 }
 

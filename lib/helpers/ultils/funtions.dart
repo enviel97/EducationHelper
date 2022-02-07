@@ -23,6 +23,12 @@ List<T> mapToList<T>(dynamic json, T Function(dynamic json) create) {
     return [];
   }
   final jsons = json as List;
-
   return List<T>.generate(jsons.length, (index) => create(jsons[index]));
+}
+
+T mapToModel<T>(dynamic json, T Function(dynamic json) create) {
+  if (json == null || json.isEmpty || json is String) {
+    return create({'id': json});
+  }
+  return create(json);
 }

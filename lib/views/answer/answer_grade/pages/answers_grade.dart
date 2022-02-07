@@ -1,8 +1,8 @@
 import 'package:education_helper/constants/colors.dart';
-import 'package:education_helper/models/topic.model.dart';
-import 'package:education_helper/views/answer/widgets/header_answer_grade/header_answer_collapsed.dart';
-import 'package:education_helper/views/answer/widgets/header_answer_grade/header_answer_expanded.dart';
-import 'package:education_helper/views/answer/widgets/header_answer_grade/header_answer_grade.dart';
+import 'package:education_helper/models/answer.model.dart';
+import 'package:education_helper/views/answer/answer_grade/widgets/header_answer_grade/header_answer_collapsed.dart';
+import 'package:education_helper/views/answer/answer_grade/widgets/header_answer_grade/header_answer_expanded.dart';
+import 'package:education_helper/views/answer/answer_grade/widgets/header_answer_grade/header_answer_grade.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 
@@ -29,8 +29,6 @@ class _AnswersGradeState extends State<AnswersGrade> {
     name = '';
     memberName = '@Name Of Member';
     status = StatusAnswer.empty;
-    publicLink =
-        'https://scontent.fsgn6-2.fna.fbcdn.net/v/t39.30808-6/271656093_2099695566864074_1280132571646855750_n.jpg?_nc_cat=100&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=6eoHNK6ZI0YAX-01gPU&_nc_ht=scontent.fsgn6-2.fna&oh=00_AT9BqFSUpQ1PNJ_0ISWAtgRFfh7Cugc8F_gJhg-zW6i-GA&oe=61FDFF62';
     submitdate = DateTime.now().add(const Duration(days: 2));
   }
 
@@ -74,7 +72,6 @@ class _AnswersGradeState extends State<AnswersGrade> {
             collapsed: HeaderAnswerCollapsed(
               memberName: memberName,
               onChanged: (String note) {},
-              publicLink: '',
               status: status,
               submitdate: submitdate,
             ),
@@ -86,6 +83,6 @@ class _AnswersGradeState extends State<AnswersGrade> {
 
   void _onConfirm() {
     if (grade.isEmpty) return;
-    Navigator.of(context).maybePop();
+    Navigator.of(context).maybePop(true);
   }
 }

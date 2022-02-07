@@ -1,7 +1,7 @@
 import 'package:education_helper/constants/constant.dart';
 import 'package:education_helper/helpers/ultils/funtions.dart';
+import 'package:education_helper/models/answer.model.dart';
 import 'package:education_helper/models/classroom.model.dart';
-import 'package:education_helper/models/topic.model.dart';
 import 'package:education_helper/roots/miragate/http.dart';
 import 'package:education_helper/views/topic/blocs/member/topic_members_state.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +16,10 @@ class TopicMembersBloc extends Cubit<TopicMembersState> {
     _restApi = RestApi();
   }
 
-  Future<void> refreshMembers() async {
-    emit(TopicMembersChanged(id));
+  Future<void> refreshMembers({bool hasChange = true}) async {
+    if (hasChange) {
+      emit(TopicMembersChanged(id));
+    }
     return getMembers(id);
   }
 

@@ -1,7 +1,5 @@
-import 'package:education_helper/helpers/ultils/funtions.dart';
-import 'package:education_helper/models/classroom.model.dart';
+import 'package:education_helper/models/answer.model.dart';
 import 'package:education_helper/models/members.model.dart';
-import 'package:education_helper/models/topic.model.dart';
 import 'package:flutter/material.dart';
 
 import 'pages/answer_members_list.dart';
@@ -9,12 +7,16 @@ import 'pages/status_total.dart';
 import 'streams/group_by_status.dart';
 
 class TopicAnswerList extends StatefulWidget {
+  final String idClassroom;
   final List<Answer> answers;
-  final Classroom classroom;
+  final List<Member> members;
   final DateTime? expiredDate;
+  final String idTopic;
   const TopicAnswerList({
     required this.answers,
-    required this.classroom,
+    required this.members,
+    required this.idClassroom,
+    required this.idTopic,
     Key? key,
     this.expiredDate,
   }) : super(key: key);
@@ -31,7 +33,6 @@ class _TopicAnswerListState extends State<TopicAnswerList> {
   List<Member> members = [];
   List<Answer> answers = [];
   late GroupByStatus _controller;
-  late Classroom classroom;
 
   @override
   void initState() {
@@ -40,13 +41,11 @@ class _TopicAnswerListState extends State<TopicAnswerList> {
   }
 
   void _init() {
-    classroom = widget.classroom;
-    members = mapToList(classroom.members, Member.fromJson);
-    answers = widget.answers;
-    _controller = GroupByStatus(members, answers);
-
     if (mounted) {
       setState(() {
+        members = widget.members;
+        answers = widget.answers;
+        _controller = GroupByStatus(members, answers);
         submited =
             answers.where((ans) => ans.status == StatusAnswer.submit).length;
         lated = answers.where((ans) => ans.status == StatusAnswer.lated).length;
@@ -58,7 +57,7 @@ class _TopicAnswerListState extends State<TopicAnswerList> {
   @override
   void didUpdateWidget(TopicAnswerList oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.classroom.members != widget.classroom.members ||
+    if (oldWidget.members != widget.members ||
         widget.answers != oldWidget.answers) {
       _init();
     }
@@ -98,11 +97,10 @@ class _TopicAnswerListState extends State<TopicAnswerList> {
         ),
         Expanded(
           child: AnswerMembersList(
-            controller: _controller.stream,
-            members: members,
-            idClassroom: classroom.id,
-            onSearch: _controller.search,
-            expiredDate: widget.expiredDate,
+            controller: _controller,
+            members: widget.members, // init
+            idClassroom: widget.idClassroom,
+            idTopic: widget.idTopic,
           ),
         ),
       ],

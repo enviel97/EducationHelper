@@ -1,6 +1,6 @@
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
-import 'package:education_helper/models/topic.model.dart';
+import 'package:education_helper/models/answer.model.dart';
 import 'package:education_helper/views/topic/typings/color_schema.dart';
 import 'package:education_helper/views/topic/widgets/answer_status.dart';
 import 'package:flutter/material.dart';

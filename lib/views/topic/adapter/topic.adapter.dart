@@ -1,4 +1,5 @@
 import 'package:education_helper/helpers/extensions/build_context_x.dart';
+import 'package:education_helper/models/members.model.dart';
 import 'package:education_helper/roots/app_root.dart';
 import 'package:education_helper/roots/parts/adapter.dart';
 import 'package:education_helper/views/classrooms/adapter/classroom.adapter.dart';
@@ -92,10 +93,23 @@ class TopicAdapter extends IAdapter {
     return isNeedRefresh ?? false;
   }
 
-  Future<bool> goToAnswer(BuildContext context, String id) async {
+  Future<bool> goToAnswerGrade(BuildContext context, String id) async {
     try {
       final isNeedRefresh = await context.goTo<bool>(
         _answerAdapter.layout(params: {'id': id}),
+      );
+      return isNeedRefresh ?? false;
+    } catch (_) {
+      debugPrint(_.toString());
+      return false;
+    }
+  }
+
+  Future<bool> goToAnswerCreate(BuildContext context,
+      {required Member member, required String idTopic}) async {
+    try {
+      final isNeedRefresh = await context.goTo<bool>(
+        _answerAdapter.layout(params: {'member': member, 'idTopic': idTopic}),
       );
       return isNeedRefresh ?? false;
     } catch (_) {

@@ -1,6 +1,6 @@
 import 'package:education_helper/constants/constant.dart';
+import 'package:education_helper/models/answer.model.dart';
 import 'package:education_helper/models/classroom.model.dart';
-import 'package:education_helper/models/topic.model.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class TopicMembersState extends Equatable {

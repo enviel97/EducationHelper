@@ -29,7 +29,6 @@ class ClassroomColection extends StatefulWidget {
 
 class _ClassroomColectionState extends State<ClassroomColection> {
   HomeAdapter get adapter => Home.adapter;
-  String errorMessenger = '';
   List<Classroom> classrooms = [];
 
   @override
@@ -66,14 +65,14 @@ class _ClassroomColectionState extends State<ClassroomColection> {
                 if (state is ClassroomFailState) {
                   BlocProvider.of<AppBloc>(context)
                       .showError(context, state.messenger.mess);
-                  setState(() => errorMessenger = 'Classroom loading error!');
+                  setState(() => classrooms = []);
                 }
                 if (state is ClassroomLoadedState) {
                   setState(() => classrooms = state.classrooms);
                 }
               },
               builder: (context, state) {
-                if (state is ClassroomLoadingState) {
+                if (state is ClassroomLoadingState && classrooms.isEmpty) {
                   return const Center(child: CircularProgressIndicator());
                 }
 

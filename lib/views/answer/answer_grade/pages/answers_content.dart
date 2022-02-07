@@ -1,4 +1,4 @@
-import 'package:education_helper/views/answer/widgets/amswers_show_file/answers_show_file.dart';
+import 'package:education_helper/views/answer/answer_grade/widgets/answers_show_file/answers_show_file.dart';
 import 'package:flutter/material.dart';
 
 class AnswersContent extends StatelessWidget {

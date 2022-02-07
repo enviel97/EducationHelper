@@ -2,7 +2,6 @@ import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:education_helper/models/user.model.dart';
-import 'package:education_helper/roots/app_root.dart';
 import 'package:education_helper/roots/miragate/http.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,7 +10,6 @@ import 'app_state.dart';
 
 class AppBloc extends Cubit<AppState> {
   final api = RestApi();
-  final localStore = Root.ins.localStorage;
   AppBloc() : super(AppStateInitial());
   bool _hasDialog = false;
   User? _currentUser;
@@ -79,6 +77,10 @@ class AppBloc extends Cubit<AppState> {
         ),
       ),
     );
+  }
+
+  String getToken() {
+    return api.options().headers?['authenticate'] ?? '';
   }
 
   Future<void> refreshUser() async {

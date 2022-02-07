@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/helpers/extensions/build_context_x.dart';
-import 'package:education_helper/views/exam/pages/exam_form/streams/file_picker_stream.dart';
+import 'package:education_helper/helpers/streams/file_picker_stream.dart';
 import 'package:education_helper/views/exam/pages/exams_detail/widgets/exam_content.dart';
 import 'package:flutter/material.dart';
 

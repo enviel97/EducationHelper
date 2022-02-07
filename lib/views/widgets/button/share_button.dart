@@ -8,17 +8,20 @@ class ShareButton extends StatelessWidget {
   final String subject;
   final double iconSize;
   final Color? iconColor;
+  final String? toolTip;
   const ShareButton({
     required this.publicLink,
     required this.subject,
     Key? key,
     this.iconSize = 24.0,
     this.iconColor,
+    this.toolTip,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
+      tooltip: toolTip,
       padding: const EdgeInsets.all(0.0),
       onPressed: _shareFile,
       iconSize: iconSize,

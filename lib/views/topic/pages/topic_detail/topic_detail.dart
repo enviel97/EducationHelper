@@ -1,4 +1,8 @@
+import 'package:education_helper/constants/colors.dart';
+import 'package:education_helper/helpers/ultils/funtions.dart';
+import 'package:education_helper/models/answer.model.dart';
 import 'package:education_helper/models/exam.model.dart';
+import 'package:education_helper/models/members.model.dart';
 import 'package:education_helper/models/topic.model.dart';
 import 'package:education_helper/roots/bloc/app_bloc.dart';
 import 'package:education_helper/views/topic/blocs/member/topic_members_bloc.dart';
@@ -6,13 +10,13 @@ import 'package:education_helper/views/topic/blocs/member/topic_members_state.da
 import 'package:education_helper/views/topic/blocs/topic/topic_bloc.dart';
 import 'package:education_helper/views/topic/blocs/topic/topic_state.dart';
 import 'package:education_helper/views/widgets/button/custom_go_back.dart';
+import 'package:education_helper/views/widgets/button/share_button.dart';
 import 'package:education_helper/views/widgets/header/appbar_bottom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'pages/topic_answer_list/topic_answer_list.dart';
 import 'pages/topic_exam_info.dart';
-import 'placeholders/placeholder_list_members_answers.dart';
 
 class TopicDetail extends StatefulWidget {
   final String id;
@@ -32,6 +36,9 @@ class _TopicDetailState extends State<TopicDetail> {
   DateTime? expiredDate;
   String classname = '';
   bool isNeedRefresh = false;
+  List<Answer> answers = [];
+  List<Member> members = [];
+  String idClasroom = '';
 
   @override
   void initState() {
@@ -47,6 +54,15 @@ class _TopicDetailState extends State<TopicDetail> {
         title: const Text('Topic Detail'),
         bottom: const AppbarBottom(),
         leading: KGoBack(result: isNeedRefresh),
+      ),
+      floatingActionButton: CircleAvatar(
+        backgroundColor: kSecondaryColor,
+        radius: 28.0,
+        child: ShareButton(
+          iconColor: kPrimaryDarkColor,
+          publicLink: widget.id,
+          subject: 'Topic Id',
+        ),
       ),
       body: Container(
         color: Theme.of(context).backgroundColor,
@@ -76,7 +92,7 @@ class _TopicDetailState extends State<TopicDetail> {
               ),
             ),
             Expanded(
-                child: BlocConsumer<TopicMembersBloc, TopicMembersState>(
+                child: BlocListener<TopicMembersBloc, TopicMembersState>(
               listener: (context, state) {
                 if (state is TopicMembersFailure) {
                   BlocProvider.of<AppBloc>(context)
@@ -85,17 +101,22 @@ class _TopicDetailState extends State<TopicDetail> {
                 if (state is TopicMembersChanged) {
                   setState(() => isNeedRefresh = true);
                 }
-              },
-              builder: (context, state) {
                 if (state is TopicMembersLoaded) {
-                  return TopicAnswerList(
-                    answers: state.answers,
-                    classroom: state.classroom,
-                    expiredDate: expiredDate,
-                  );
+                  setState(() {
+                    answers = state.answers;
+                    members =
+                        mapToList(state.classroom.members, Member.fromJson);
+                    idClasroom = state.classroom.id;
+                  });
                 }
-                return const PListMembersAnswers();
               },
+              child: TopicAnswerList(
+                answers: answers,
+                members: members,
+                expiredDate: expiredDate,
+                idClassroom: idClasroom,
+                idTopic: topic?.id ?? '',
+              ),
             )),
           ],
         ),

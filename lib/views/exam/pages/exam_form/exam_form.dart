@@ -6,7 +6,7 @@ import 'package:education_helper/helpers/extensions/state.x.dart';
 import 'package:education_helper/roots/bloc/app_bloc.dart';
 import 'package:education_helper/views/exam/bloc/exam_bloc.dart';
 import 'package:education_helper/views/exam/bloc/exam_state.dart';
-import 'package:education_helper/views/exam/pages/exam_form/streams/file_picker_stream.dart';
+import 'package:education_helper/helpers/streams/file_picker_stream.dart';
 import 'package:education_helper/views/exam/pages/exam_form/widgets/exam_content.dart';
 import 'package:education_helper/views/widgets/button/custom_go_back.dart';
 import 'package:education_helper/views/widgets/button/custom_text_button.dart';

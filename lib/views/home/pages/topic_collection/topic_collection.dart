@@ -56,12 +56,13 @@ class _TopicCollectionState extends State<TopicCollection> {
             if (state is TopicFailState) {
               BlocProvider.of<AppBloc>(context)
                   .showError(context, state.messenger.mess);
+              setState(() => topics = []);
             }
             if (state is TopicLoadedState) {
               setState(() => topics = state.topics);
             }
           }, builder: (context, state) {
-            if (state is TopicLoadingState) {
+            if (state is TopicLoadingState && topics.isEmpty) {
               return const Center(child: CircularProgressIndicator());
             }
             if (state is TopicFailState) {
