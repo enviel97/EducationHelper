@@ -48,7 +48,6 @@ class TopicExamInfo extends StatelessWidget {
                                     textAlign: TextAlign.center,
                                     maxLines: 1,
                                     style: TextStyle(
-                                        color: kWhiteColor,
                                         fontSize: SPACING.M.size * 1.2,
                                         fontWeight: FontWeight.bold))),
                             SingleChildScrollView(

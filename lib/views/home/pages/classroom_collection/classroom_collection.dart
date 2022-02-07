@@ -99,7 +99,7 @@ class _ClassroomColectionState extends State<ClassroomColection> {
                         child: ClassroomCollectionItem(
                           name: classroom.name,
                           exams: classroom.exams.length,
-                          members: classroom.members.length,
+                          members: classroom.size,
                         ),
                       );
                     });

@@ -1,6 +1,6 @@
 import 'package:education_helper/constants/constant.dart';
 import 'package:education_helper/models/answer.model.dart';
-import 'package:education_helper/models/classroom.model.dart';
+import 'package:education_helper/models/members.model.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class TopicMembersState extends Equatable {
@@ -18,24 +18,20 @@ class TopicMembersLoading extends TopicMembersState {
 }
 
 class TopicMembersChanged extends TopicMembersState {
-  final String id;
-
-  const TopicMembersChanged(
-    this.id,
-  );
+  const TopicMembersChanged();
 
   @override
-  List<Object?> get props => [id];
+  List<Object?> get props => [];
 }
 
 class TopicMembersLoaded extends TopicMembersState {
-  final Classroom classroom;
+  final List<Member> members;
   final List<Answer> answers;
 
-  const TopicMembersLoaded(this.classroom, this.answers);
+  const TopicMembersLoaded(this.members, this.answers);
 
   @override
-  List<Object?> get props => [classroom, answers];
+  List<Object?> get props => [members, answers];
 }
 
 class TopicMembersFailure extends TopicMembersState {

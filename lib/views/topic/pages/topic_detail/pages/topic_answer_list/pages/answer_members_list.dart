@@ -17,12 +17,10 @@ class AnswerMembersList extends StatelessWidget {
   final List<Member> members;
   final String idClassroom;
   final GroupByStatus controller;
-  final String idTopic;
   const AnswerMembersList({
     required this.controller,
     required this.members,
     required this.idClassroom,
-    required this.idTopic,
     Key? key,
   }) : super(key: key);
   @override
@@ -85,11 +83,10 @@ class AnswerMembersList extends StatelessWidget {
       status: controller.answerGroup[data.uid]?['status'] ?? StatusAnswer.empty,
       grade: controller.answerGroup[data.uid]?['grade'] ?? 0.0,
       idAnswer: controller.answerGroup[data.uid]?['id'] ?? '',
-      idTopic: '',
     );
   }
 
   Future<void> _onRefresh(BuildContext context) async {
-    BlocProvider.of<TopicMembersBloc>(context).refreshMembers(hasChange: false);
+    BlocProvider.of<TopicMembersBloc>(context).refreshMembers();
   }
 }

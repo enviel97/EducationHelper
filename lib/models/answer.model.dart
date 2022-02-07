@@ -1,5 +1,6 @@
-import 'package:education_helper/helpers/extensions/datetime_x.dart';
+import 'package:education_helper/helpers/ultils/funtions.dart';
 import 'package:education_helper/models/exam.model.dart';
+import 'package:education_helper/models/members.model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:faker/faker.dart';
 
@@ -16,7 +17,7 @@ extension _StatusAnswer on StatusAnswer {
 
 class Answer extends Equatable {
   final String id;
-  final String member;
+  final Member member;
   final StatusAnswer status;
   final double grade;
   final String note;
@@ -28,7 +29,7 @@ class Answer extends Equatable {
   const Answer({
     required this.status,
     required this.content,
-    this.member = '',
+    required this.member,
     this.grade = 0.0,
     this.id = '',
     this.note = '',
@@ -49,12 +50,12 @@ class Answer extends Equatable {
       id: json['id'] ?? json['_id'] ?? '',
       status: _StatusAnswer.value(json['status'] ?? 'empty'),
       grade: double.tryParse('${json['grade']}') ?? 0.0,
-      content: Content.fromJson(json['content']),
-      member: json['member'],
+      content: mapToModel(json['content'], Content.fromJson),
+      member: mapToModel(json['member'], Member.fromJson),
       note: json['note'] ?? '',
       review: json['review'] ?? '',
-      createdAt: DateTime.tryParse(json['createdAt']) ?? DateTime.now(),
-      updatedAt: DateTime.tryParse(json['updatedAt']) ?? DateTime.now(),
+      createdAt: DateTime.tryParse(json['createdAt'] ?? '') ?? DateTime.now(),
+      updatedAt: DateTime.tryParse(json['updatedAt'] ?? '') ?? DateTime.now(),
     );
   }
 
@@ -62,7 +63,7 @@ class Answer extends Equatable {
     final faker = Faker();
     final status = StatusAnswer.values[faker.randomGenerator.integer(99) % 3];
     return Answer(
-        member: id ?? 'uuid-${DateTimeX.ctime}',
+        member: Member.faker(),
         status: status,
         grade: status == StatusAnswer.empty
             ? 0.0

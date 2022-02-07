@@ -84,7 +84,7 @@ class TopicAdapter extends IAdapter {
       MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => TopicBloc()),
-          BlocProvider(create: (context) => TopicMembersBloc()),
+          BlocProvider(create: (context) => TopicMembersBloc(idTopic)),
         ],
         child: TopicDetail(id: idTopic),
       ),

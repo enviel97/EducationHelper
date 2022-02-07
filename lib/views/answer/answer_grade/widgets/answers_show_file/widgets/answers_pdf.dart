@@ -1,10 +1,8 @@
-import 'dart:async';
 import 'dart:io';
 
-import 'package:education_helper/helpers/extensions/state.x.dart';
 import 'package:education_helper/views/widgets/deorate/box_decorate_separate_number.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class AnswersPDF extends StatefulWidget {
   final File file;
@@ -18,11 +16,15 @@ class AnswersPDF extends StatefulWidget {
 }
 
 class _AnswersPDFState extends State<AnswersPDF> {
-  final _controller = Completer<PDFViewController>();
-  int? pages = 0;
-  int? currentPage = 0;
+  late PdfViewerController _controller;
+  int? pages = 0, currentPage = 0;
   bool isReady = false;
   String errorMessage = '';
+  @override
+  void initState() {
+    super.initState();
+    _controller = PdfViewerController();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,36 +34,28 @@ class _AnswersPDFState extends State<AnswersPDF> {
         children: [
           Container(
             padding: const EdgeInsets.only(top: 60.0),
-            child: PDF(
-              enableSwipe: true,
-              swipeHorizontal: true,
-              autoSpacing: true,
-              pageFling: true,
-              pageSnap: true,
-              defaultPage: currentPage!,
-              fitPolicy: FitPolicy.WIDTH,
-              nightMode: !isLightTheme,
-              preventLinkNavigation: false,
-              fitEachPage: true,
-              onRender: (_pages) {
+            child: SfPdfViewer.file(
+              widget.file,
+              canShowScrollHead: false,
+              controller: _controller,
+              enableDocumentLinkAnnotation: false,
+              scrollDirection: PdfScrollDirection.horizontal,
+              interactionMode: PdfInteractionMode.pan,
+              pageLayoutMode: PdfPageLayoutMode.single,
+              onPageChanged: (detail) {
+                setState(() => currentPage = _controller.pageNumber);
+              },
+              onDocumentLoaded: (detail) {
                 setState(() {
-                  pages = _pages;
+                  currentPage = _controller.pageNumber;
+                  pages = _controller.pageCount;
                   isReady = true;
                 });
               },
-              onError: (error) {
+              onDocumentLoadFailed: (error) {
                 setState(() => errorMessage = error.toString());
               },
-              onViewCreated: _controller.complete,
-              onPageChanged: (int? page, int? total) {
-                setState(() => currentPage = page);
-              },
-              onPageError: (page, error) {
-                setState(() {
-                  errorMessage = '$page: ${error.toString()}';
-                });
-              },
-            ).fromPath(widget.file.path),
+            ),
           ),
           errorMessage.isEmpty
               ? !isReady

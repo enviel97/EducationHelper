@@ -6,14 +6,16 @@ class Classroom extends Equatable {
   final String creatorId;
   final String name;
   final List<dynamic> members;
+  final int size;
   final List<String> exams;
 
   const Classroom({
     required this.name,
-    required this.members,
     required this.exams,
+    this.members = const [],
     this.creatorId = '',
     this.id = '',
+    this.size = 0,
   });
 
   static Classroom fromJson(dynamic json) {
@@ -24,6 +26,7 @@ class Classroom extends Equatable {
       name: json['name'] ?? '',
       creatorId: json['creatorId'] ?? '',
       id: json['id'] ?? json['_id'] ?? '',
+      size: json['size'] ?? 0,
       exams: exams,
       members: members,
     );
@@ -36,5 +39,5 @@ class Classroom extends Equatable {
   }
 
   @override
-  List<Object?> get props => [name, members, exams, creatorId, id];
+  List<Object?> get props => [name, members, exams, creatorId, id, size];
 }

@@ -76,6 +76,7 @@ class _TopicDetailState extends State<TopicDetail> {
                       createDate == null) {
                     setState(() {
                       classname = state.topic.classroom.name;
+                      idClasroom = state.topic.classroom.id;
                       exam = state.topic.exam;
                       expiredDate = state.topic.expiredDate;
                       createDate = state.topic.createDate;
@@ -104,9 +105,7 @@ class _TopicDetailState extends State<TopicDetail> {
                 if (state is TopicMembersLoaded) {
                   setState(() {
                     answers = state.answers;
-                    members =
-                        mapToList(state.classroom.members, Member.fromJson);
-                    idClasroom = state.classroom.id;
+                    members = state.members;
                   });
                 }
               },
@@ -115,7 +114,6 @@ class _TopicDetailState extends State<TopicDetail> {
                 members: members,
                 expiredDate: expiredDate,
                 idClassroom: idClasroom,
-                idTopic: topic?.id ?? '',
               ),
             )),
           ],

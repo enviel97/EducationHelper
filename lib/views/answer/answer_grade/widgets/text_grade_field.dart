@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 
 class TextGradeField extends StatefulWidget {
   final void Function(String value) onChanged;
+  final String grade;
   const TextGradeField({
     required this.onChanged,
+    required this.grade,
     Key? key,
   }) : super(key: key);
 
@@ -20,7 +22,7 @@ class _TextGradeFieldState extends State<TextGradeField> {
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController();
+    _controller = TextEditingController(text: widget.grade);
   }
 
   @override

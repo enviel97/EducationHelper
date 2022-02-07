@@ -7,11 +7,12 @@ import 'package:education_helper/views/topic/typings/color_status.dart';
 import 'package:flutter/material.dart';
 
 class HeaderAnswerExpanded extends StatelessWidget {
-  final String memberName;
+  final String memberName, infoMember;
   final StatusAnswer status;
   const HeaderAnswerExpanded({
     required this.memberName,
     required this.status,
+    required this.infoMember,
     Key? key,
   }) : super(key: key);
 
@@ -25,14 +26,17 @@ class HeaderAnswerExpanded extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Flexible(
-            child: Text(
-              memberName,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                color: kBlackColor,
-                fontWeight: FontWeight.bold,
-                fontSize: 16.0,
+            child: Tooltip(
+              message: infoMember,
+              child: Text(
+                memberName,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  color: kBlackColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16.0,
+                ),
               ),
             ),
           ),

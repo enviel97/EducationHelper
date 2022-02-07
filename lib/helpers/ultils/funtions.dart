@@ -28,7 +28,7 @@ List<T> mapToList<T>(dynamic json, T Function(dynamic json) create) {
 
 T mapToModel<T>(dynamic json, T Function(dynamic json) create) {
   if (json == null || json.isEmpty || json is String) {
-    return create({'id': json});
+    return create({'id': json ?? ''});
   }
   return create(json);
 }

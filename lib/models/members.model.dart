@@ -21,12 +21,14 @@ class Member {
     this.birth,
   });
 
+  String get name => '$firstName $lastName';
+
   static Member fromJson(dynamic json) {
     return Member(
       uid: json['id'] ?? json['_id'] ?? '',
-      firstName: json['firstName'],
-      lastName: json['lastName'],
-      gender: json['gender'],
+      firstName: json['firstName'] ?? '',
+      lastName: json['lastName'] ?? '',
+      gender: json['gender'] ?? '',
       avatar: json['avatar'] ?? '',
       mail: json['mail'] ?? '',
       phoneNumber: json['phoneNumber'] ?? json['phone'] ?? '',
@@ -34,7 +36,7 @@ class Member {
     );
   }
 
-  Map<String, dynamic> get toJson => {
+  Map<String, dynamic> toJson() => {
         'firstName': firstName,
         'lastName': lastName,
         'gender': gender,

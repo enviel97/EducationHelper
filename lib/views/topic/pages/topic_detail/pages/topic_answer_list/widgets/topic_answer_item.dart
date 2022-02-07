@@ -3,8 +3,8 @@ import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:education_helper/helpers/extensions/string_x.dart';
 import 'package:education_helper/models/answer.model.dart';
 import 'package:education_helper/models/members.model.dart';
-import 'package:education_helper/models/topic.model.dart';
 import 'package:education_helper/roots/bloc/app_bloc.dart';
+import 'package:education_helper/views/topic/blocs/member/topic_members_bloc.dart';
 import 'package:education_helper/views/topic/topics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,11 +18,9 @@ class TopicAnswerItem extends StatelessWidget {
   final double? grade;
   final String idAnswer;
   final bool isDisable;
-  final String idTopic;
   const TopicAnswerItem({
     required this.member,
     required this.idAnswer,
-    required this.idTopic,
     this.status,
     this.grade,
     Key? key,
@@ -98,16 +96,22 @@ class TopicAnswerItem extends StatelessWidget {
 
   void _goToAnswers(BuildContext context) async {
     final auth = BlocProvider.of<AppBloc>(context).getToken();
-
-    // TODO: Navigate to answer create or grade
-    final bool
-        // isNeedRefresh;
-        // if (auth.isEmpty) {
-        isNeedRefresh = await Topics.adapter
-            .goToAnswerCreate(context, member: member, idTopic: idTopic);
-    // } else {
-    //   isNeedRefresh = await Topics.adapter.goToAnswerGrade(context, idAnswer);
-    // }
-    if (isNeedRefresh) {}
+    final bool isNeedRefresh;
+    if (auth.isEmpty) {
+      // Create answer
+      final idTopic = BlocProvider.of<TopicMembersBloc>(context).id;
+      isNeedRefresh = await Topics.adapter
+          .goToAnswerCreate(context, member: member, idTopic: idTopic);
+    } else {
+      // Grading
+      if (status == StatusAnswer.empty) {
+        BlocProvider.of<AppBloc>(context).showError(context, 'Answer is empty');
+        return;
+      }
+      isNeedRefresh = await Topics.adapter.goToAnswerGrade(context, idAnswer);
+    }
+    if (isNeedRefresh) {
+      BlocProvider.of<TopicMembersBloc>(context).refreshMembers();
+    }
   }
 }

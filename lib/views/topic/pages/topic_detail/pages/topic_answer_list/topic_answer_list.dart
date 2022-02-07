@@ -11,12 +11,10 @@ class TopicAnswerList extends StatefulWidget {
   final List<Answer> answers;
   final List<Member> members;
   final DateTime? expiredDate;
-  final String idTopic;
   const TopicAnswerList({
     required this.answers,
     required this.members,
     required this.idClassroom,
-    required this.idTopic,
     Key? key,
     this.expiredDate,
   }) : super(key: key);
@@ -100,7 +98,6 @@ class _TopicAnswerListState extends State<TopicAnswerList> {
             controller: _controller,
             members: widget.members, // init
             idClassroom: widget.idClassroom,
-            idTopic: widget.idTopic,
           ),
         ),
       ],

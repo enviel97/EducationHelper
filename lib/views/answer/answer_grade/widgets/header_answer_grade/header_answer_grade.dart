@@ -6,8 +6,7 @@ import 'package:flutter/material.dart';
 import '../text_grade_field.dart';
 
 class HeaderAnswerGrade extends StatelessWidget {
-  final String name;
-  final String download;
+  final String name, download, grade;
   final Function(String grade) onChangeGrade;
   final Function() onConfirm;
   const HeaderAnswerGrade({
@@ -15,6 +14,7 @@ class HeaderAnswerGrade extends StatelessWidget {
     required this.download,
     required this.onChangeGrade,
     required this.onConfirm,
+    required this.grade,
     Key? key,
   }) : super(key: key);
 
@@ -38,7 +38,10 @@ class HeaderAnswerGrade extends StatelessWidget {
                     SPACING.S.horizontal,
                     SizedBox(
                         width: 100.0,
-                        child: TextGradeField(onChanged: onChangeGrade))
+                        child: TextGradeField(
+                          onChanged: onChangeGrade,
+                          grade: grade,
+                        ))
                   ])),
               DownloadButton(
                   iconSize: 24.0,

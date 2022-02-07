@@ -30,7 +30,7 @@ class GroupByStatus {
     };
     if (answers.isEmpty) return;
     _answerGroup = _answerGroup.map((key, value) {
-      final iAns = answers.indexWhere((ans) => ans.member == key);
+      final iAns = answers.indexWhere((ans) => ans.member.uid == key);
       if (iAns > -1) {
         final anss = answers[iAns];
         return MapEntry(

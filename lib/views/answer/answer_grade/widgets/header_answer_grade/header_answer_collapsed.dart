@@ -9,8 +9,8 @@ import 'package:education_helper/views/widgets/form/custom_multi_text_field.dart
 import 'package:flutter/material.dart';
 
 class HeaderAnswerCollapsed extends StatelessWidget {
-  final String memberName;
-  final DateTime submitdate;
+  final String memberName, review, infoMember;
+  final DateTime? submitdate;
   final StatusAnswer status;
   final Function(String note) onChanged;
   const HeaderAnswerCollapsed({
@@ -18,27 +18,40 @@ class HeaderAnswerCollapsed extends StatelessWidget {
     required this.submitdate,
     required this.status,
     required this.onChanged,
+    required this.review,
+    required this.infoMember,
     Key? key,
   }) : super(key: key);
 
   Color get color => getStatusColor(status);
   @override
   Widget build(BuildContext context) {
+    const format = 'MMM dd,yyyy - hh:mm';
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-          decoration: const BoxDecoration(
-            color: kPrimaryDarkColor,
-            borderRadius: BorderRadius.all(
-              Radius.circular(40.0),
+        Tooltip(
+          message: infoMember,
+          child: Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 15.0,
+              vertical: 10.0,
             ),
-          ),
-          child: Text(
-            memberName,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16.0,
+            decoration: const BoxDecoration(
+              color: kPrimaryDarkColor,
+              borderRadius: BorderRadius.all(
+                Radius.circular(40.0),
+              ),
+            ),
+            child: Text(
+              memberName,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16.0,
+              ),
             ),
           ),
         ),
@@ -49,7 +62,7 @@ class HeaderAnswerCollapsed extends StatelessWidget {
             Flexible(
               child: Text(
                 'Date: '
-                '${submitdate.toStringFormat(format: 'MMM dd,yyyy - hh:mm')}',
+                '${submitdate?.toStringFormat(format: format) ?? 'Loading'}',
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
@@ -76,6 +89,7 @@ class HeaderAnswerCollapsed extends StatelessWidget {
         SPACING.M.vertical,
         KMultiTextField(
           labelText: 'Note',
+          initValue: review,
           onChange: onChanged,
         ),
         SPACING.M.vertical,

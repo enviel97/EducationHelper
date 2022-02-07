@@ -57,8 +57,7 @@ class Topic extends Equatable {
     );
   }
 
-// List<Member> get members => mapToList(classroom.members, Member.fromJson)
-  int get totalMembers => classroom.members.length;
+  int get totalMembers => classroom.size;
   int get success =>
       answers.where((ans) => ans.status == StatusAnswer.submit).length;
   int get lated =>
