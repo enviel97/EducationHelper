@@ -1,3 +1,4 @@
+import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:education_helper/helpers/ultils/funtions.dart';
@@ -13,18 +14,19 @@ class DecorateHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final widthScreens = context.mediaSize.width;
-    const heightDecorate = 230.0;
+    final width = context.mediaSize.width * .5;
     return Container(
-      width: widthScreens * .6,
-      height: heightDecorate,
+      width: width,
+      height: width,
       decoration: BoxDecoration(
           image: DecorationImage(
         image: AssetImage(ImageFromLocal.asPng('header_decorate')),
         fit: BoxFit.fill,
       )),
-      padding: const EdgeInsets.only(top: heightDecorate / 3, left: 20.0),
-      child: Text(title, style: titleStyle),
+      padding: const EdgeInsets.only(left: 10.0),
+      child: SafeArea(
+        child: Text(title, style: titleStyle.copyWith(color: kWhiteColor)),
+      ),
     );
   }
 }

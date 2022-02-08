@@ -1,4 +1,5 @@
 import 'package:education_helper/constants/constant.dart' as c;
+import 'package:education_helper/models/topic.model.dart';
 import 'package:education_helper/models/user.model.dart';
 import 'package:education_helper/roots/miragate/google_sigin.dart';
 import 'package:education_helper/roots/miragate/http.dart';
@@ -85,14 +86,18 @@ class AuthBloc extends Cubit<AuthState> {
     }
   }
 
-  Future<void> signOut() async {
-    emit(AuthLoadingState());
+  Future<Topic?> checkId(String idTopic) async {
     try {
-      await _storage
-          .remove(c.token)
-          .whenComplete(() => emit(const AuthSignoutState()));
-    } catch (error) {
-      onErrors(error);
+      final result = await _restApi.get('topics/$idTopic').catchError((error) {
+        emit(AuthErrorState(error['error'] ?? "Don't know"));
+        return null;
+      });
+      if (result == null) return null;
+      final topic = Topic.fromJson(result);
+      return topic;
+    } catch (e) {
+      emit(const AuthErrorState('Error system'));
+      return null;
     }
   }
 

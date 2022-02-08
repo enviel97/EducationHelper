@@ -102,12 +102,15 @@ class _SignInPageState extends State<SignInPage> {
                 child: HorizantalDivider(text: 'Or'),
               ),
               SPACING.SM.vertical,
-              KIconButton(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
-                icon: const Icon(Entypo.google_, color: kWhiteColor),
-                onPressed: _signInWithGoogle,
-                text: 'Sign in with google',
+              SizedBox(
+                width: 220.0,
+                child: KIconButton(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 8.0),
+                  icon: const Icon(Entypo.google_, color: kWhiteColor),
+                  onPressed: _signInWithGoogle,
+                  text: 'Sign in with google',
+                ),
               ),
               SPACING.M.vertical,
             ],

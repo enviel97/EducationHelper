@@ -167,7 +167,7 @@ class _KTextFieldState extends State<KTextField> {
   }
 
   void _onChagne(String value) {
-    if (controller.text.length == 1) {
+    if (controller.text.length < 2) {
       setState(() {});
     }
     if (widget.onChange == null) return;
