@@ -30,8 +30,7 @@ class DatePickerTimeLine extends StatefulWidget {
 }
 
 class _DatePickerTimeLineState extends State<DatePickerTimeLine> {
-  DateTime selectedDate = DateTime.now();
-  late DateTime _selectedDate;
+  late DateTime _selectedDate = DateTime.now();
   late ScrollController _controller;
   final List<String> items = List.generate(20, (index) => 'Hello $index');
   late double intitOffset = 0.0;

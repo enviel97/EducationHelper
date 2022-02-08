@@ -1,4 +1,3 @@
-import 'package:education_helper/helpers/widgets/error_authenticate.dart';
 import 'package:education_helper/models/members.model.dart';
 import 'package:education_helper/roots/app_root.dart';
 import 'package:education_helper/roots/parts/adapter.dart';

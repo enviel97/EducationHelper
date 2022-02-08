@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:education_helper/constants/colors.dart';
-import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/helpers/modules/file_module.dart';
 import 'package:education_helper/helpers/widgets/file_error_notification.dart';
 import 'package:flutter/material.dart';

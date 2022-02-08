@@ -12,6 +12,7 @@ class KIconButton extends StatelessWidget {
   final Size? size;
   final EdgeInsets padding;
   final Color? sideColor;
+  final bool isDisable;
 
   const KIconButton({
     required this.icon,
@@ -23,6 +24,7 @@ class KIconButton extends StatelessWidget {
     this.backgroundColor,
     this.padding = const EdgeInsets.all(5.0),
     this.sideColor,
+    this.isDisable = false,
   }) : super(key: key);
 
   OutlinedBorder getShape(Color sideColor) {
@@ -44,16 +46,20 @@ class KIconButton extends StatelessWidget {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         minimumSize: size,
-        primary: backColor,
-        onSurface: backColor,
+        primary: backColor, // backgroundColor
+        onPrimary: kWhiteColor, // textColor
+        onSurface: kErrorColor, // disableColor
         shadowColor: backColor,
         elevation: 4,
         padding: padding,
         shape: getShape(sideColor),
       ),
-      onPressed: onPressed,
+      onPressed: isDisable ? null : onPressed,
       child: text?.isEmpty ?? true
-          ? Container(padding: padding, child: icon)
+          ? CircleAvatar(
+              backgroundColor: backColor.withOpacity(.75),
+              child: icon,
+            )
           : Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

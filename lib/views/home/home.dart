@@ -5,21 +5,20 @@ import 'package:education_helper/helpers/widgets/scroller_grow_disable.dart';
 import 'package:education_helper/models/user.model.dart';
 import 'package:education_helper/roots/app_root.dart';
 import 'package:education_helper/roots/bloc/app_bloc.dart';
-import 'package:education_helper/roots/bloc/app_state.dart';
 import 'package:education_helper/views/home/adapters/home.adapter.dart';
 import 'package:education_helper/views/home/bloc/classrooms/classroom.bloc.dart';
 import 'package:education_helper/views/home/bloc/exams/exam.bloc.dart';
 import 'package:education_helper/views/home/bloc/topics/topic.bloc.dart';
+import 'package:education_helper/views/home/pages/home_app_bar_child.dart';
 import 'package:education_helper/views/home/pages/topic_collection/topic_collection.dart';
 import 'package:education_helper/views/home/widgets/circle_floating_action_button/menu_button.dart';
-import 'package:education_helper/views/widgets/button/custom_icon_button.dart';
+import 'package:education_helper/views/widgets/deorate/custom_confirm_alert.dart';
 import 'package:education_helper/views/widgets/header/appbar_bottom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'pages/classroom_collection/classroom_collection.dart';
 import 'pages/exam_collection/exam_collection.dart';
-import 'widgets/date_horizantal/date_picker_timeline.dart';
 
 class Home extends StatefulWidget {
   static final adapter =
@@ -31,19 +30,19 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final dtControll = DatePickerTimelineControler();
   final mnController = MenuController();
   late User user;
+  late ScrollController _scrollController;
 
   @override
   void initState() {
+    _scrollController = ScrollController()..addListener(_onScroll);
     super.initState();
     BlocProvider.of<AppBloc>(context).getUser();
   }
 
   @override
   void dispose() {
-    dtControll.dispose();
     mnController.dispose();
     super.dispose();
   }
@@ -55,9 +54,10 @@ class _HomeState extends State<Home> {
         appBar: AppBar(
             title: const Text('HOME'),
             elevation: 0.0,
-            bottom: AppbarBottom(
-              height: 210.0,
-              child: _buildAppBarChild,
+            bottom: const AppbarBottom(
+              padding: EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
+              height: 250.0,
+              child: HomeAppBarChild(),
             )),
         body: SafeArea(
           child: SizedBox(
@@ -70,17 +70,18 @@ class _HomeState extends State<Home> {
                   padding: const EdgeInsets.only(bottom: 20.0),
                   child: NormalScroll(
                     child: SingleChildScrollView(
+                      controller: _scrollController,
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          SPACING.LG.vertical,
+                          SPACING.M.vertical,
                           const TopicCollection(),
                           SPACING.LG.vertical,
                           const ClassroomColection(),
                           SPACING.LG.vertical,
                           const ExamCollection(),
-                          SPACING.LG.vertical,
+                          SPACING.M.vertical,
                         ],
                       ),
                     ),
@@ -94,6 +95,7 @@ class _HomeState extends State<Home> {
                     onClickClassroom: gotoClassList,
                     onClickExam: gotoExams,
                     onClickTopic: goTopic,
+                    onShutdown: logout,
                   ),
                 ),
               ],
@@ -101,37 +103,6 @@ class _HomeState extends State<Home> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget get _buildAppBarChild {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        SizedBox(
-            height: 50.0,
-            width: 85.0,
-            child: Wrap(children: [
-              KIconButton(
-                  icon: const Icon(Icons.calendar_today, size: 20.0),
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  onPressed: () => dtControll.animateToDate(DateTime.now()),
-                  text: 'Now')
-            ])),
-        Expanded(
-            child: BlocBuilder<AppBloc, AppState>(builder: (context, state) {
-          List<DateTime> expiredDate = [];
-          if (state is UserStateSuccess) {
-            expiredDate = state.user.exams.map((e) => e.expiredDate).toList();
-          }
-          return DatePickerTimeLine(
-              controler: dtControll,
-              onDateChange: dtControll.animateToDate,
-              note: expiredDate,
-              initialSelectedDate: DateTime.now(),
-              startDate: DateTime.now().subtract(const Duration(days: 7)));
-        }))
-      ],
     );
   }
 
@@ -156,5 +127,36 @@ class _HomeState extends State<Home> {
   Future<void> goTopic() async {
     final isNeedRefresh = await Home.adapter.goToTopics(context);
     if (isNeedRefresh) homeRefresh();
+  }
+
+  void _onScroll() {
+    if (mounted) {
+      mnController.closeMenu();
+    }
+  }
+
+  Future<void> logout() async {
+    final isConfirm = await showDialog<bool>(
+      context: context,
+      builder: (_) {
+        return KConfirmAlert(
+            title: 'Sign out',
+            notice: 'Are you sure you want',
+            content: '\nSIGN OUT',
+            onConfirm: () {
+              BlocProvider.of<AppBloc>(context)
+                  .removeToken()
+                  .then((isRemoveSuccess) =>
+                      Navigator.maybePop(context, isRemoveSuccess))
+                  .catchError((_) {
+                debugPrint('[Logout remove error]: $_');
+                Navigator.maybePop(context, false);
+              });
+            });
+      },
+    );
+    if (isConfirm ?? false) {
+      Home.adapter.goToLogin(context);
+    }
   }
 }

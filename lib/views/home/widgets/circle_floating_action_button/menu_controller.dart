@@ -15,7 +15,7 @@ class MenuController {
 
   Future<void> closeMenu() async {
     try {
-      await _state!._openMenu();
+      await _state!._closeMenu();
     } catch (_) {
       debugPrint('[MenuController] $_');
     }
@@ -23,7 +23,7 @@ class MenuController {
 
   Future<void> openMenu() async {
     try {
-      await _state!._closeMenu();
+      await _state!._openMenu();
     } catch (_) {
       debugPrint('[MenuController] $_');
     }

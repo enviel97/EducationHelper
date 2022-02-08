@@ -1,7 +1,9 @@
 import 'package:education_helper/constants/colors.dart';
+import 'package:education_helper/constants/constant.dart';
 import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:education_helper/models/user.model.dart';
+import 'package:education_helper/roots/app_root.dart';
 import 'package:education_helper/roots/miragate/http.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -101,6 +103,14 @@ class AppBloc extends Cubit<AppState> {
     } catch (error) {
       debugPrint(error.toString());
       emit(const UserStateFailure("Can't get user"));
+    }
+  }
+
+  Future<bool> removeToken() async {
+    try {
+      return await Root.ins.localStorage.remove(token);
+    } catch (e) {
+      return false;
     }
   }
 }
