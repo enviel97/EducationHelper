@@ -90,6 +90,9 @@ class HeaderAnswerCollapsed extends StatelessWidget {
         KMultiTextField(
           labelText: 'Note',
           initValue: review,
+          hintText: 'Say somthing you ...',
+          hintStyle: TextStyle(color: kBlackColor.withOpacity(.7)),
+          textStyle: const TextStyle(color: kBlackColor),
           onChange: onChanged,
         ),
         SPACING.M.vertical,

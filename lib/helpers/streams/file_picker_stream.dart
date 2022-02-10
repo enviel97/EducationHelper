@@ -14,6 +14,7 @@ class FilePickerStream {
 
   void dispose() {
     _streamBroadcast.close();
+    _controller.dispose();
   }
 
   Future<void> filePicker() async {

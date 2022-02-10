@@ -96,27 +96,36 @@ class TopicAnswerItem extends StatelessWidget {
   }
 
   void _goToAnswers(BuildContext context) async {
-    final auth = BlocProvider.of<AppBloc>(context).getToken();
-    final bool isNeedRefresh;
-    if (auth.isEmpty) {
-      // Create answer
-      final idTopic = BlocProvider.of<TopicMembersBloc>(context).id;
-      final expiredDate = BlocProvider.of<TopicBloc>(context).topic.expiredDate;
-
-      isNeedRefresh = await Topics.adapter.goToAnswerCreate(context,
-          member: member,
-          idTopic: idTopic,
-          expiredDate: expiredDate,
-          status: status ?? StatusAnswer.empty,
-          id: idAnswer);
+    final isAuth = BlocProvider.of<AppBloc>(context).isAuth();
+    if (isAuth) {
+      _gradedAnswer(context);
     } else {
-      // Grading
-      if (status == StatusAnswer.empty) {
-        BlocProvider.of<AppBloc>(context).showError(context, 'Answer is empty');
-        return;
-      }
-      isNeedRefresh = await Topics.adapter.goToAnswerGrade(context, idAnswer);
+      _createAnswer(context);
     }
+  }
+
+  Future<void> _createAnswer(BuildContext context) async {
+    final idTopic = BlocProvider.of<TopicMembersBloc>(context).id;
+    final expiredDate = BlocProvider.of<TopicBloc>(context).topic.expiredDate;
+
+    final isNeedRefresh = await Topics.adapter.goToAnswerCreate(context,
+        member: member,
+        idTopic: idTopic,
+        expiredDate: expiredDate,
+        status: status ?? StatusAnswer.empty,
+        id: idAnswer);
+    if (isNeedRefresh) {
+      BlocProvider.of<TopicMembersBloc>(context).refreshMembers();
+    }
+  }
+
+  Future<void> _gradedAnswer(BuildContext context) async {
+    if (status == StatusAnswer.empty) {
+      BlocProvider.of<AppBloc>(context).showError(context, 'Answer is empty');
+      return;
+    }
+    final isNeedRefresh =
+        await Topics.adapter.goToAnswerGrade(context, idAnswer);
     if (isNeedRefresh) {
       BlocProvider.of<TopicMembersBloc>(context).refreshMembers();
     }

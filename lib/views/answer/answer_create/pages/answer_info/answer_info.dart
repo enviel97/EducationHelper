@@ -1,11 +1,10 @@
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/helpers/extensions/build_context_x.dart';
-import 'package:education_helper/helpers/extensions/state.x.dart';
 import 'package:education_helper/views/widgets/form/custom_multi_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class AnswerInfo extends StatefulWidget {
+class AnswerInfo extends StatelessWidget {
   final Function(String value) onNoteChange;
   final bool isEditable;
   final String review, note;
@@ -18,19 +17,6 @@ class AnswerInfo extends StatefulWidget {
     required this.note,
     Key? key,
   }) : super(key: key);
-
-  @override
-  State<AnswerInfo> createState() => _AnswerInfoState();
-}
-
-class _AnswerInfoState extends State<AnswerInfo> {
-  bool isEdit = false;
-
-  @override
-  void initState() {
-    super.initState();
-    isEdit = widget.isEditable;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,32 +34,32 @@ class _AnswerInfoState extends State<AnswerInfo> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     KMultiTextField(
-                      initValue: widget.note,
+                      initValue: note,
                       hintText: 'add something you want ...',
                       labelText: 'Note',
                       hintStyle: TextStyle(
                         color: kWhiteColor.withOpacity(.5),
                       ),
-                      onChange: widget.onNoteChange,
+                      onChange: onNoteChange,
                     ),
-                    _buildInfoContent(),
+                    _buildInfoContent(context),
                   ],
                 ),
               ),
             ),
-            _buildGrade(),
+            _buildGrade(context),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildInfoContent() {
-    final text = !widget.isEditable
+  Widget _buildInfoContent(BuildContext context) {
+    final text = !isEditable
         ? '...'
-        : widget.review.isEmpty
+        : review.isEmpty
             ? 'good job'
-            : widget.review;
+            : review;
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Container(
           padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
@@ -87,19 +73,20 @@ class _AnswerInfoState extends State<AnswerInfo> {
                 TextSpan(
                     text: text,
                     style: TextStyle(
-                        color: isLightTheme ? kBlackColor : kWhiteColor,
+                        color: context.isLightTheme ? kBlackColor : kWhiteColor,
                         fontSize: 18.0))
               ])))
     ]);
   }
 
-  Widget _buildGrade() {
-    final color =
-        isLightTheme ? const Color(0xFFAD3838) : const Color(0xFFDB4444);
+  Widget _buildGrade(BuildContext context) {
+    final color = context.isLightTheme
+        ? const Color(0xFFAD3838)
+        : const Color(0xFFDB4444);
     return Align(
       alignment: Alignment.centerLeft,
       child: Text(
-        'Grade: ${widget.grade.toString()}',
+        'Grade: ${grade.toString()}',
         textAlign: TextAlign.center,
         style: GoogleFonts.satisfy(
           textStyle: TextStyle(

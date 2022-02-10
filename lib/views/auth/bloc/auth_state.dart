@@ -1,4 +1,5 @@
 import 'package:education_helper/constants/constant.dart';
+import 'package:education_helper/models/topic.model.dart';
 import 'package:education_helper/models/user.model.dart';
 import 'package:equatable/equatable.dart';
 
@@ -37,6 +38,15 @@ class AuthSignoutState extends AuthState {
 
   @override
   List<Object> get props => [];
+}
+
+class AuthGetAssignmentState extends AuthState {
+  final Topic topic;
+
+  const AuthGetAssignmentState(this.topic);
+
+  @override
+  List<Object?> get props => [topic];
 }
 
 class AuthErrorState extends AuthState {

@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/helpers/extensions/state.x.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flowder/flowder.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
@@ -57,7 +59,6 @@ class _DownloadButtonState extends State<DownloadButton> {
   Future<void> _setPath() async {
     path = (await getExternalStorageDirectory())?.path ?? '';
     file = File('$path/${widget.name}');
-
     setState(() =>
         icon = file.existsSync() ? Icons.open_in_browser : Entypo.download);
   }
@@ -79,8 +80,9 @@ class _DownloadButtonState extends State<DownloadButton> {
               ? SizedBox(
                   width: widget.iconSize * 1.2,
                   child: LinearProgressIndicator(
+                    color: kSuccessColor,
                     value: process,
-                    minHeight: 4.0,
+                    minHeight: 5.0,
                   ),
                 )
               : const SizedBox.shrink(),
@@ -102,15 +104,18 @@ class _DownloadButtonState extends State<DownloadButton> {
     }
   }
 
-  Future<void> _openFile() async {
+  void _openFile() {
+    if (file.path.contains('rar') || file.path.contains('zip')) {
+      return;
+    }
     OpenFile.open(file.path);
   }
 
   Future<void> _download() async {
     if (widget.name.isEmpty || widget.download.isEmpty) return;
-
+    setState(() => isDownloading = true);
     try {
-      core = await Flowder.download(
+      Flowder.download(
         widget.download,
         DownloaderUtils(
           progressCallback: (current, total) {
@@ -130,9 +135,9 @@ class _DownloadButtonState extends State<DownloadButton> {
           },
           deleteOnCancel: true,
         ),
-      );
+      ).then((value) => core = value);
     } catch (e) {
-      print(e);
+      debugPrint('[Download button error]: $e');
       setState(() => isDownloading = false);
     }
   }

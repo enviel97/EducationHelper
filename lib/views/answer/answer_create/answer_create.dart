@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:education_helper/constants/colors.dart';
+import 'package:education_helper/helpers/widgets/scroller_grow_disable.dart';
 import 'package:education_helper/models/answer.model.dart';
 import 'package:education_helper/roots/app_root.dart';
 import 'package:education_helper/roots/bloc/app_bloc.dart';
@@ -55,7 +56,6 @@ class _AnswerCreateState extends State<AnswerCreate> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      resizeToAvoidBottomInset: false,
       floatingActionButton: FloatingActionButton(
         onPressed: _onHanlderSubmit,
         mini: false,
@@ -75,7 +75,7 @@ class _AnswerCreateState extends State<AnswerCreate> {
                   .showError(context, state.error.mess);
             }
             if (state is AnswerLoaded) {
-              if (answer != null) setState(() => answer = state.answer);
+              if (answer == null) setState(() => answer = state.answer);
             }
             if (state is AnswerChanged) {
               BlocProvider.of<AppBloc>(context).hiddenLoading(context);
@@ -91,15 +91,15 @@ class _AnswerCreateState extends State<AnswerCreate> {
                   const AnswerHeader(),
                   Expanded(
                     child: PageView(
+                      allowImplicitScrolling: true,
                       controller: _scrollController,
+                      scrollBehavior: NormalScollBehavior(),
                       children: [
                         AnswerPickerFile(
-                          key: const ValueKey(0),
                           onFileChange: _onFileChange,
                           isGraded: (answer?.grade ?? 0.0) > 0,
                         ),
                         AnswerInfo(
-                          key: const ValueKey(1),
                           onNoteChange: (value) => note = value,
                           isEditable: isEdit,
                           review: answer?.review ?? '',

@@ -3,6 +3,7 @@ import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:education_helper/helpers/extensions/state.x.dart';
 import 'package:education_helper/helpers/ultils/funtions.dart';
+import 'package:education_helper/models/topic.model.dart';
 import 'package:education_helper/roots/app_root.dart';
 import 'package:education_helper/roots/bloc/app_bloc.dart';
 import 'package:education_helper/views/auth/adapter/auth.adapter.dart';
@@ -36,7 +37,13 @@ class _TopicFormState extends State<TopicForm> {
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
+        if (state is AuthGetAssignmentState) {
+          BlocProvider.of<AppBloc>(context).hiddenLoading(context);
+          _dialogConfirm(state.topic);
+        }
+
         if (state is AuthErrorState) {
+          BlocProvider.of<AppBloc>(context).hiddenLoading(context);
           BlocProvider.of<AppBloc>(context)
               .showError(context, state.error.mess);
         }
@@ -142,23 +149,26 @@ class _TopicFormState extends State<TopicForm> {
     if (id.isEmpty || idTopic.isEmpty) {
       return;
     }
-    final topic = await BlocProvider.of<AuthBloc>(context).checkId(idTopic);
-    if (topic == null) return;
-    if (await showDialog<bool>(
-            context: context,
-            builder: (_) {
-              return KConfirmAlert(
-                onConfirm: () => Navigator.maybePop(context, true),
-                title: 'Confirm',
-                notice: 'For member of classroom: '
-                    '\nClassname: ${topic.classroom.name}',
-                content: '\nAsignment: ${topic.exam.name}',
-              );
-            }) ??
-        false) {
+    BlocProvider.of<AppBloc>(context).showLoading(context, 'Checking');
+    await BlocProvider.of<AuthBloc>(context).checkId(idTopic);
+  }
+
+  void _dialogConfirm(Topic topic) async {
+    final isConfirm = await showDialog<bool>(
+        context: context,
+        builder: (_) {
+          return KConfirmAlert(
+            onConfirm: () => Navigator.maybePop(context, true),
+            title: 'Confirm',
+            notice: 'For member of classroom: '
+                '\nClassname: ${topic.classroom.name}',
+            content: '\nAsignment: ${topic.exam.name}',
+          );
+        });
+    if (isConfirm ?? false) {
       final adapter =
           Root.ins.adapter.getAdapter(authAdapter).cast<AuthAdpater>();
-      adapter.gotoTopic(context, id);
+      adapter.gotoTopic(context, topic.id);
     }
   }
 }

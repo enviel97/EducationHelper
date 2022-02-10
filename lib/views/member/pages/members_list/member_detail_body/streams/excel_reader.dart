@@ -51,5 +51,6 @@ class ExcelReader {
 
   void dispose() {
     _csvReaderStream.close();
+    _filePicker.dispose();
   }
 }

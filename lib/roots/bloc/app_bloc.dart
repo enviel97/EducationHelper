@@ -1,5 +1,5 @@
 import 'package:education_helper/constants/colors.dart';
-import 'package:education_helper/constants/constant.dart';
+import 'package:education_helper/constants/constant.dart' as c;
 import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:education_helper/models/user.model.dart';
@@ -15,6 +15,7 @@ class AppBloc extends Cubit<AppState> {
   AppBloc() : super(AppStateInitial());
   bool _hasDialog = false;
   User? _currentUser;
+  String? token;
 
   SnackBar _snackBar(String message, Color color, int timeWait) => SnackBar(
         backgroundColor: color,
@@ -81,8 +82,12 @@ class AppBloc extends Cubit<AppState> {
     );
   }
 
-  String getToken() {
-    return api.options().headers?['authenticate'] ?? '';
+  bool isAuth() {
+    if (token == null) {
+      final _local = Root.ins.localStorage;
+      token = _local.read(c.token);
+    }
+    return token!.isNotEmpty;
   }
 
   Future<void> refreshUser() async {
@@ -108,7 +113,11 @@ class AppBloc extends Cubit<AppState> {
 
   Future<bool> removeToken() async {
     try {
-      return await Root.ins.localStorage.remove(token);
+      final isRemove = await Root.ins.localStorage.remove(c.token);
+      if (isRemove) {
+        api.setHeaders('');
+      }
+      return isRemove;
     } catch (e) {
       return false;
     }

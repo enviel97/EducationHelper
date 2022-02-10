@@ -5,10 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
 class FilePickerController {
+  late FilePicker _picker;
+  FilePickerController() {
+    _picker = FilePicker.platform;
+  }
+
   Future<PlatformFile?> getFilePicker(
       {FileType type = FileType.any, List<String>? allowedExtensions}) async {
     try {
-      final result = await FilePicker.platform.pickFiles(
+      final result = await _picker.pickFiles(
           allowMultiple: false,
           type: type,
           allowedExtensions: allowedExtensions);
@@ -18,6 +23,10 @@ class FilePickerController {
       debugPrint(error.toString());
       return Future.error('File error');
     }
+  }
+
+  void dispose() {
+    _picker.clearTemporaryFiles();
   }
 
   Future<File?> saveFile(PlatformFile file) async {

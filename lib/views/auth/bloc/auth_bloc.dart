@@ -99,18 +99,19 @@ class AuthBloc extends Cubit<AuthState> {
     }
   }
 
-  Future<Topic?> checkId(String idTopic) async {
+  Future<void> checkId(String idTopic) async {
+    emit(AuthLoadingState());
     try {
       final result = await _restApi.get('topics/$idTopic').catchError((error) {
         emit(AuthErrorState(c.Messenger(error['error'] ?? "Don't know")));
         return null;
       });
-      if (result == null) return null;
+      if (result == null) return;
       final topic = Topic.fromJson(result);
-      return topic;
+      emit(AuthGetAssignmentState(topic));
     } catch (e) {
       emit(const AuthErrorState(c.Messenger('Error system')));
-      return null;
+      return;
     }
   }
 
