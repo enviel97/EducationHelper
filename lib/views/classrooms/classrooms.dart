@@ -129,8 +129,7 @@ class _ClassroomsState extends State<Classrooms> {
       builder: (context, state) {
         if (state is UserStateSuccess) {
           return ClassroomHeader(
-              ungradeExams: 0,
-              totalExams: 0,
+              totalExams: state.user.exams.length,
               totalClassroom: totalClass,
               avatar: state.user.avatar ?? '',
               email: state.user.email,

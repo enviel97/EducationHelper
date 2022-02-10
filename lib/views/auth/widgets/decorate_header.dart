@@ -25,7 +25,10 @@ class DecorateHeader extends StatelessWidget {
       )),
       padding: const EdgeInsets.only(left: 10.0),
       child: SafeArea(
-        child: Text(title, style: titleStyle.copyWith(color: kWhiteColor)),
+        child: Padding(
+          padding: const EdgeInsets.only(top: 10.0),
+          child: Text(title, style: titleStyle.copyWith(color: kWhiteColor)),
+        ),
       ),
     );
   }

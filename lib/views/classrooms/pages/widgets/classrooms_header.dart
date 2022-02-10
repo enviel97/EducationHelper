@@ -10,11 +10,9 @@ class ClassroomHeader extends StatefulWidget {
   final String name;
   final String email;
   final int totalClassroom;
-  final int ungradeExams;
   final int totalExams;
 
   const ClassroomHeader({
-    required this.ungradeExams,
     required this.totalExams,
     required this.totalClassroom,
     required this.avatar,
@@ -63,7 +61,7 @@ class _ClassroomHeaderState extends State<ClassroomHeader> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '${widget.ungradeExams} / ${quantity(widget.ungradeExams, 'exam')}',
+                    ' ${quantity(widget.totalExams, 'exam')}',
                     style: TextStyle(
                       color: kPrimaryColor,
                       fontSize: SPACING.M.size,
@@ -71,8 +69,12 @@ class _ClassroomHeaderState extends State<ClassroomHeader> {
                     ),
                   ),
                   SizedBox(
-                      height: SPACING.M.size,
-                      child: const VerticalDivider(color: kPrimaryColor)),
+                    height: SPACING.M.size,
+                    child: const VerticalDivider(
+                      color: kPrimaryColor,
+                      thickness: 2.0,
+                    ),
+                  ),
                   Text(
                     quantity(widget.totalClassroom, 'classroom'),
                     style: TextStyle(

@@ -35,10 +35,15 @@ class AuthBloc extends Cubit<AuthState> {
         '$_path/signin/email',
         {'email': username, 'password': password},
       ).catchError((err) {
+        print(err);
         emit(AuthErrorState(c.Messenger(err['error'] ?? "Don't know")));
         return null;
       });
+      if (result == null) return;
+
       final String token = result[c.token] ?? '';
+      print(token);
+
       await _storage.write(c.token, token).then((value) {
         emit(AuthSigninSuccessState(token));
         _restApi.setHeaders(token);
@@ -47,6 +52,7 @@ class AuthBloc extends Cubit<AuthState> {
         return null;
       });
     } catch (error) {
+      print(error);
       onErrors(error);
     }
   }
