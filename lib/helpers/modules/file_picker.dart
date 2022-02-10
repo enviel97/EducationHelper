@@ -5,14 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
 class FilePickerController {
-  Future<PlatformFile?> getFilePicker({
-    FileType type = FileType.any,
-  }) async {
+  Future<PlatformFile?> getFilePicker(
+      {FileType type = FileType.any, List<String>? allowedExtensions}) async {
     try {
       final result = await FilePicker.platform.pickFiles(
-        allowMultiple: false,
-        type: type,
-      );
+          allowMultiple: false,
+          type: type,
+          allowedExtensions: allowedExtensions);
       if (result == null) return null;
       return result.files.first;
     } catch (error) {

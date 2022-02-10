@@ -18,7 +18,10 @@ class ExcelReader {
 
   Future<void> pickFile() async {
     try {
-      final file = await _filePicker.getFilePicker();
+      final file = await _filePicker.getFilePicker(
+        type: FileType.custom,
+        allowedExtensions: ['xlsx', 'xlsm', 'xls'],
+      );
       if (file == null) return;
       _csvReaderStream.sink.add(file);
     } catch (error) {
