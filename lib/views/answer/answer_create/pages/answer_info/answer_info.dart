@@ -1,4 +1,5 @@
 import 'package:education_helper/constants/colors.dart';
+import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:education_helper/helpers/extensions/state.x.dart';
 import 'package:education_helper/views/widgets/form/custom_multi_text_field.dart';
 import 'package:flutter/material.dart';
@@ -33,33 +34,36 @@ class _AnswerInfoState extends State<AnswerInfo> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(18.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  KMultiTextField(
-                    initValue: widget.note,
-                    hintText: 'add something you want ...',
-                    labelText: 'Note',
-                    hintStyle: TextStyle(
-                      color: kWhiteColor.withOpacity(.5),
+    return GestureDetector(
+      onTap: context.disableKeyBoard,
+      child: Container(
+        padding: const EdgeInsets.all(18.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    KMultiTextField(
+                      initValue: widget.note,
+                      hintText: 'add something you want ...',
+                      labelText: 'Note',
+                      hintStyle: TextStyle(
+                        color: kWhiteColor.withOpacity(.5),
+                      ),
+                      onChange: widget.onNoteChange,
                     ),
-                    onChange: widget.onNoteChange,
-                  ),
-                  _buildInfoContent(),
-                ],
+                    _buildInfoContent(),
+                  ],
+                ),
               ),
             ),
-          ),
-          _buildGrade(),
-        ],
+            _buildGrade(),
+          ],
+        ),
       ),
     );
   }

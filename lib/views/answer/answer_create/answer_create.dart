@@ -75,7 +75,7 @@ class _AnswerCreateState extends State<AnswerCreate> {
                   .showError(context, state.error.mess);
             }
             if (state is AnswerLoaded) {
-              setState(() => answer = state.answer);
+              if (answer != null) setState(() => answer = state.answer);
             }
             if (state is AnswerChanged) {
               BlocProvider.of<AppBloc>(context).hiddenLoading(context);
@@ -94,10 +94,12 @@ class _AnswerCreateState extends State<AnswerCreate> {
                       controller: _scrollController,
                       children: [
                         AnswerPickerFile(
+                          key: const ValueKey(0),
                           onFileChange: _onFileChange,
                           isGraded: (answer?.grade ?? 0.0) > 0,
                         ),
                         AnswerInfo(
+                          key: const ValueKey(1),
                           onNoteChange: (value) => note = value,
                           isEditable: isEdit,
                           review: answer?.review ?? '',

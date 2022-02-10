@@ -34,11 +34,17 @@ class AuthBloc extends Cubit<AuthState> {
       final result = await _restApi.post(
         '$_path/signin/email',
         {'email': username, 'password': password},
-      );
+      ).catchError((err) {
+        emit(AuthErrorState(c.Messenger(err['error'] ?? "Don't know")));
+        return null;
+      });
       final String token = result[c.token] ?? '';
-      await _storage.write(c.token, token).whenComplete(() async {
+      await _storage.write(c.token, token).then((value) {
         emit(AuthSigninSuccessState(token));
         _restApi.setHeaders(token);
+      }).catchError((err) {
+        emit(const AuthErrorState(c.Messenger('Token storege error')));
+        return null;
       });
     } catch (error) {
       onErrors(error);
@@ -50,24 +56,28 @@ class AuthBloc extends Cubit<AuthState> {
 
     try {
       final account = await ggAuth.googleSignIn();
-      if (account != null) {
-        final result = await _restApi.post(
-          '$_path/signin/google',
-          {
-            'id': account.id,
-            'email': account.email,
-            'password': '@user_${account.email.split("@")[0]}',
-            'name': account.displayName,
-            'avatar': account.photoUrl,
-          },
-        );
-        final String token = result[c.token] ?? '';
-        if (token.isNotEmpty) {
-          await _storage.write(c.token, token).whenComplete(() async {
-            emit(AuthSigninSuccessState(token));
-            _restApi.setHeaders(token);
-          });
-        }
+      if (account == null) {
+        emit(const AuthErrorState(c.Messenger('Account is empty')));
+        return;
+      }
+      final result = await _restApi.post(
+        '$_path/signin/google',
+        {
+          'id': account.id,
+          'email': account.email,
+          'password': '@user_${account.email.split("@")[0]}',
+          'name': account.displayName,
+          'avatar': account.photoUrl,
+        },
+      );
+      final String token = result[c.token] ?? '';
+      if (token.isNotEmpty) {
+        await _storage.write(c.token, token).whenComplete(() async {
+          emit(AuthSigninSuccessState(token));
+          _restApi.setHeaders(token);
+        });
+      } else {
+        emit(const AuthErrorState(c.Messenger("Can't create token")));
       }
     } catch (error) {
       onErrors(error);
@@ -89,14 +99,14 @@ class AuthBloc extends Cubit<AuthState> {
   Future<Topic?> checkId(String idTopic) async {
     try {
       final result = await _restApi.get('topics/$idTopic').catchError((error) {
-        emit(AuthErrorState(error['error'] ?? "Don't know"));
+        emit(AuthErrorState(c.Messenger(error['error'] ?? "Don't know")));
         return null;
       });
       if (result == null) return null;
       final topic = Topic.fromJson(result);
       return topic;
     } catch (e) {
-      emit(const AuthErrorState('Error system'));
+      emit(const AuthErrorState(c.Messenger('Error system')));
       return null;
     }
   }
@@ -114,7 +124,7 @@ class AuthBloc extends Cubit<AuthState> {
       }
     } catch (error) {
       debugPrint('[Error system]: $error');
-      emit(const AuthErrorState('System error'));
+      emit(const AuthErrorState(c.Messenger('Error system')));
     }
   }
 }

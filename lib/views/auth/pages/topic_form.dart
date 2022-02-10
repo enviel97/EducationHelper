@@ -37,7 +37,8 @@ class _TopicFormState extends State<TopicForm> {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthErrorState) {
-          BlocProvider.of<AppBloc>(context).showError(context, state.error);
+          BlocProvider.of<AppBloc>(context)
+              .showError(context, state.error.mess);
         }
       },
       child: Align(

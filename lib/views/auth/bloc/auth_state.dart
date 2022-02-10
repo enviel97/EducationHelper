@@ -1,3 +1,4 @@
+import 'package:education_helper/constants/constant.dart';
 import 'package:education_helper/models/user.model.dart';
 import 'package:equatable/equatable.dart';
 
@@ -39,7 +40,7 @@ class AuthSignoutState extends AuthState {
 }
 
 class AuthErrorState extends AuthState {
-  final String error;
+  final Messenger error;
   const AuthErrorState(this.error);
 
   @override

@@ -30,7 +30,7 @@ class RestApi {
         port: 3000,
         path: path,
         queryParameters: parametter);
-    // final uri = Uri.https('educationhelper.herokuapp.com', path);
+    // final uri = Uri.https('educationhelper.herokuapp.com', path, parametter);
     debugPrint(uri.toString());
     return uri.toString();
   }

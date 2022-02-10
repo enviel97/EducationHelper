@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class GoogleAuth {
@@ -8,7 +7,8 @@ class GoogleAuth {
   late GoogleSignIn _googleSignIn;
 
   GoogleAuth._() {
-    _googleSignIn = GoogleSignIn();
+    _googleSignIn = GoogleSignIn(
+        scopes: ['email', 'https://www.googleapis.com/auth/userinfo.email']);
   }
 
   factory GoogleAuth() {
@@ -19,7 +19,7 @@ class GoogleAuth {
     try {
       final account = await _googleSignIn.signIn();
       return account;
-    } on PlatformException catch (error) {
+    } on Exception catch (error) {
       // Handle err
       debugPrint('[Google signin error]:  $error');
       return null;

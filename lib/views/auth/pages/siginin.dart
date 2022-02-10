@@ -41,7 +41,7 @@ class _SignInPageState extends State<SignInPage> {
         }
         if (state is AuthErrorState) {
           appBloc.hiddenLoading(context);
-          appBloc.showError(context, state.error);
+          appBloc.showError(context, state.error.mess);
         }
         if (state is AuthErrorsState) {
           appBloc.hiddenLoading(context);
