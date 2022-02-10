@@ -2,6 +2,7 @@ import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/helpers/extensions/state.x.dart';
 import 'package:education_helper/models/exam.model.dart';
+import 'package:education_helper/roots/bloc/app_bloc.dart';
 import 'package:education_helper/views/exam/bloc/exam_bloc.dart';
 import 'package:education_helper/views/exam/bloc/exam_state.dart';
 import 'package:education_helper/views/exam/pages/exams_detail/widgets/exam_appbar_bottom.dart';
@@ -57,13 +58,15 @@ class _ExamDetailState extends State<ExamDetail> {
               public = state.exam.content.public;
             });
           }
+
+          if (state is ExamFailureState) {
+            BlocProvider.of<AppBloc>(context)
+                .showError(context, state.error.mess);
+          }
         },
         builder: (context, state) {
           if (state is ExamGetState) {
             return _builderFile(state.exam);
-          }
-          if (state is ExamFailureState) {
-            return Container();
           }
           return const Center(
             child: CircularProgressIndicator(),

@@ -4,6 +4,7 @@ import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:education_helper/helpers/modules/file_module.dart';
+import 'package:education_helper/helpers/widgets/file_error_notification.dart';
 import 'package:education_helper/models/exam.model.dart';
 import 'package:education_helper/views/exam/pages/exams_detail/widgets/exam_content.dart';
 import 'package:flutter/material.dart';
@@ -27,18 +28,13 @@ class ExamDetailContent extends StatelessWidget {
         child: FutureBuilder<File>(
           future: FileModule(content.name).loadFile(),
           builder: (context, snapshot) {
-            if (snapshot.hasData && snapshot.data != null) {
+            if (snapshot.connectionState == ConnectionState.done) {
               return ExamContent(file: snapshot.data!);
             }
+
             if (snapshot.hasError) {
-              return Center(
-                child: Text(
-                  '${snapshot.error}',
-                  style: TextStyle(
-                    color: color,
-                    fontSize: SPACING.LG.size,
-                  ),
-                ),
+              return FileErrorNotification(
+                mess: '${snapshot.error ?? 'FILE NOT FOUND'}',
               );
             }
             return const Center(

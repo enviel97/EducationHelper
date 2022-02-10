@@ -26,27 +26,38 @@ class DownloadButton extends StatefulWidget {
 }
 
 class _DownloadButtonState extends State<DownloadButton> {
-  late DownloaderCore core;
+  DownloaderCore? core;
   late final String path;
   late IconData icon = Entypo.download;
   late File file;
+  String name = '';
   double process = 0.0;
   bool isDownloading = false;
 
   @override
-  void initState() {
-    super.initState();
-    initPlatformState();
+  void didUpdateWidget(DownloadButton oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.name != widget.name) {
+      initPlatformState();
+    }
   }
 
-  Future<void> initPlatformState() async {
-    _setPath();
+  @override
+  void dispose() {
+    core?.pause();
+    core?.cancel();
+    super.dispose();
+  }
+
+  initPlatformState() async {
     if (!mounted) return;
+    await _setPath();
   }
 
-  void _setPath() async {
+  Future<void> _setPath() async {
     path = (await getExternalStorageDirectory())?.path ?? '';
     file = File('$path/${widget.name}');
+
     setState(() =>
         icon = file.existsSync() ? Icons.open_in_browser : Entypo.download);
   }
@@ -97,9 +108,9 @@ class _DownloadButtonState extends State<DownloadButton> {
 
   Future<void> _download() async {
     if (widget.name.isEmpty || widget.download.isEmpty) return;
-    setState(() => isDownloading = true);
+
     try {
-      await Flowder.download(
+      core = await Flowder.download(
         widget.download,
         DownloaderUtils(
           progressCallback: (current, total) {
@@ -121,6 +132,7 @@ class _DownloadButtonState extends State<DownloadButton> {
         ),
       );
     } catch (e) {
+      print(e);
       setState(() => isDownloading = false);
     }
   }
