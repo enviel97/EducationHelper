@@ -20,6 +20,8 @@ class AnswerContent extends StatelessWidget {
   String get filePath => file.path.split('/').last.toLowerCase();
 
   bool get isImage =>
+      filePath.contains('image') ||
+      filePath.contains('img') ||
       filePath.contains('jpg') ||
       filePath.contains('jpeg') ||
       filePath.contains('png');
