@@ -38,7 +38,7 @@ class _HomeState extends State<Home> {
   void initState() {
     _scrollController = ScrollController()..addListener(_onScroll);
     super.initState();
-    BlocProvider.of<AppBloc>(context).getUser();
+    _fetch();
   }
 
   @override
@@ -92,9 +92,9 @@ class _HomeState extends State<Home> {
                   bottom: 10.0,
                   child: MenuButton(
                     controler: mnController,
-                    onClickClassroom: gotoClassList,
-                    onClickExam: gotoExams,
-                    onClickTopic: goTopic,
+                    onClickClassroom: () => gotoClassList(context),
+                    onClickExam: () => gotoExams(context),
+                    onClickTopic: () => goTopic(context),
                     onShutdown: logout,
                   ),
                 ),
@@ -106,27 +106,19 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Future<void> homeRefresh() async {
-    Future.wait([
-      BlocProvider.of<TopicBloc>(context).refresh(),
-      BlocProvider.of<AppBloc>(context).refreshUser(),
-      BlocProvider.of<ClassroomsBloc>(context).refresh()
-    ]);
-  }
-
-  Future<void> gotoClassList() async {
+  Future<void> gotoClassList(BuildContext context) async {
     final isNeedRefresh = await Home.adapter.goToClassroom(context);
-    if (isNeedRefresh) BlocProvider.of<ClassroomsBloc>(context).refresh();
+    if (isNeedRefresh) homeRefresh(context);
   }
 
-  Future<void> gotoExams() async {
+  Future<void> gotoExams(BuildContext context) async {
     final isNeedRefresh = await Home.adapter.goToExams(context);
-    if (isNeedRefresh) BlocProvider.of<ExamsBloc>(context).refresh();
+    if (isNeedRefresh) homeRefresh(context);
   }
 
-  Future<void> goTopic() async {
+  Future<void> goTopic(BuildContext context) async {
     final isNeedRefresh = await Home.adapter.goToTopics(context);
-    if (isNeedRefresh) homeRefresh();
+    if (isNeedRefresh) homeRefresh(context);
   }
 
   void _onScroll() {
@@ -158,5 +150,23 @@ class _HomeState extends State<Home> {
     if (isConfirm ?? false) {
       Home.adapter.goToLogin(context);
     }
+  }
+
+  Future<void> homeRefresh(BuildContext context) async {
+    Future.wait([
+      BlocProvider.of<TopicBloc>(context).refresh(),
+      BlocProvider.of<AppBloc>(context).refreshUser(),
+      BlocProvider.of<ClassroomsBloc>(context).refresh(),
+      BlocProvider.of<ExamsBloc>(context).refresh(),
+    ]);
+  }
+
+  void _fetch() {
+    Future.wait([
+      BlocProvider.of<TopicBloc>(context).getTopicCollection(),
+      BlocProvider.of<AppBloc>(context).getUser(),
+      BlocProvider.of<ClassroomsBloc>(context).getClassCollection(),
+      BlocProvider.of<ExamsBloc>(context).getExamCollection(),
+    ]);
   }
 }

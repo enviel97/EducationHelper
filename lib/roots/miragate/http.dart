@@ -9,19 +9,21 @@ enum Method { post, get, put }
 
 class RestApi {
   static final RestApi _ins = RestApi._internal();
-  late Dio _client;
   final Map<String, String> _header = {'api-key': '270897'};
 
-  RestApi._internal() {
-    _client = Dio();
-  }
+  late Dio _client;
+  RestApi._internal();
 
   Options options({String contentType = Headers.jsonContentType}) => Options(
         headers: _header,
         contentType: contentType,
       );
 
-  factory RestApi() => _ins;
+  factory RestApi() {
+    _ins._client = Dio();
+    print(_ins._client.hashCode);
+    return _ins;
+  }
 
   String _baseUrl(String path, {Map<String, dynamic>? parametter}) {
     // final uri = Uri(

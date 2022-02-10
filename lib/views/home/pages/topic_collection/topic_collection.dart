@@ -30,8 +30,12 @@ class _TopicCollectionState extends State<TopicCollection> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<TopicBloc>(context).getTopicCollection();
     topics = [];
+  }
+
+  @override
+  void didChangeDependencies() {
+    // BlocProvider.of<TopicBloc>(context).getTopicCollection();
   }
 
   @override
@@ -67,7 +71,7 @@ class _TopicCollectionState extends State<TopicCollection> {
             }
             if (state is TopicFailState) {
               return TopicEmpty(
-                onPressed: _refresh,
+                onPressed: BlocProvider.of<TopicBloc>(context).refresh,
                 messenger: 'Has occus when loading topic',
                 buttonText: 'Refresh',
               );

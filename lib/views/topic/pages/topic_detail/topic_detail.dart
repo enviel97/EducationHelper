@@ -42,8 +42,7 @@ class _TopicDetailState extends State<TopicDetail> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<TopicBloc>(context).getOnce(widget.id);
-    BlocProvider.of<TopicMembersBloc>(context).getMembers(widget.id);
+    _fetch();
   }
 
   @override
@@ -119,5 +118,12 @@ class _TopicDetailState extends State<TopicDetail> {
         ),
       ),
     );
+  }
+
+  void _fetch() {
+    Future.wait([
+      BlocProvider.of<TopicBloc>(context).getOnce(widget.id),
+      BlocProvider.of<TopicMembersBloc>(context).getMembers(widget.id)
+    ]);
   }
 }

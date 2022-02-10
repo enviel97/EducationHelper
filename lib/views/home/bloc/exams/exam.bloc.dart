@@ -1,6 +1,7 @@
 import 'package:education_helper/constants/constant.dart';
 import 'package:education_helper/models/exam.model.dart';
 import 'package:education_helper/roots/miragate/http.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'exam.state.dart';
@@ -40,6 +41,7 @@ class ExamsBloc extends Cubit<ExamState> {
       }
       emit(ExamLoadedState(exams));
     } catch (e) {
+      debugPrint('$e');
       emit(const ExamFailState(Messenger('System error')));
     }
   }

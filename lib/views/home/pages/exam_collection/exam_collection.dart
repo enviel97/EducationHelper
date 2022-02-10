@@ -32,7 +32,7 @@ class _ExamCollectionState extends State<ExamCollection> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<ExamsBloc>(context).getExamCollection();
+    // BlocProvider.of<ExamsBloc>(context).getExamCollection();
   }
 
   @override
@@ -78,7 +78,7 @@ class _ExamCollectionState extends State<ExamCollection> {
                     messneger: 'An error occurred loading data.'
                         'please wait a few minutes and click refresh',
                     title: 'Refresh',
-                    onStateHandle: refreshExam,
+                    onStateHandle: BlocProvider.of<ExamsBloc>(context).refresh,
                   );
                 }
 

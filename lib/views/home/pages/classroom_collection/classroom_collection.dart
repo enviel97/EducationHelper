@@ -34,7 +34,7 @@ class _ClassroomColectionState extends State<ClassroomColection> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<ClassroomsBloc>(context).getClassCollection();
+    // BlocProvider.of<ClassroomsBloc>(context).getClassCollection();
   }
 
   @override
@@ -78,7 +78,8 @@ class _ClassroomColectionState extends State<ClassroomColection> {
 
                 if (state is ClassroomFailState) {
                   return ClassroomCollectionEmpty(
-                    onStateHandle: _refresh,
+                    onStateHandle:
+                        BlocProvider.of<ClassroomsBloc>(context).refresh,
                     messneger: 'An error occurred loading data.'
                         'please wait a few minutes and click refresh',
                     title: 'Refresh',
