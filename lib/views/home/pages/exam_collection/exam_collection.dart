@@ -50,7 +50,7 @@ class _ExamCollectionState extends State<ExamCollection> {
         children: [
           SPACING.M.vertical,
           HeaderCollection(
-            title: 'Exams',
+            title: 'Topics',
             qunatity: exams.length,
             onPressMore: gotoExams,
           ),
