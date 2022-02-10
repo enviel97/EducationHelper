@@ -106,6 +106,9 @@ class _TopicInfoState extends State<TopicInfo> {
               labelText: 'Note: ',
               initValue: widget.note,
               onChange: widget.onChangeNote,
+              hintText: 'Tell some thing about assignment ...',
+              hintStyle: TextStyle(color: kBlackColor.withOpacity(.7)),
+              textStyle: const TextStyle(color: kBlackColor),
             ),
           )
         ],

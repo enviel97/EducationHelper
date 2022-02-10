@@ -11,6 +11,7 @@ import 'package:education_helper/views/topic/blocs/topic/topic_bloc.dart';
 import 'package:education_helper/views/topic/blocs/topic/topic_state.dart';
 import 'package:education_helper/views/topic/pages/topic_form/pages/topic_info.dart';
 import 'package:education_helper/views/topic/pages/topic_form/pages/topic_selected_classroom.dart';
+import 'package:education_helper/views/widgets/button/custom_go_back.dart';
 import 'package:education_helper/views/widgets/button/custom_text_button.dart';
 import 'package:education_helper/views/widgets/header/appbar_bottom.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +41,6 @@ class TopicForm extends StatefulWidget {
 }
 
 class _TopicFormState extends State<TopicForm> {
-  bool get isEdit => widget.id != null;
   int hours = 12, minutes = 0;
   String examId = '', classroomId = '', note = '';
   DateTime? date;
@@ -56,12 +56,14 @@ class _TopicFormState extends State<TopicForm> {
     minutes = widget.expired?.minute ?? 0;
   }
 
+  bool get disable => classroomId.isEmpty || examId.isEmpty || date == null;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(isEdit ? 'Create Assignment' : 'Edit Assignment'),
+        title: const Text('Create Assignment'),
         bottom: const AppbarBottom(),
+        leading: const KGoBack(),
       ),
       body: BlocListener<TopicBloc, TopicState>(
         listener: (BuildContext context, state) {
@@ -87,24 +89,27 @@ class _TopicFormState extends State<TopicForm> {
                 children: [
                   TopicSeclectExams(
                     exam: widget.exam,
-                    onSelectExam: (id) => examId = id,
+                    onSelectExam: (id) => setState(() => examId = id),
                   ),
                   SPACING.M.vertical,
                   TopicSelecetedClassroom(
                     classroom: widget.classroom,
-                    onSelectedClassroom: (id) => classroomId = id,
+                    onSelectedClassroom: (id) =>
+                        setState(() => classroomId = id),
                   ),
                   SPACING.M.vertical,
                   TopicInfo(
                     hours: hours,
                     minutes: minutes,
                     date: date,
-                    onChangeDate: (date) => this.date = date,
+                    onChangeDate: (date) => setState(() => this.date = date),
                     onChangeHours: (hours) {
-                      this.hours = int.tryParse(hours) ?? this.hours;
+                      setState(
+                          () => this.hours = int.tryParse(hours) ?? this.hours);
                     },
                     onChangeMinutes: (minutes) {
-                      this.minutes = int.tryParse(minutes) ?? this.minutes;
+                      setState(() =>
+                          this.minutes = int.tryParse(minutes) ?? this.minutes);
                     },
                     onChangeNote: (note) => this.note = note,
                   ),
@@ -115,6 +120,7 @@ class _TopicFormState extends State<TopicForm> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         KTextButton(
+                          isDisable: disable,
                           width: 150,
                           onPressed: _onConfirm,
                           text: 'Confirm',
@@ -140,7 +146,7 @@ class _TopicFormState extends State<TopicForm> {
   }
 
   void _onConfirm() {
-    if (classroomId.isEmpty || examId.isEmpty || date == null) return;
+    if (disable) return;
     final expired =
         DateTime(date!.year, date!.month, date!.day, hours, minutes);
 

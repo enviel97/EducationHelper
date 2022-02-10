@@ -43,7 +43,7 @@ class _TopicCollectionState extends State<TopicCollection> {
         ),
         child: Column(mainAxisSize: MainAxisSize.min, children: [
           HeaderCollection(
-            title: 'Topics',
+            title: 'Assignment',
             qunatity: topics.length,
             onPressMore: _morePressed,
             textColor: isLightTheme ? kPrimaryColor : kSecondaryColor,
