@@ -40,7 +40,7 @@ class _ExamsState extends State<Exams> {
         leading: KGoBack<bool>(
           result: isNeedRefresh,
         ),
-        title: const Text('EXAM'),
+        title: const Text('Topic'),
         bottom: const AppbarBottom(),
         elevation: 0.0,
       ),

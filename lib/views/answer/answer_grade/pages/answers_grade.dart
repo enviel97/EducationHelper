@@ -66,7 +66,7 @@ class _AnswersGradeState extends State<AnswersGrade> {
                   name = content.originName;
                   memberName = member.name;
                   status = state.answer.status;
-                  submitdate = state.answer.createdAt;
+                  submitdate = state.answer.updatedAt;
                   grade = state.answer.grade.toString();
                   infoMember = member.phoneNumber ??
                       member.mail ??

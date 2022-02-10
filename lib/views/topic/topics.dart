@@ -30,7 +30,7 @@ class _TopicsState extends State<Topics> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text('TOPIC'),
+        title: const Text('Assignment'),
         leading: KGoBack(result: isNeedRefresh),
         bottom: const AppbarBottom(),
       ),

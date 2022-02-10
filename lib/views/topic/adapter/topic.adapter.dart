@@ -1,4 +1,5 @@
 import 'package:education_helper/helpers/extensions/build_context_x.dart';
+import 'package:education_helper/models/answer.model.dart';
 import 'package:education_helper/models/members.model.dart';
 import 'package:education_helper/roots/app_root.dart';
 import 'package:education_helper/roots/parts/adapter.dart';
@@ -96,7 +97,10 @@ class TopicAdapter extends IAdapter {
   Future<bool> goToAnswerGrade(BuildContext context, String id) async {
     try {
       final isNeedRefresh = await context.goTo<bool>(
-        _answerAdapter.layout(params: {'id': id}),
+        _answerAdapter.layout(params: {
+          'id': id,
+          'type': 'grade',
+        }),
       );
       return isNeedRefresh ?? false;
     } catch (_) {
@@ -105,11 +109,24 @@ class TopicAdapter extends IAdapter {
     }
   }
 
-  Future<bool> goToAnswerCreate(BuildContext context,
-      {required Member member, required String idTopic}) async {
+  Future<bool> goToAnswerCreate(
+    BuildContext context, {
+    required Member member,
+    required String idTopic,
+    required DateTime expiredDate,
+    required StatusAnswer status,
+    required String id,
+  }) async {
     try {
       final isNeedRefresh = await context.goTo<bool>(
-        _answerAdapter.layout(params: {'member': member, 'idTopic': idTopic}),
+        _answerAdapter.layout(params: {
+          'type': 'submited',
+          'member': member,
+          'idTopic': idTopic,
+          'expiredDate': expiredDate,
+          'status': status,
+          'id': id,
+        }),
       );
       return isNeedRefresh ?? false;
     } catch (_) {

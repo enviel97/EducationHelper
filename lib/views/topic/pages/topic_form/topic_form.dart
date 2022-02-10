@@ -60,7 +60,7 @@ class _TopicFormState extends State<TopicForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(isEdit ? 'Create topic' : 'Edit topic'),
+        title: Text(isEdit ? 'Create Assignment' : 'Edit Assignment'),
         bottom: const AppbarBottom(),
       ),
       body: BlocListener<TopicBloc, TopicState>(

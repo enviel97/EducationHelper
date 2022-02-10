@@ -22,7 +22,7 @@ class _Auth extends State<Auth> with SingleTickerProviderStateMixin {
   late bool isExpanded;
   late AnimationController _animationController;
   late PageController _controller;
-  late String title = 'SIGN IN', label = 'TOPIC';
+  late String title = 'SIGN IN', label = 'SIGN IN';
   int currentIndex = 0;
   final duration = const Duration(milliseconds: 250);
 
@@ -51,15 +51,23 @@ class _Auth extends State<Auth> with SingleTickerProviderStateMixin {
             PageView(
               clipBehavior: Clip.none,
               scrollBehavior: NormalScollBehavior(),
+              onPageChanged: (page) => setState(() {
+                currentIndex = page;
+                if (currentIndex == 0) {
+                  label = 'SIGN IN';
+                } else {
+                  label = 'ASSIGNMENT';
+                }
+              }),
               controller: _controller,
               children: [
+                const TopicForm(),
                 Stack(
                   children: [
                     const SignInPage(),
                     _animationSignUp(),
                   ],
                 ),
-                const TopicForm()
               ],
             ),
             PageControllButton(
@@ -114,13 +122,6 @@ class _Auth extends State<Auth> with SingleTickerProviderStateMixin {
   void _onPressed() async {
     final index = (_controller.offset / size.width).round() + 1;
     currentIndex = index % 2;
-    setState(() {
-      if (currentIndex == 0) {
-        label = 'TOPIC';
-      } else {
-        label = 'SIGN IN';
-      }
-    });
     await _controller.animateToPage(index % 2,
         duration: duration, curve: Curves.easeInOutCubic);
   }

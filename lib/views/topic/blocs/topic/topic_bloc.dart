@@ -12,6 +12,7 @@ class TopicBloc extends Cubit<TopicState> {
   late RestApi _restApi;
   final String _path = 'topics';
   List<Topic> _topics = [];
+  late Topic topic;
 
   TopicBloc() : super(TopicInitial()) {
     _restApi = RestApi();
@@ -38,8 +39,8 @@ class TopicBloc extends Cubit<TopicState> {
         return null;
       });
       if (result == null) return;
-      final _topic = Topic.fromJson(result);
-      emit(TopicLoaded(_topic));
+      topic = Topic.fromJson(result);
+      emit(TopicLoaded(topic));
     });
   }
 

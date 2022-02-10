@@ -1,7 +1,7 @@
 import 'package:education_helper/models/exam.model.dart';
-import 'package:education_helper/views/answer/answer_grade/widgets/answers_show_file/answers_show_file.dart';
 import 'package:education_helper/views/answer/bloc/answer_bloc.dart';
 import 'package:education_helper/views/answer/bloc/answer_state.dart';
+import 'package:education_helper/views/answer/widgets/answers_show_file/answers_show_file.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

@@ -5,6 +5,7 @@ import 'package:education_helper/models/answer.model.dart';
 import 'package:education_helper/models/members.model.dart';
 import 'package:education_helper/roots/bloc/app_bloc.dart';
 import 'package:education_helper/views/topic/blocs/member/topic_members_bloc.dart';
+import 'package:education_helper/views/topic/blocs/topic/topic_bloc.dart';
 import 'package:education_helper/views/topic/topics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -100,8 +101,14 @@ class TopicAnswerItem extends StatelessWidget {
     if (auth.isEmpty) {
       // Create answer
       final idTopic = BlocProvider.of<TopicMembersBloc>(context).id;
-      isNeedRefresh = await Topics.adapter
-          .goToAnswerCreate(context, member: member, idTopic: idTopic);
+      final expiredDate = BlocProvider.of<TopicBloc>(context).topic.expiredDate;
+
+      isNeedRefresh = await Topics.adapter.goToAnswerCreate(context,
+          member: member,
+          idTopic: idTopic,
+          expiredDate: expiredDate,
+          status: status ?? StatusAnswer.empty,
+          id: idAnswer);
     } else {
       // Grading
       if (status == StatusAnswer.empty) {

@@ -44,7 +44,7 @@ class _ClassroomsState extends State<Classrooms> {
           icon: const Icon(Icons.arrow_back_ios_new),
           onPressed: _onGoBack,
         ),
-        title: const Text('CLASSROOM'),
+        title: const Text('Classroom'),
         bottom: const AppbarBottom(),
         elevation: 0,
       ),

@@ -42,7 +42,7 @@ class _MemberConfirmCSVState extends State<MemberConfirmCSV> {
           icon: const Icon(Icons.arrow_back_ios_new),
           onPressed: Navigator.of(context).pop,
         ),
-        title: const Text('Add Users'),
+        title: const Text('Add members'),
         bottom: const AppbarBottom(),
       ),
       body: BlocListener<MemberBloc, MemberState>(

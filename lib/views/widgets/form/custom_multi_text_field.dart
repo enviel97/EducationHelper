@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 
 class KMultiTextField extends StatefulWidget {
   final String hintText;
+  final TextStyle? textStyle;
+  final TextStyle? labelStyle;
+  final TextStyle? hintStyle;
   final String labelText;
   final bool isSecurity;
   final String? Function(String? value)? validation;
@@ -26,6 +29,9 @@ class KMultiTextField extends StatefulWidget {
     this.onSubmit,
     this.autoFocus = false,
     this.initValue,
+    this.textStyle,
+    this.labelStyle,
+    this.hintStyle,
   }) : super(key: key);
 
   @override
@@ -39,6 +45,14 @@ class _KMultiTextFieldState extends State<KMultiTextField> {
   void initState() {
     super.initState();
     _controller = TextEditingController(text: widget.initValue);
+  }
+
+  @override
+  void didUpdateWidget(KMultiTextField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.initValue != widget.initValue) {
+      _controller = TextEditingController(text: widget.initValue);
+    }
   }
 
   @override
@@ -69,13 +83,14 @@ class _KMultiTextFieldState extends State<KMultiTextField> {
       validator: widget.validation,
       textInputAction: widget.textInputAction,
       onChanged: _onChagne,
-      style: const TextStyle(
-        color: kBlackColor,
-      ),
+      style: widget.textStyle,
       decoration: InputDecoration(
         label: Text(widget.labelText),
-        labelStyle: const TextStyle(color: kPrimaryColor, fontSize: 18.0),
+        labelStyle: const TextStyle(color: kPrimaryColor, fontSize: 18.0)
+            .merge(widget.labelStyle),
         floatingLabelBehavior: FloatingLabelBehavior.always,
+        hintText: widget.hintText,
+        hintStyle: widget.hintStyle,
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 10.0, vertical: 12.0),
         border: _border,

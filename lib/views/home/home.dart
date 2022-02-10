@@ -52,7 +52,7 @@ class _HomeState extends State<Home> {
     return AnimationCircleLayout(
       child: Scaffold(
         appBar: AppBar(
-            title: const Text('HOME'),
+            title: const Text('Home'),
             elevation: 0.0,
             bottom: const AppbarBottom(
               padding: EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),

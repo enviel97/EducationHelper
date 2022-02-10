@@ -13,10 +13,7 @@ import 'pages/answers_content.dart';
 import 'pages/answers_grade.dart';
 
 class AnswerGrade extends StatefulWidget {
-  final String id;
-
   const AnswerGrade({
-    required this.id,
     Key? key,
   }) : super(key: key);
 
@@ -28,7 +25,7 @@ class _AnswerGradeState extends State<AnswerGrade> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<AnswerBloc>(context).getAnswer(widget.id);
+    BlocProvider.of<AnswerBloc>(context).getAnswer();
   }
 
   @override

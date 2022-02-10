@@ -30,10 +30,11 @@ class PageControllButton extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(25.0))),
             child: Wrap(
               crossAxisAlignment: WrapCrossAlignment.center,
-              alignment: WrapAlignment.end,
+              alignment: WrapAlignment.spaceBetween,
               children: [
+                SPACING.M.horizontal,
                 Text(
-                  'GO TO $label',
+                  label,
                   style: const TextStyle(
                     color: kWhiteColor,
                   ),
@@ -43,7 +44,7 @@ class PageControllButton extends StatelessWidget {
                   backgroundColor: kPrimaryLightColor,
                   child: IconButton(
                     icon: Icon(
-                      currentIndex == 0 ? Entypo.graduation_cap : Icons.login,
+                      currentIndex == 1 ? Entypo.graduation_cap : Icons.login,
                       color: kWhiteColor,
                     ),
                     onPressed: onPressed,

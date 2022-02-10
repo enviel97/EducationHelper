@@ -1,9 +1,7 @@
-import 'package:bordered_text/bordered_text.dart';
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
-import 'package:education_helper/helpers/extensions/string_x.dart';
 import 'package:education_helper/models/answer.model.dart';
-import 'package:education_helper/views/topic/typings/color_status.dart';
+import 'package:education_helper/views/answer/widgets/status_answer_decorate.dart';
 import 'package:flutter/material.dart';
 
 class HeaderAnswerExpanded extends StatelessWidget {
@@ -15,8 +13,6 @@ class HeaderAnswerExpanded extends StatelessWidget {
     required this.infoMember,
     Key? key,
   }) : super(key: key);
-
-  Color get color => getStatusColor(status);
 
   @override
   Widget build(BuildContext context) {
@@ -41,17 +37,7 @@ class HeaderAnswerExpanded extends StatelessWidget {
             ),
           ),
           SPACING.M.horizontal,
-          BorderedText(
-            strokeWidth: 4.0,
-            strokeColor: kBlackColor,
-            child: Text(
-              status.name.toUperCaseFirst(),
-              style: TextStyle(
-                color: color,
-                fontSize: SPACING.M.size * 1.2,
-              ),
-            ),
-          )
+          StatusAnswerDecorate(status: status),
         ],
       ),
     );

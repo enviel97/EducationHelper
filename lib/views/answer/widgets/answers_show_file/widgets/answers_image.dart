@@ -1,12 +1,13 @@
 import 'dart:io';
-
-import 'package:education_helper/helpers/extensions/build_context_x.dart';
 import 'package:flutter/material.dart';
 
 class AnswersImage extends StatefulWidget {
   final File file;
+  final double height;
+
   const AnswersImage({
     required this.file,
+    required this.height,
     Key? key,
   }) : super(key: key);
 
@@ -35,7 +36,7 @@ class _AnswersImageState extends State<AnswersImage> {
         scaleEnabled: false,
         child: Image.file(
           widget.file,
-          height: context.mediaSize.height,
+          height: widget.height,
           fit: BoxFit.cover,
         ),
       ),

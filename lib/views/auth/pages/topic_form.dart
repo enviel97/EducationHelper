@@ -61,17 +61,46 @@ class _TopicFormState extends State<TopicForm> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    Text.rich(
+                      TextSpan(
+                        text: 'You should input assginment id in this text. '
+                            'If you want to create assigment, please click ',
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          color: isLightTheme
+                              ? kPlacehoderSuperDarkColor
+                              : kPlaceholderDarkColor,
+                        ),
+                        children: [
+                          TextSpan(
+                              text: 'SIGN IN at top-right',
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                color: isLightTheme
+                                    ? kSecondaryDarkColor
+                                    : kSecondaryLightColor,
+                                fontWeight: FontWeight.bold,
+                              )),
+                          const TextSpan(
+                            text: ' screens or swipe to right',
+                          )
+                        ],
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SPACING.S.vertical,
                     const Text(
-                      'Get topic: ',
+                      'ASSIGMENT: ',
                       style: TextStyle(
-                        fontSize: 28.0,
+                        fontSize: 20.0,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SPACING.SM.vertical,
+                    SPACING.S.vertical,
+
                     KTextField(
                       iconData: Icons.topic,
-                      hintText: 'ID',
+                      hintText: 'Enter id assignment here ...',
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.emailAddress,
                       onChange: (value) => idTopic = value,
@@ -89,13 +118,13 @@ class _TopicFormState extends State<TopicForm> {
                 ),
                 SPACING.M.vertical,
                 SizedBox(
-                  width: 160.0,
+                  width: size.width * .52,
                   child: KIconButton(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20.0, vertical: 8.0),
                     icon: const Icon(Entypo.documents, color: kWhiteColor),
                     onPressed: () => _goToTopic(idTopic),
-                    text: 'GET TOPIC',
+                    text: 'GET ASSIGMENT',
                   ),
                 ),
                 SPACING.M.vertical,
@@ -119,9 +148,10 @@ class _TopicFormState extends State<TopicForm> {
             builder: (_) {
               return KConfirmAlert(
                 onConfirm: () => Navigator.maybePop(context, true),
-                title: 'Go to topic',
-                notice: 'For member of classroom: \n${topic.classroom.name}',
-                content: '\nTopic: ${topic.exam.name}',
+                title: 'Confirm',
+                notice: 'For member of classroom: '
+                    '\nClassname: ${topic.classroom.name}',
+                content: '\nAsignment: ${topic.exam.name}',
               );
             }) ??
         false) {

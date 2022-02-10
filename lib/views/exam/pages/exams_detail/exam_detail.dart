@@ -38,7 +38,7 @@ class _ExamDetailState extends State<ExamDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('EXAM DETAIL'),
+        title: const Text('Topic detail'),
         bottom: AppbarBottom(
           height: 105,
           child: ExamAppbarBottom(

@@ -1,3 +1,4 @@
+import 'package:education_helper/models/answer.model.dart';
 import 'package:education_helper/models/members.model.dart';
 import 'package:education_helper/roots/app_root.dart';
 import 'package:education_helper/roots/parts/adapter.dart';
@@ -22,13 +23,17 @@ class AnswerAdapter extends IAdapter {
   @override
   Widget layout({Map<String, dynamic>? params}) {
     try {
-      final String id = params?['id'] ?? '';
-      if (id.isEmpty) {
+      final String type = params?['type'] ?? '';
+      if (type == 'submited') {
         return _goToCreate(
-          params!['member'] as Member,
-          params['idTopic'] as String,
+          member: params!['member'] as Member,
+          expiredDate: params['expiredDate'] as DateTime,
+          topicId: params['idTopic'] as String,
+          status: params['status'] as StatusAnswer,
+          id: (params['id'] as String?) ?? '',
         );
       }
+      final String id = params?['id'] ?? '';
       return _goToGrade(id);
     } catch (e) {
       debugPrint('[Adpater Ansswer error]: $e');
@@ -40,15 +45,27 @@ class AnswerAdapter extends IAdapter {
 
   Widget _goToGrade(String id) {
     return BlocProvider(
-      create: (context) => AnswerBloc(),
-      child: AnswerGrade(id: id),
+      create: (context) => AnswerBloc(id),
+      child: const AnswerGrade(),
     );
   }
 
-  Widget _goToCreate(Member member, String idTopic) {
-    return AnswerCreate(
-      member: member,
-      idTopic: idTopic,
+  Widget _goToCreate({
+    required Member member,
+    required DateTime expiredDate,
+    required String topicId,
+    required StatusAnswer status,
+    required String id,
+  }) {
+    return BlocProvider(
+      create: (context) => AnswerBloc(
+        id,
+        member: member,
+        topicId: topicId,
+        expiredDate: expiredDate,
+        status: status,
+      ),
+      child: const AnswerCreate(),
     );
   }
 }

@@ -6,8 +6,10 @@ import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class AnswersPDF extends StatefulWidget {
   final File file;
+  final EdgeInsets padding;
   const AnswersPDF({
     required this.file,
+    required this.padding,
     Key? key,
   }) : super(key: key);
 
@@ -27,13 +29,19 @@ class _AnswersPDFState extends State<AnswersPDF> {
   }
 
   @override
+  void dispose() {
+    _controller.clearSelection();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Stack(
         alignment: AlignmentDirectional.bottomCenter,
         children: [
           Container(
-            padding: const EdgeInsets.only(top: 60.0),
+            padding: widget.padding,
             child: SfPdfViewer.file(
               widget.file,
               canShowScrollHead: false,
@@ -53,7 +61,10 @@ class _AnswersPDFState extends State<AnswersPDF> {
                 });
               },
               onDocumentLoadFailed: (error) {
-                setState(() => errorMessage = error.toString());
+                setState(() {
+                  errorMessage = error.toString();
+                  isReady = false;
+                });
               },
             ),
           ),

@@ -50,7 +50,7 @@ class _TopicDetailState extends State<TopicDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Topic Detail'),
+        title: const Text('Assignment Detail'),
         bottom: const AppbarBottom(),
         leading: KGoBack(result: isNeedRefresh),
       ),

@@ -63,7 +63,7 @@ class _ExamFormState extends State<ExamForm> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: Text(widget.id == null ? 'CREATE EXAM' : 'EDIT EXAM'),
+          title: Text(widget.id == null ? 'Create topic' : 'Edit topic'),
           bottom: const AppbarBottom(),
           leading: const KGoBack(),
         ),
