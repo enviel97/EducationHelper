@@ -34,6 +34,7 @@ class _TopicsState extends State<Topics> {
         leading: KGoBack(result: isNeedRefresh),
         bottom: const AppbarBottom(),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: _addTopics,
         child: const Icon(Icons.add, size: 28),

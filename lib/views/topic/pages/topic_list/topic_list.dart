@@ -39,9 +39,11 @@ class _TopicListState extends State<TopicList> {
           }
           return ListBuilder<Topic>(
             onRefresh: BlocProvider.of<TopicBloc>(context).refresh,
-            padding: const EdgeInsets.symmetric(
-              horizontal: 15.0,
-              vertical: 10.0,
+            padding: const EdgeInsets.only(
+              left: 15.0,
+              right: 15.0,
+              top: 10.0,
+              bottom: 50.0,
             ),
             margin: const EdgeInsets.only(bottom: 16.0),
             datas: topics,

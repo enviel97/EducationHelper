@@ -25,6 +25,7 @@ class TopicExamInfo extends StatefulWidget {
 
 class _TopicExamInfoState extends State<TopicExamInfo> {
   int quantityRecored = 0;
+  String note = '';
   DateTime? createAt, expiredAt;
   String classname = '';
   Exam? exam;
@@ -43,6 +44,7 @@ class _TopicExamInfoState extends State<TopicExamInfo> {
             createAt = state.topic.createDate;
             expiredAt = state.topic.expiredDate;
             classname = state.topic.classroom.name;
+            note = state.topic.note ?? '';
             exam = state.topic.exam;
           });
           BlocProvider.of<TopicMembersBloc>(context).getMembers(state.topic.id);
@@ -103,8 +105,7 @@ class _TopicExamInfoState extends State<TopicExamInfo> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Flexible(
-            flex: 2,
+          Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -140,13 +141,62 @@ class _TopicExamInfoState extends State<TopicExamInfo> {
               ],
             ),
           ),
-          Flexible(
-            child: OpenExamButton(
-              disable: exam == null,
-              type: exam?.type ?? '',
-              id: exam?.id ?? '',
-            ),
+          OpenExamButton(
+            disable: exam == null,
+            type: exam?.type ?? '',
+            id: exam?.id ?? '',
           ),
+          note.isNotEmpty
+              ? IconButton(
+                  icon: const Icon(Icons.sticky_note_2),
+                  onPressed: () {
+                    const radius = BorderRadius.only(
+                      topLeft: Radius.circular(25.0),
+                      topRight: Radius.circular(25.0),
+                    );
+                    showModalBottomSheet(
+                      elevation: 20.0,
+                      context: context,
+                      shape: const RoundedRectangleBorder(borderRadius: radius),
+                      builder: (builder) {
+                        return Container(
+                          decoration: const BoxDecoration(borderRadius: radius),
+                          padding: const EdgeInsets.only(
+                              top: 20.0, left: 15.0, right: 15.0, bottom: 10.0),
+                          child: Wrap(
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text(
+                                    'Note:',
+                                    style: TextStyle(
+                                        color: kPrimaryColor,
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      note,
+                                      textAlign: TextAlign.right,
+                                      style: TextStyle(
+                                        color: kBlackColor,
+                                        fontSize: SPACING.M.size * 1.2,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
+                )
+              : const SizedBox.shrink(),
         ],
       ),
     );

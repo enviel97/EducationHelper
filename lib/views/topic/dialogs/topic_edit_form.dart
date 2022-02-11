@@ -123,7 +123,9 @@ class _TopicEditFormState extends State<TopicEditForm> {
         Flexible(
           child: KMultiTextField(
             labelText: 'Note: ',
-            initValue: widget.note,
+            hintText: widget.note,
+            hintStyle: TextStyle(color: kBlackColor.withOpacity(.7)),
+            textStyle: const TextStyle(color: kBlackColor),
             onChange: (note) => this.note = note,
           ),
         )
