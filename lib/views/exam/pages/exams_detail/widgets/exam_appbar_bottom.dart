@@ -50,10 +50,15 @@ class ExamAppbarBottom extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              DownloadButton(name: name, download: downloadLink),
+              DownloadButton(
+                name: name,
+                download: downloadLink,
+                iconSize: 24.0,
+              ),
               ShareButton(
                 publicLink: publicLink,
                 subject: 'Click link to get homework',
+                iconSize: 24.0,
               ),
             ],
           )

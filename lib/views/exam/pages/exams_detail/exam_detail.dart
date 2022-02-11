@@ -41,7 +41,7 @@ class _ExamDetailState extends State<ExamDetail> {
       appBar: AppBar(
         title: const Text('Topic detail'),
         bottom: AppbarBottom(
-          height: 105,
+          height: 80,
           child: ExamAppbarBottom(
             name: originName,
             downloadLink: download,
