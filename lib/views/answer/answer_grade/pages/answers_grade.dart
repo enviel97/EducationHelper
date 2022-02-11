@@ -68,6 +68,7 @@ class _AnswersGradeState extends State<AnswersGrade> {
                   status = state.answer.status;
                   submitdate = state.answer.updatedAt;
                   grade = state.answer.grade.toString();
+                  review = state.answer.review;
                   infoMember = member.phoneNumber ??
                       member.mail ??
                       "Don't havve info contact";
@@ -89,7 +90,7 @@ class _AnswersGradeState extends State<AnswersGrade> {
                 name: name,
                 onChangeGrade: (value) => grade = value,
                 onConfirm: _onConfirm,
-                grade: '',
+                grade: grade,
               ),
               expanded: HeaderAnswerExpanded(
                 memberName: 'NAME: $memberName',
@@ -114,7 +115,7 @@ class _AnswersGradeState extends State<AnswersGrade> {
   void _onConfirm() async {
     if (grade.isEmpty) return;
     try {
-      final isConfirm = await showDialog(
+      final isConfirm = await showDialog<bool>(
         context: context,
         builder: (_) {
           return KConfirmAlert(
@@ -127,11 +128,12 @@ class _AnswersGradeState extends State<AnswersGrade> {
                       grade: double.tryParse(grade) ?? 0.0,
                       review: review,
                     )
-                    .whenComplete(() => Navigator.maybePop(context, true));
+                    .then((value) => Navigator.maybePop(context, true))
+                    .whenComplete(() => Navigator.maybePop(context));
               });
         },
       );
-      if (isConfirm) {
+      if (isConfirm ?? false) {
         Navigator.maybePop(context, true);
       }
     } catch (e) {

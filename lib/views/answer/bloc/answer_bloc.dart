@@ -93,7 +93,6 @@ class AnswerBloc extends Cubit<AnswerState> {
   Future<void> grade({
     required double grade,
     String review = '',
-    String name = '',
   }) async {
     final result = await _api
         .put(

@@ -21,7 +21,6 @@ class RestApi {
 
   factory RestApi() {
     _ins._client = Dio();
-    print(_ins._client.hashCode);
     return _ins;
   }
 

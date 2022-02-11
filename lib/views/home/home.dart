@@ -153,7 +153,7 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> homeRefresh(BuildContext context) async {
-    Future.wait([
+    await Future.wait([
       BlocProvider.of<TopicBloc>(context).refresh(),
       BlocProvider.of<AppBloc>(context).refreshUser(),
       BlocProvider.of<ClassroomsBloc>(context).refresh(),
@@ -161,8 +161,8 @@ class _HomeState extends State<Home> {
     ]);
   }
 
-  void _fetch() {
-    Future.wait([
+  Future<void> _fetch() async {
+    await Future.wait([
       BlocProvider.of<TopicBloc>(context).getTopicCollection(),
       BlocProvider.of<AppBloc>(context).getUser(),
       BlocProvider.of<ClassroomsBloc>(context).getClassCollection(),

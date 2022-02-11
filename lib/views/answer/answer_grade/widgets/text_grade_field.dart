@@ -26,6 +26,11 @@ class _TextGradeFieldState extends State<TextGradeField> {
   }
 
   @override
+  void didUpdateWidget(covariant TextGradeField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(bottom: 10.0),
@@ -49,8 +54,8 @@ class _TextGradeFieldState extends State<TextGradeField> {
             color: kPrimaryColor,
             fontSize: SPACING.M.size,
           ),
-          decoration: const InputDecoration(
-            hintText: '0.00',
+          decoration: InputDecoration(
+            hintText: widget.grade.isEmpty ? '0.00' : widget.grade,
             hintStyle: TextStyle(color: kPlaceholderDarkColor),
             contentPadding: EdgeInsets.all(4.0),
             border: InputBorder.none,
