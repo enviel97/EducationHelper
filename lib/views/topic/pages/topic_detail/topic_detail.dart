@@ -30,19 +30,16 @@ class TopicDetail extends StatefulWidget {
 
 class _TopicDetailState extends State<TopicDetail> {
   Topic? topic;
-  Exam? exam;
   DateTime? createDate;
   DateTime? expiredDate;
   String classname = '';
   bool isNeedRefresh = false;
-  List<Answer> answers = [];
-  List<Member> members = [];
   String idClasroom = '';
 
   @override
   void initState() {
     super.initState();
-    _fetch();
+    BlocProvider.of<TopicBloc>(context).getOnce(widget.id);
   }
 
   @override
@@ -66,30 +63,7 @@ class _TopicDetailState extends State<TopicDetail> {
         color: Theme.of(context).backgroundColor,
         child: Column(
           children: [
-            BlocListener<TopicBloc, TopicState>(
-              listener: (context, state) {
-                if (state is TopicLoaded) {
-                  if (exam == null ||
-                      expiredDate == null ||
-                      createDate == null) {
-                    setState(() {
-                      classname = state.topic.classroom.name;
-                      idClasroom = state.topic.classroom.id;
-                      exam = state.topic.exam;
-                      expiredDate = state.topic.expiredDate;
-                      createDate = state.topic.createDate;
-                    });
-                  }
-                  setState(() => topic = state.topic);
-                }
-              },
-              child: TopicExamInfo(
-                exam: exam,
-                createAt: createDate,
-                expiredAt: expiredDate,
-                classname: classname,
-              ),
-            ),
+            TopicExamInfo(id: widget.id),
             Expanded(
                 child: BlocListener<TopicMembersBloc, TopicMembersState>(
               listener: (context, state) {
@@ -100,30 +74,14 @@ class _TopicDetailState extends State<TopicDetail> {
                 if (state is TopicMembersChanged) {
                   setState(() => isNeedRefresh = true);
                 }
-                if (state is TopicMembersLoaded) {
-                  setState(() {
-                    answers = state.answers;
-                    members = state.members;
-                  });
-                }
               },
               child: TopicAnswerList(
-                answers: answers,
-                members: members,
                 expiredDate: expiredDate,
-                idClassroom: idClasroom,
               ),
             )),
           ],
         ),
       ),
     );
-  }
-
-  void _fetch() {
-    Future.wait([
-      BlocProvider.of<TopicBloc>(context).getOnce(widget.id),
-      BlocProvider.of<TopicMembersBloc>(context).getMembers(widget.id)
-    ]);
   }
 }

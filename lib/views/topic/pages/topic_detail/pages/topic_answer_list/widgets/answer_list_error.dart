@@ -1,7 +1,9 @@
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
+import 'package:education_helper/views/topic/blocs/member/topic_members_bloc.dart';
 import 'package:education_helper/views/widgets/button/custom_text_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AnswerListError extends StatelessWidget {
   const AnswerListError({Key? key}) : super(key: key);
@@ -20,10 +22,12 @@ class AnswerListError extends StatelessWidget {
           ),
         ),
         SPACING.LG.vertical,
-        KTextButton(onPressed: _refresh, text: 'Refresh'),
+        KTextButton(onPressed: () => _refresh(context), text: 'Refresh'),
       ],
     );
   }
 
-  void _refresh() {}
+  void _refresh(BuildContext context) {
+    BlocProvider.of<TopicMembersBloc>(context).refreshMembers();
+  }
 }

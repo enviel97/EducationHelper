@@ -36,6 +36,28 @@ class AppBloc extends Cubit<AppState> {
         .showSnackBar(_snackBar(message, kErrorColor, timeWait));
   }
 
+  void showNotice(BuildContext context, String message, {int timeWait = 1000}) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      backgroundColor: Theme.of(context).backgroundColor,
+      dismissDirection: DismissDirection.endToStart,
+      duration: Duration(milliseconds: timeWait),
+      content: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            message,
+            style: const TextStyle(
+              color: kWhiteColor,
+              fontSize: 16.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const CircularProgressIndicator(),
+        ],
+      ),
+    ));
+  }
+
   void showSuccess(BuildContext context, String message,
       {int timeWait = 3000}) {
     ScaffoldMessenger.of(context)

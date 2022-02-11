@@ -1,15 +1,14 @@
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/views/topic/blocs/member/topic_members_bloc.dart';
+import 'package:education_helper/views/topic/blocs/topic/topic_bloc.dart';
 import 'package:education_helper/views/topic/topics.dart';
 import 'package:education_helper/views/widgets/button/custom_text_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AnswerListEmpty extends StatelessWidget {
-  final String id;
   const AnswerListEmpty({
-    required this.id,
     Key? key,
   }) : super(key: key);
 
@@ -34,7 +33,9 @@ class AnswerListEmpty extends StatelessWidget {
   }
 
   _goToMember(BuildContext context) async {
-    final isNeedRefresh = await Topics.adapter.goToClassroom(context, id);
+    final topic = BlocProvider.of<TopicBloc>(context).topic;
+    final isNeedRefresh =
+        await Topics.adapter.goToClassroom(context, topic.classroom.id);
     if (isNeedRefresh) {
       BlocProvider.of<TopicMembersBloc>(context).refreshMembers();
     }

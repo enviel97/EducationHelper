@@ -17,8 +17,11 @@ class TopicMembersBloc extends Cubit<TopicMembersState> {
     _restApi = RestApi();
   }
 
-  Future<void> refreshMembers() async {
-    emit(const TopicMembersChanged());
+  Future<void> refreshMembers({bool listen = false}) async {
+    emit(TopicMembersLoading());
+    if (listen) {
+      emit(const TopicMembersChanged());
+    }
     return _freshMembersAnswer();
   }
 

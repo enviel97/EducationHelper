@@ -127,7 +127,8 @@ class TopicAnswerItem extends StatelessWidget {
     final isNeedRefresh =
         await Topics.adapter.goToAnswerGrade(context, idAnswer);
     if (isNeedRefresh) {
-      BlocProvider.of<TopicMembersBloc>(context).refreshMembers();
+      BlocProvider.of<TopicMembersBloc>(context)
+          .refreshMembers(listen: isNeedRefresh);
     }
   }
 }
