@@ -52,7 +52,7 @@ class _MemberConfirmCSVState extends State<MemberConfirmCSV> {
                 .showError(context, state.messenger);
           }
 
-          if (state is MemberCreateState) {
+          if (state is MembersCreateState) {
             Navigator.of(context).pop();
           }
         },

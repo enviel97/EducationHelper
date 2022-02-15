@@ -21,13 +21,15 @@ class AnswersGrade extends StatefulWidget {
 }
 
 class _AnswersGradeState extends State<AnswersGrade> {
+  late ExpandableController _controller;
   String download = '',
       name = '',
       grade = '',
       memberName = '',
       infoMember = '',
       review = '',
-      publicLink = '';
+      publicLink = '',
+      note = '';
   DateTime? submitdate;
   StatusAnswer status = StatusAnswer.empty;
 
@@ -36,6 +38,10 @@ class _AnswersGradeState extends State<AnswersGrade> {
     super.initState();
     memberName = '@Name Of Member';
     status = StatusAnswer.empty;
+    _controller = ExpandableController(initialExpanded: true)
+      ..addListener(() {
+        setState(() {});
+      });
   }
 
   @override
@@ -69,6 +75,7 @@ class _AnswersGradeState extends State<AnswersGrade> {
                   submitdate = state.answer.updatedAt;
                   grade = state.answer.grade.toString();
                   review = state.answer.review;
+                  note = state.answer.note;
                   infoMember = member.phoneNumber ??
                       member.mail ??
                       "Don't havve info contact";
@@ -76,7 +83,7 @@ class _AnswersGradeState extends State<AnswersGrade> {
               }
             },
             child: ExpandablePanel(
-              controller: ExpandableController(initialExpanded: true),
+              controller: _controller,
               theme: const ExpandableThemeData(
                 alignment: Alignment.centerLeft,
                 useInkWell: false,
@@ -84,6 +91,7 @@ class _AnswersGradeState extends State<AnswersGrade> {
                 bodyAlignment: ExpandablePanelBodyAlignment.center,
                 iconPadding: EdgeInsets.only(top: 8.0, bottom: 8.0),
                 hasIcon: true,
+                tapHeaderToExpand: false,
               ),
               header: HeaderAnswerGrade(
                 download: download,
@@ -91,6 +99,7 @@ class _AnswersGradeState extends State<AnswersGrade> {
                 onChangeGrade: (value) => grade = value,
                 onConfirm: _onConfirm,
                 grade: grade,
+                note: note,
               ),
               expanded: HeaderAnswerExpanded(
                 memberName: 'NAME: $memberName',
@@ -128,8 +137,7 @@ class _AnswersGradeState extends State<AnswersGrade> {
                       grade: double.tryParse(grade) ?? 0.0,
                       review: review,
                     )
-                    .then((value) => Navigator.maybePop(context, true))
-                    .whenComplete(() => Navigator.maybePop(context));
+                    .then((value) => Navigator.maybePop(context, true));
               });
         },
       );

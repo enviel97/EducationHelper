@@ -126,7 +126,7 @@ class _MenuButtonState extends State<MenuButton> with TickerProviderStateMixin {
                 width: 50.0,
                 height: 50.0,
                 icon: const Icon(AntDesign.logout),
-                tooltip: 'Classrooms',
+                tooltip: 'Logout',
                 onClick: () async {
                   if (widget.autoClose) _closeMenu();
                   widget.onShutdown();
@@ -159,7 +159,7 @@ class _MenuButtonState extends State<MenuButton> with TickerProviderStateMixin {
                 width: 50.0,
                 height: 50.0,
                 icon: const Icon(MaterialCommunityIcons.file_document_edit),
-                tooltip: 'Exams',
+                tooltip: 'Topics',
                 onClick: () async {
                   if (widget.autoClose) _closeMenu();
                   widget.onClickExam();
@@ -175,7 +175,7 @@ class _MenuButtonState extends State<MenuButton> with TickerProviderStateMixin {
                 width: 50.0,
                 height: 50.0,
                 icon: const Icon(MaterialIcons.topic),
-                tooltip: 'Topics',
+                tooltip: 'Assigments',
                 onClick: () async {
                   if (widget.autoClose) _closeMenu();
                   widget.onClickTopic();

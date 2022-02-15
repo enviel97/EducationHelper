@@ -8,6 +8,7 @@ class KMultiTextField extends StatefulWidget {
   final TextStyle? hintStyle;
   final String labelText;
   final bool isSecurity;
+  final bool isDisable;
   final String? Function(String? value)? validation;
   final TextInputAction textInputAction;
   final bool isClearButton;
@@ -32,6 +33,7 @@ class KMultiTextField extends StatefulWidget {
     this.textStyle,
     this.labelStyle,
     this.hintStyle,
+    this.isDisable = false,
   }) : super(key: key);
 
   @override
@@ -84,6 +86,7 @@ class _KMultiTextFieldState extends State<KMultiTextField> {
       textInputAction: widget.textInputAction,
       onChanged: _onChagne,
       style: widget.textStyle,
+      enabled: !widget.isDisable,
       decoration: InputDecoration(
         label: Text(widget.labelText),
         labelStyle: const TextStyle(color: kPrimaryColor, fontSize: 18.0)

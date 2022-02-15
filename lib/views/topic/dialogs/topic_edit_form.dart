@@ -23,16 +23,11 @@ class TopicEditForm extends StatefulWidget {
 
 class _TopicEditFormState extends State<TopicEditForm> {
   final _controller = KDatePickerSearchController();
-  late DateTime expired;
+  DateTime? expired;
   String hours = '';
   String minutes = '';
   String note = '';
-
-  @override
-  void initState() {
-    super.initState();
-    expired = widget.expired;
-  }
+  bool datePickerOpen = false;
 
   @override
   void dispose() {
@@ -66,6 +61,10 @@ class _TopicEditFormState extends State<TopicEditForm> {
                 children: [
                   KTextButton(
                     width: 150.0,
+                    isDisable: expired == null &&
+                        note.isEmpty &&
+                        hours.isEmpty &&
+                        minutes.isEmpty,
                     onPressed: _confirm,
                     text: 'Edit',
                   ),
@@ -92,6 +91,7 @@ class _TopicEditFormState extends State<TopicEditForm> {
           initDate: widget.expired,
           hintText: 'Expired',
           formatDate: 'dd/MM/yyyy',
+          prevChange: _prevChange,
           onChange: _onDatePicker,
         ),
         SPACING.S.vertical,
@@ -111,10 +111,10 @@ class _TopicEditFormState extends State<TopicEditForm> {
                   ),
                 ),
                 KTimeField(
-                  intiMinute: expired.minute.str,
-                  initHour: expired.hour.str,
-                  onChangeHours: (hour) => hours = hour,
-                  onChangeMinutes: (minute) => minutes = minute,
+                  intiMinute: widget.expired.minute.str,
+                  initHour: widget.expired.hour.str,
+                  onChangeHours: (hour) => setState(() => hours = hour),
+                  onChangeMinutes: (minute) => setState(() => minutes = minute),
                 ),
               ],
             ),
@@ -124,9 +124,10 @@ class _TopicEditFormState extends State<TopicEditForm> {
           child: KMultiTextField(
             labelText: 'Note: ',
             hintText: widget.note,
+            isDisable: datePickerOpen,
             hintStyle: TextStyle(color: kBlackColor.withOpacity(.7)),
             textStyle: const TextStyle(color: kBlackColor),
-            onChange: (note) => this.note = note,
+            onChange: (note) => setState(() => this.note = note),
           ),
         )
       ],
@@ -135,21 +136,33 @@ class _TopicEditFormState extends State<TopicEditForm> {
 
   void _onDatePicker(String date) {
     final expired = DateTime.tryParse(date);
-    if (expired != null) this.expired = expired;
+
+    if (expired != null) {
+      setState(() => this.expired = expired);
+    }
   }
 
   void _confirm() {
-    final date = DateTime.utc(
-      expired.year,
-      expired.month,
-      expired.day,
-      int.tryParse(hours) ?? expired.hour,
-      int.tryParse(minutes) ?? expired.minute,
-    );
+    context.disableKeyBoard();
+    DateTime? date;
 
+    if (expired != null || hours.isNotEmpty || minutes.isNotEmpty) {
+      date = DateTime(
+        expired?.year ?? widget.expired.year,
+        expired?.month ?? widget.expired.month,
+        expired?.day ?? widget.expired.day,
+        int.tryParse(hours) ?? expired?.hour ?? widget.expired.hour,
+        int.tryParse(minutes) ?? expired?.minute ?? widget.expired.minute,
+      );
+    }
     Navigator.of(context).pop({
-      'expiredDate': date.isAtSameMomentAs(widget.expired) ? null : date,
+      'expiredDate': date,
       'note': note,
     });
+  }
+
+  void _prevChange(bool isOpen) {
+    context.disableKeyBoard();
+    setState(() => datePickerOpen = isOpen);
   }
 }

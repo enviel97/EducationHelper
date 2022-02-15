@@ -13,6 +13,7 @@ class KDatePickerSearch extends StatefulWidget {
   final DateTime? minDate;
   final DateTime? maxDate;
   final KDatePickerSearchController? controller;
+  final Function(bool isOpen)? prevChange;
   final double fontSize;
   final double iconSize;
   const KDatePickerSearch({
@@ -27,6 +28,7 @@ class KDatePickerSearch extends StatefulWidget {
     this.controller,
     this.fontSize = 16.0,
     this.iconSize = 32.0,
+    this.prevChange,
   }) : super(key: key);
 
   @override
@@ -94,9 +96,6 @@ class _KDatePickerSearchState extends State<KDatePickerSearch> {
   }
 
   Widget _buildClearButton() {
-    if (!widget.isClearButton || value.isEmpty) {
-      return const SizedBox.shrink();
-    }
     return CircleAvatar(
         backgroundColor: Colors.transparent,
         child: IconButton(
@@ -109,6 +108,9 @@ class _KDatePickerSearchState extends State<KDatePickerSearch> {
   }
 
   Future<void> _selectedDatePicker() async {
+    if (widget.prevChange != null) {
+      widget.prevChange!(true);
+    }
     final picked = await showDatePicker(
         context: context,
         initialDate: selected ?? DateTime.now(),
@@ -131,7 +133,9 @@ class _KDatePickerSearchState extends State<KDatePickerSearch> {
             child: SizedBox.shrink(child: __),
           );
         });
-
+    if (widget.prevChange != null) {
+      widget.prevChange!(false);
+    }
     if (picked != null && picked != selected) _setValue(picked);
   }
 

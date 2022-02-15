@@ -15,7 +15,7 @@ class AppBloc extends Cubit<AppState> {
   AppBloc() : super(AppStateInitial());
   bool _hasDialog = false;
   User? _currentUser;
-  String? token;
+  String? _token;
 
   SnackBar _snackBar(String message, Color color, int timeWait) => SnackBar(
         backgroundColor: color,
@@ -105,11 +105,11 @@ class AppBloc extends Cubit<AppState> {
   }
 
   bool isAuth() {
-    if (token == null) {
+    if (_token == null) {
       final _local = Root.ins.localStorage;
-      token = _local.read(c.token);
+      _token = _local.read(c.token);
     }
-    return token!.isNotEmpty;
+    return _token!.isNotEmpty;
   }
 
   Future<void> refreshUser() async {
@@ -138,6 +138,8 @@ class AppBloc extends Cubit<AppState> {
       final isRemove = await Root.ins.localStorage.remove(c.token);
       if (isRemove) {
         api.setHeaders('');
+        _token = null;
+        _currentUser = null;
       }
       return isRemove;
     } catch (e) {

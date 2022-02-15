@@ -56,8 +56,8 @@ class _TextGradeFieldState extends State<TextGradeField> {
           ),
           decoration: InputDecoration(
             hintText: widget.grade.isEmpty ? '0.00' : widget.grade,
-            hintStyle: TextStyle(color: kPlaceholderDarkColor),
-            contentPadding: EdgeInsets.all(4.0),
+            hintStyle: const TextStyle(color: kPlaceholderDarkColor),
+            contentPadding: const EdgeInsets.all(4.0),
             border: InputBorder.none,
             enabledBorder: InputBorder.none,
             errorBorder: InputBorder.none,

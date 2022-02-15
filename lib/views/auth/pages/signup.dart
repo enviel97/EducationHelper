@@ -43,17 +43,7 @@ class _SignUpPageState extends State<SignUpPage> {
     return BlocListener<AuthBloc, AuthState>(
       listener: (BuildContext context, AuthState state) {
         final appBloc = BlocProvider.of<AppBloc>(context);
-        if (state is AuthLoadingState) {
-          appBloc.showLoading(context, 'Sign Up ...');
-        }
-        if (state is AuthErrorState) {
-          appBloc.hiddenLoading(context);
-          appBloc.showError(context, state.error.mess);
-        }
-        if (state is AuthErrorsState) {
-          appBloc.hiddenLoading(context);
-          appBloc.showError(context, state.errors[0].values.first);
-        }
+
         if (state is AuthSignupSuccessState) {
           appBloc.hiddenLoading(context);
           appBloc.showSuccess(context, 'Welcome');
@@ -209,7 +199,8 @@ class _SignUpPageState extends State<SignUpPage> {
     context.disableKeyBoard();
 
     if (_formKey.currentState?.validate() ?? false) {
-      await BlocProvider.of<AuthBloc>(context).signUp(
+      BlocProvider.of<AppBloc>(context).showLoading(context, 'Sign Up');
+      BlocProvider.of<AuthBloc>(context).signUp(
           User(name: name, email: email, phoneNumber: phoneNumber), password);
     }
   }

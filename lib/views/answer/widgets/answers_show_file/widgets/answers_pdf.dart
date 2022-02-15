@@ -77,9 +77,9 @@ class _AnswersPDFState extends State<AnswersPDF> {
                       style: const TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 16.0))),
           Align(
-            alignment: Alignment.bottomRight,
+            alignment: Alignment.topRight,
             child: Padding(
-              padding: const EdgeInsets.only(bottom: 50.0, right: 20.0),
+              padding: const EdgeInsets.only(top: 100.0, right: 20.0),
               child: BoxDecorateSeparateNumber(
                 totalMembers: pages!,
                 totalExams: currentPage!,

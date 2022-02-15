@@ -35,7 +35,8 @@ class AuthBloc extends Cubit<AuthState> {
         '$_path/signin/email',
         {'email': username, 'password': password},
       ).catchError((err) {
-        emit(AuthErrorState(c.Messenger(err['error'] ?? "Don't know")));
+        emit(AuthErrorState(c.Messenger(
+            err['error'] ?? (err['errors']?[0]?['email']) ?? "Don't know")));
         return null;
       });
       if (result == null) return;
@@ -92,7 +93,13 @@ class AuthBloc extends Cubit<AuthState> {
     final json = user.toJson();
     json['password'] = password;
     try {
-      final result = await _restApi.post('$_path/signup', json);
+      final result =
+          await _restApi.post('$_path/signup', json).catchError((err) {
+        emit(AuthErrorState(c.Messenger(
+            err['error'] ?? (err['errors']?[0]?['email']) ?? "Don't know")));
+        return null;
+      });
+      if (result == null) return;
       emit(AuthSignupSuccessState(User.fromJson(result)));
     } catch (error) {
       onErrors(error);

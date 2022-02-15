@@ -34,11 +34,6 @@ class _TopicCollectionState extends State<TopicCollection> {
   }
 
   @override
-  void didChangeDependencies() {
-    // BlocProvider.of<TopicBloc>(context).getTopicCollection();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Container(
         height: 320.0,

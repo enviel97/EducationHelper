@@ -49,7 +49,7 @@ class Topic extends Equatable {
     return Topic(
       id: json['id'] ?? json['_id'] ?? '',
       note: json['note'] ?? '',
-      expiredDate: expiredDate ?? DateTimeX.empty,
+      expiredDate: expiredDate?.toLocal() ?? DateTimeX.empty,
       createDate: createAt ?? DateTimeX.empty,
       answers: answers,
       classroom: mapToModel<Classroom>(json['classroom'], Classroom.fromJson),

@@ -1,6 +1,7 @@
 import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/models/exam.model.dart';
 import 'package:education_helper/roots/app_root.dart';
+import 'package:education_helper/roots/bloc/app_bloc.dart';
 import 'package:education_helper/views/exam/adapter/exam.adapter.dart';
 import 'package:education_helper/views/exam/bloc/exam_bloc.dart';
 import 'package:education_helper/views/exam/bloc/exam_state.dart';
@@ -61,6 +62,7 @@ class _ExamsState extends State<Exams> {
                   if (state is ExamCreateState ||
                       state is ExamDeleteState ||
                       state is ExamUdateState) {
+                    BlocProvider.of<AppBloc>(context).hiddenLoading(context);
                     setState(() => isNeedRefresh = true);
                   }
 

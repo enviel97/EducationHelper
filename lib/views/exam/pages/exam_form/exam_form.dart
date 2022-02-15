@@ -41,9 +41,7 @@ class _ExamFormState extends State<ExamForm> {
   @override
   void initState() {
     super.initState();
-    file = widget.file;
-    subject = widget.subject ?? '';
-    _pickerFile = FilePickerStream(file);
+    _pickerFile = FilePickerStream(widget.file);
     _pickerFile.stream.listen(hookData);
   }
 
@@ -95,7 +93,7 @@ class _ExamFormState extends State<ExamForm> {
                 ),
                 ExamContents(
                   controller: _pickerFile,
-                  file: file,
+                  file: widget.file,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
@@ -106,8 +104,7 @@ class _ExamFormState extends State<ExamForm> {
                       KTextButton(
                         width: 150.0,
                         color: kPrimaryDarkColor,
-                        isDisable:
-                            (subject.isEmpty || file == null) && isCreate,
+                        isDisable: subject.isEmpty || file == null,
                         onPressed: _onHandleForm,
                         text: isCreate ? 'Add Exam' : 'Update Exam',
                       ),

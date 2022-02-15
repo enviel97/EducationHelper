@@ -35,9 +35,7 @@ void editBottomSheet(
     if (value is Map<String, dynamic>) {
       BlocProvider.of<TopicBloc>(builder).edit(
         id,
-        expiredDate: value['expiredDate'] == null
-            ? null
-            : DateTime.utc(value['expiredDate']),
+        expiredDate: value['expiredDate'],
         note: value['note'] ?? '',
       );
     }

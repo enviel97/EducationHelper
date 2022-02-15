@@ -1,6 +1,7 @@
 import 'package:education_helper/constants/colors.dart';
 import 'package:education_helper/constants/typing.dart';
 import 'package:education_helper/helpers/extensions/build_context_x.dart';
+import 'package:education_helper/roots/bloc/app_bloc.dart';
 import 'package:education_helper/views/exam/bloc/exam_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,6 +45,8 @@ void deleteExam(
             IconButton(
               icon: const Icon(Icons.check, color: kErrorColor),
               onPressed: () {
+                BlocProvider.of<AppBloc>(context)
+                    .showLoading(context, 'Delete');
                 BlocProvider.of<ExamBloc>(builder)
                     .delete(id)
                     .then((_) => Navigator.of(context).pop());

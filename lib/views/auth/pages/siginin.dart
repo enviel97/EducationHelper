@@ -36,9 +36,7 @@ class _SignInPageState extends State<SignInPage> {
     return BlocListener<AuthBloc, AuthState>(
       listener: (BuildContext context, AuthState state) {
         final appBloc = BlocProvider.of<AppBloc>(context);
-        if (state is AuthLoadingState) {
-          appBloc.showLoading(context, 'Sign In ...');
-        }
+
         if (state is AuthErrorState) {
           appBloc.hiddenLoading(context);
           appBloc.showError(context, state.error.mess);
@@ -123,8 +121,8 @@ class _SignInPageState extends State<SignInPage> {
   void _signInWithEmail() async {
     await context.disableKeyBoard();
     if (username.isEmpty || password.isEmpty) return;
-    await BlocProvider.of<AuthBloc>(context)
-        .signInWithEmail(username, password);
+    BlocProvider.of<AppBloc>(context).showLoading(context, 'Sign In');
+    BlocProvider.of<AuthBloc>(context).signInWithEmail(username, password);
   }
 
   void _signInWithGoogle() async {
