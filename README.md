@@ -56,7 +56,9 @@ Figma: https://www.figma.com/file/sBxdCDdGreDiYii1GJhpWI/Helper-Education
 - ultils: helper functions, validation functions, widgets config functions... use in app
 - widgets: widgets like error ui, file error ui, animation on navigator ui, ...
 
-### models: mapping json to object with some helper method
+### models:
+
+mapping json to object with some helper method
 
 ### roots: default app config
 
@@ -64,7 +66,9 @@ Figma: https://www.figma.com/file/sBxdCDdGreDiYii1GJhpWI/Helper-Education
 - miragate (middleware): default configuration to use defined feature on External Feature
 - app_root.dart: define root
 
-### views: Each feature is file in views with root dir:
+### views:
+
+Each feature is file in views with root dir:
 
 - parent view:
 
@@ -97,6 +101,8 @@ Figma: https://www.figma.com/file/sBxdCDdGreDiYii1GJhpWI/Helper-Education
 
   - placeholder (options): loading widgets
 
-  - <view-file-name>.dart
+  - {view-file-name}.dart
 
-### main.dart: where all begin
+### main.dart:
+
+where all begin
