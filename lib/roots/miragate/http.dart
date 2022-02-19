@@ -25,13 +25,13 @@ class RestApi {
   }
 
   String _baseUrl(String path, {Map<String, dynamic>? parametter}) {
-    final uri = Uri(
-        scheme: 'http',
-        host: '10.0.2.2',
-        port: 3000,
-        path: path,
-        queryParameters: parametter);
-    // final uri = Uri.https('educationhelper1.herokuapp.com', path, parametter);
+    // final uri = Uri(
+    //     scheme: 'http',
+    //     host: '10.0.2.2',
+    //     port: 3000,
+    //     path: path,
+    //     queryParameters: parametter);
+    final uri = Uri.https('educationhelper1.herokuapp.com', path, parametter);
     debugPrint(uri.toString());
     return uri.toString();
   }
