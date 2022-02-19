@@ -120,6 +120,7 @@ class _Auth extends State<Auth> with SingleTickerProviderStateMixin {
   }
 
   void _onPressed() async {
+    context.disableKeyBoard();
     final index = (_controller.offset / size.width).round() + 1;
     currentIndex = index % 2;
     await _controller.animateToPage(index % 2,

@@ -2,11 +2,18 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:education_helper/helpers/modules/file_picker.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 class FilePickerStream {
   final File? file;
-  FilePickerStream(this.file);
+  final FileType type;
+  final List<String>? allowedExtensions;
+  FilePickerStream(
+    this.file, {
+    this.type = FileType.any,
+    this.allowedExtensions,
+  });
   final _controller = FilePickerController();
 
   final _streamBroadcast = StreamController<File?>.broadcast();
@@ -19,7 +26,10 @@ class FilePickerStream {
 
   Future<void> filePicker() async {
     try {
-      final filePlatform = await _controller.getFilePicker();
+      final filePlatform = await _controller.getFilePicker(
+        type: type,
+        allowedExtensions: allowedExtensions,
+      );
       if (filePlatform == null) return;
       _streamBroadcast.sink.add(null);
       final file = File(filePlatform.path ?? '');

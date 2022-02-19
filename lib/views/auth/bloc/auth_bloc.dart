@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:education_helper/constants/constant.dart' as c;
 import 'package:education_helper/models/topic.model.dart';
 import 'package:education_helper/models/user.model.dart';
@@ -88,17 +90,30 @@ class AuthBloc extends Cubit<AuthState> {
     }
   }
 
-  Future<void> signUp(User user, String password) async {
+  Future<void> signUp(User user, String password, {File? avatar}) async {
     emit(AuthLoadingState());
     final json = user.toJson();
     json['password'] = password;
     try {
-      final result =
-          await _restApi.post('$_path/signup', json).catchError((err) {
-        emit(AuthErrorState(c.Messenger(
-            err['error'] ?? (err['errors']?[0]?['email']) ?? "Don't know")));
-        return null;
-      });
+      // Json or null
+      final dynamic result;
+      if (avatar == null) {
+        result = await _restApi.post('$_path/signup', json).catchError((err) {
+          emit(AuthErrorState(c.Messenger(err['error'] ??
+              (err['errors']?[0]?.values?.first) ??
+              "Don't know")));
+          return null;
+        });
+      } else {
+        result = await _restApi.upload(
+            '$_path/signup', json, {'avatar': avatar}).catchError((err) {
+          emit(AuthErrorState(c.Messenger(err['error'] ??
+              (err['errors']?[0]?.values?.first) ??
+              "Don't know")));
+          return null;
+        });
+      }
+
       if (result == null) return;
       emit(AuthSignupSuccessState(User.fromJson(result)));
     } catch (error) {

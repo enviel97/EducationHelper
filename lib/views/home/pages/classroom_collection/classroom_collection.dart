@@ -89,7 +89,7 @@ class _ClassroomColectionState extends State<ClassroomColection> {
                 return ListBuilder(
                     scrollDirection: Axis.horizontal,
                     emptyList: ClassroomCollectionEmpty(
-                      onStateHandle: () {},
+                      onStateHandle: goToClassRoomList,
                     ),
                     shirinkWrap: true,
                     scrollBehavior: NormalScollBehavior(),

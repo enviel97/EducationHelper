@@ -73,7 +73,9 @@ String? isPhone(String? value, {bool allowNull = false}) {
 }
 
 String? isEmail(String? value, {bool allowNull = false}) {
-  if (value == null && !allowNull) return 'Email is not empty';
+  if ((value == null || value.isEmpty) && !allowNull) {
+    return 'Email is not empty';
+  }
   const pattern = r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$';
   final regExp = RegExp(pattern);
 
