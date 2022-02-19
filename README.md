@@ -7,16 +7,18 @@ Figma: https://www.figma.com/file/sBxdCDdGreDiYii1GJhpWI/Helper-Education
 ## Technology:
 
 - Firebase: get media file
-- Cubit: state management
+- Cubit/ Bloc: state management
+- Dio: request api
+- Google
 
 ## Setup:
 
 (note: local setup)
 
-- Instal Visual Studio Code (if don't have):
+- Install Visual Studio Code (if don't have):
   - Download on: https://code.visualstudio.com
   - Install and use guild: https://code.visualstudio.com/docs/getstarted/introvideos
-- Instal Flutter (if don't have):
+- Install Flutter (if don't have):
   - Install guild: https://docs.flutter.dev/get-started/install
   - Setup to vs-code: https://docs.flutter.dev/development/tools/vs-code#:~:text=Click%20Run%20%3E%20Start%20Without%20Debugging,%2C%20or%20press%20Ctrl%20%2B%20F5%20
 
@@ -50,10 +52,10 @@ Figma: https://www.figma.com/file/sBxdCDdGreDiYii1GJhpWI/Helper-Education
 
 ### helpers:
 
-- extensions: extentsion uss in all app
-- modules: added new modules like read pdf, csv, ..., use in app
-- stream: streams controll use in app
-- ultils: helper functions, validation functions, widgets config functions... use in app
+- extensions: extentsion properties
+- modules: add modules like read pdf, csv, ...
+- stream: streams controll used in app
+- ultils: helper functions, validation functions, widgets config functions...
 - widgets: widgets like error ui, file error ui, animation on navigator ui, ...
 
 ### models:
