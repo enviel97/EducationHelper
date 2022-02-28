@@ -7,33 +7,48 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Splash extends StatefulWidget {
-  final bool isComplete;
-  const Splash({
-    Key? key,
-    this.isComplete = false,
-  }) : super(key: key);
+  const Splash({Key? key}) : super(key: key);
 
   @override
   State<Splash> createState() => _SplashState();
 }
 
-class _SplashState extends State<Splash> {
+class _SplashState extends State<Splash> with TickerProviderStateMixin {
+  late AnimationController _splashController;
+
   @override
   void initState() {
     super.initState();
-    gotoScreen();
+    _splashController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    );
+    _splashController.addListener(gotoScreen);
+    _splashController.forward();
   }
 
   void gotoScreen() async {
-    final lastScreens =
-        await Future.wait(Root.ins.config()).then((_) => Root.ins.getScreens());
+    await Future.wait(Root.ins.config()).then((result) {
+      debugPrint(result.join('\n'));
+      Future.delayed(
+        const Duration(milliseconds: 1500),
+        () async {
+          final firstScreens = await Root.ins.getScreens();
+          Navigator.of(context).pushReplacement(
+            AnimationCircleSource(firstScreens),
+          );
+        },
+      );
+    }).whenComplete(() {
+      _splashController.stop();
+    });
+  }
 
-    await Future.delayed(
-      const Duration(milliseconds: 1500),
-      () => Navigator.of(context).pushReplacement(
-        AnimationCircleSource(lastScreens),
-      ),
-    );
+  @override
+  void dispose() {
+    _splashController.removeListener(gotoScreen);
+    _splashController.dispose();
+    super.dispose();
   }
 
   @override
@@ -48,13 +63,13 @@ class _SplashState extends State<Splash> {
             const SpinKitFadingCube(color: kWhiteColor, size: 60.0),
             SPACING.XXL.vertical,
             const Text(
-              'Welcome',
+              'Education Helper',
               style: TextStyle(
                 color: kWhiteColor,
                 fontWeight: FontWeight.bold,
                 fontSize: 40.0,
               ),
-            )
+            ),
           ],
         ),
       ),

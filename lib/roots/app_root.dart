@@ -33,12 +33,12 @@ class Root {
   Future<String> _initLocalStorage() async {
     final shared = await SharedPreferences.getInstance();
     localStorage = LocalStorage(shared);
-    return 'Done';
+    return 'LocalStorage done';
   }
 
   Future<String> _initFirebase() async {
     await Firebase.initializeApp();
-    return 'Done';
+    return 'Firebase done';
   }
 
   List<Future<String>> config() {
@@ -69,6 +69,6 @@ class Root {
     ExamAdapter();
     TopicAdapter();
     AnswerAdapter();
-    return 'Done';
+    return 'Inject adapter done';
   }
 }
