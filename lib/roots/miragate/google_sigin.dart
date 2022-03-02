@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -7,8 +8,7 @@ class GoogleAuth {
   late GoogleSignIn _googleSignIn;
 
   GoogleAuth._() {
-    _googleSignIn = GoogleSignIn(
-        scopes: ['email', 'https://www.googleapis.com/auth/userinfo.email']);
+    _googleSignIn = GoogleSignIn();
   }
 
   factory GoogleAuth() {
@@ -18,6 +18,12 @@ class GoogleAuth {
   Future<GoogleSignInAccount?> googleSignIn() async {
     try {
       final account = await _googleSignIn.signIn();
+      if (account == null) return null;
+      final googleAuth = await account.authentication;
+      final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
+      await FirebaseAuth.instance.signInWithCredential(credential);
+
       return account;
     } on Exception catch (error) {
       // Handle err
