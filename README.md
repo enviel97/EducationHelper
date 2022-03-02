@@ -108,3 +108,8 @@ Each feature is file in views with root dir:
 ### main.dart:
 
 where all begin
+
+## Build:
+
+terminal: flutter build apk
+Outputs: ~.\build\app\outputs\flutter-apk\app-release.apk
