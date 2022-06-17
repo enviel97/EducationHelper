@@ -1,5 +1,8 @@
 Figma: https://www.figma.com/file/sBxdCDdGreDiYii1GJhpWI/Helper-Education
 
+## Getting Start
+This is an app that allows teachers to assign and grade assignments for ios and android
+
 ## Enviroment:
 
 - Flutter: 2.13
@@ -108,8 +111,3 @@ Each feature is file in views with root dir:
 ### main.dart:
 
 where all begin
-
-## Build:
-
-terminal: flutter build apk
-Outputs: ~.\build\app\outputs\flutter-apk\app-release.apk
